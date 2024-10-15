@@ -1,51 +1,50 @@
 package Model;
 
-public class Tarif
-{
+public class Tarif {
     private int tarifID;
     private String tarifAdi;
-    private String tarifKategori;
-    private int tarifSure;
-    private String tarifTalimat;
+    private String kategori;
+    private String hazirlamaSuresi;
+    private String talimatlar;
 
-
+    // Getter ve Setter metotları
     public int getTarifID() {
         return tarifID;
-    }
-
-    public String getTarifAdi() {
-        return tarifAdi;
-    }
-
-    public String getTarifKategori() {
-        return tarifKategori;
-    }
-
-    public int getTarifSure() {
-        return tarifSure;
-    }
-
-    public String getTarifTalimat() {
-        return tarifTalimat;
     }
 
     public void setTarifID(int tarifID) {
         this.tarifID = tarifID;
     }
 
+    public String getTarifAdi() {
+        return tarifAdi;
+    }
+
     public void setTarifAdi(String tarifAdi) {
         this.tarifAdi = tarifAdi;
     }
 
-    public void setTarifKategori(String tarifKategori) {
-        this.tarifKategori = tarifKategori;
+    public String getKategori() {
+        return kategori;
     }
 
-    public void setTarifSure(int tarifSure) {
-        this.tarifSure = tarifSure;
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
     }
 
-    public void setTarifTalimat(String tarifTalimat) {
-        this.tarifTalimat = tarifTalimat;
+    public String getHazirlamaSuresi() {
+        return hazirlamaSuresi;
+    }
+
+    public void setHazirlamaSuresi(String hazirlamaSuresi) {
+        this.hazirlamaSuresi = hazirlamaSuresi;
+    }
+
+    public String getTalimatlar() {
+        return talimatlar;
+    }
+
+    public void setTalimatlar(String talimatlar) {
+        this.talimatlar = talimatlar;
     }
 }

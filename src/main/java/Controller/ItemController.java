@@ -1,24 +1,13 @@
 package Controller;
 
-import Model.Tarif;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ItemController
-{
+public class ItemController {
     @FXML
-    private Label nameLabel;
+    private Label nameLabel; // Tarifi gösteren Label
 
-    @FXML
-    private Label idLabel;
-
-    private Tarif tarif;
-
-    public void setData(Tarif tarif)
-    {
-        this.tarif = tarif;
-        nameLabel.setText(tarif.getTarifAdi());
-        idLabel.setText(Integer.toString(tarif.getTarifID()));
+    public void setData(String name) {
+        nameLabel.setText(name); // Tarif adını Label'a ayarla
     }
-
 }
