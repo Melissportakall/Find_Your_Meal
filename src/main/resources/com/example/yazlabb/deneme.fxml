@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI">
+   <children>
+      <Separator layoutX="193.0" layoutY="25.0" orientation="VERTICAL" prefHeight="650.0" prefWidth="14.0" />
+      <BorderPane prefHeight="700.0" prefWidth="750.0">
+         <left>
+            <HBox prefHeight="700.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox cacheShape="false" centerShape="false" prefHeight="665.0" prefWidth="200.0" scaleShape="false" spacing="10.0">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="200.0" text="Malzemeler" textOverrun="CLIP">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </left>
+         <right>
+            <VBox cacheShape="false" centerShape="false" prefHeight="700.0" prefWidth="534.0" scaleShape="false" spacing="10.0" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <HBox prefHeight="84.0" prefWidth="537.0" spacing="20.0">
+                     <children>
+                        <TextField fx:id="searchfield" prefHeight="33.0" prefWidth="311.0" promptText="Tarif Giriniz...">
+                           <font>
+                              <Font name="American Typewriter" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <rotationAxis>
+                              <Point3D x="5.0" y="9.0" z="1.0" />
+                           </rotationAxis>
+                        </TextField>
+                        <Button fx:id="searchbutton" mnemonicParsing="false" prefHeight="33.0" prefWidth="73.0" text="Ara" />
+                        <ComboBox fx:id="Sort" prefHeight="32.0" prefWidth="89.0" promptText="Sıralama">
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:id="maliyet_coktan_aza" fx:value="Çoktan aza maliyet" />
+                                 <String fx:id="maliyet_azdan_coka" fx:value="Azdan çoka maliyet" />
+                                 <String fx:id="sure_coktan_aza" fx:value="Çoktan aza süre" />
+                                 <String fx:id="sure_azdan_coka" fx:value="Azdan çoka süre" />
+                                 <String fx:id="malzeme_oran" fx:value="Malzeme oranına göre" />
+                              </FXCollections>
+                           </items>
+                        </ComboBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ScrollPane fx:id="scroll" prefHeight="596.0" prefWidth="533.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
+                           <content>
+                              <GridPane fx:id="grid" prefHeight="585.0" prefWidth="518.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
