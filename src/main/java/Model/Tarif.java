@@ -4,7 +4,7 @@ public class Tarif {
     private int tarifID;
     private String tarifAdi;
     private String kategori;
-    private String hazirlamaSuresi;
+    private int hazirlamaSuresi;
     private String talimatlar;
 
     // Getter ve Setter metotları
@@ -32,11 +32,11 @@ public class Tarif {
         this.kategori = kategori;
     }
 
-    public String getHazirlamaSuresi() {
+    public int getHazirlamaSuresi() {
         return hazirlamaSuresi;
     }
 
-    public void setHazirlamaSuresi(String hazirlamaSuresi) {
+    public void setHazirlamaSuresi(int hazirlamaSuresi) {
         this.hazirlamaSuresi = hazirlamaSuresi;
     }
 

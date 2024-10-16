@@ -1,3 +1,72 @@
 .transparent{
     -fx-background-color: rgba(0, 0, 0, 0);
 }
+
+.button{
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-background-color: transparent;
+}
+
+.button:focused {
+    -fx-border-color: transparent, black;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:pressed {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+.separator-padding {
+    -fx-padding: 20px 0px; /* Üstten ve alttan 20px boşluk, sağ ve soldan 0px */
+}
+
+.malzeme-ekle-btn {
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-background-color: transparent;
+}
+
+.malzeme-ekle-btn:pressed {
+    -fx-background-color: lightgray;
+    -fx-text-fill: black;
+}
+
+.search-box {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-padding: 5px 5px 5px 20px; /* Üst, Sağ, Alt, Sol boşluk */
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-prompt-text-fill: gray;
+    -fx-pref-width: 320px; /* Arama kutusunun sabit genişliği */
+}
+
+.search-button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-padding: 5px 15px; /* Butonun sağ ve sol boşlukları */
+    -fx-border-radius: 20px;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand; /* Mouse üzerine gelince gösterge değişimi */
+}
+
+.search-button:hover {
+    -fx-background-color: #464646;
+}
+
+.search-button:pressed {
+    -fx-background-color: #6e6e6e;
+    -fx-text-fill: white;
+}

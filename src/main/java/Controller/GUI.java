@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -20,7 +21,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GUI implements Initializable {
+public class GUI implements Initializable
+{
+    @FXML
+    private Button malzeme_ekle_button;
+
+    @FXML
+    private GridPane malzeme_grid;
     @FXML
     private VBox chosenRecipeCard;
 
@@ -36,22 +43,34 @@ public class GUI implements Initializable {
     @FXML
     private GridPane grid;
 
-    private List<String> tarifAdlari;
+    private List<Tarif> tarifler;
 
-    private List<String> getData() throws SQLException {
+    private List<Tarif> getTarifler() throws SQLException {
         return DatabaseConnection.getTarifler(); // Tüm tarifleri al
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            tarifAdlari = getData();
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        try
+        {
+            List<String> tarifAdlari = new ArrayList<>();
+            tarifler = getTarifler();
+            Tarif tarif;
+
+            for(int i = 0; i < tarifler.size(); i++)
+            {
+                tarif = tarifler.get(i);
+                System.out.println(tarif.getTarifAdi());
+                tarifAdlari.add(tarif.getTarifAdi());
+            }
+
             int col = 0;
             int row = 1;
 
             for (int i = 0; i < tarifAdlari.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("/Users/melisportakal/desktop/yeni/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 

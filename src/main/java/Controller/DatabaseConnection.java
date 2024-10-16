@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Tarif;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,14 +21,14 @@ public class DatabaseConnection {
     }
 
     // Tarif tablosundaki tüm tarif adlarını al
-    public static List<String> getTarifler() {
-        String query = "SELECT tarifAdi FROM tarifler"; // Tüm tarif adlarını seçen sorgu
+    public static List<Tarif> getTarifler() {
+        String query = "SELECT * FROM tarifler"; // Tüm tarif adlarını seçen sorgu
         return getTariflerFromDB(query);
     }
 
     // Tarifleri veritabanından al ve liste olarak döndür
-    private static List<String> getTariflerFromDB(String query) {
-        List<String> tarifler = new ArrayList<>();
+    private static List<Tarif> getTariflerFromDB(String query) {
+        List<Tarif> tarifler = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -36,8 +38,18 @@ public class DatabaseConnection {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-                tarifler.add(resultSet.getString("tarifAdi")); // Tarif adını listeye ekle
+            while (resultSet.next())
+            {
+                Tarif tarif = new Tarif();
+
+                tarif.setTarifID(resultSet.getInt("TarifID"));
+                tarif.setTarifAdi(resultSet.getString("TarifAdi"));
+                tarif.setKategori(resultSet.getString("Kategori"));
+                tarif.setHazirlamaSuresi(resultSet.getInt("HazirlamaSuresi"));
+                tarif.setTalimatlar(resultSet.getString("Talimatlar"));
+
+                tarifler.add(tarif);
+                System.out.println(tarifler.size());
             }
 
         } catch (SQLException e) {
