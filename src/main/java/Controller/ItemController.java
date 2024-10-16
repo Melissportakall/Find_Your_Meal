@@ -8,7 +8,13 @@ public class ItemController {
     @FXML
     private Button nameLabel; // Tarifi gösteren Label
 
-    public void setData(String name) {
-        nameLabel.setText(name); // Tarif adını Label'a ayarla
+    @FXML
+    private Label malzemeLabel;
+
+    @FXML
+    private Button malzemeSilButton;
+
+    public void setTarifData(String name) {
+        nameLabel.setText(name);
     }
 }

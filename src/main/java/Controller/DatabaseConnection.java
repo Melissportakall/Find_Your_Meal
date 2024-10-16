@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Malzeme;
 import Model.Tarif;
 
 import java.sql.Connection;
@@ -24,6 +25,11 @@ public class DatabaseConnection {
     public static List<Tarif> getTarifler() {
         String query = "SELECT * FROM tarifler"; // Tüm tarif adlarını seçen sorgu
         return getTariflerFromDB(query);
+    }
+
+    public static List<Malzeme> getMalzemeler() {
+        String query = "SELECT * FROM malzemeler";
+        return getMalzemelerFromDB(query);
     }
 
     // Tarifleri veritabanından al ve liste olarak döndür
@@ -65,5 +71,44 @@ public class DatabaseConnection {
         }
 
         return tarifler; // Tarif listesini döndür
+    }
+
+    private static List<Malzeme> getMalzemelerFromDB(String query) {
+        List<Malzeme> malzemeler = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next())
+            {
+                Malzeme malzeme = new Malzeme();
+
+                malzeme.setMazemeID(resultSet.getInt("MalzemeID"));
+                malzeme.setMalzemeAdi(resultSet.getString("MalzemeAdi"));
+                malzeme.setToplamMiktar(resultSet.getString("ToplamMiktar"));
+                malzeme.setMalzemeBirim(resultSet.getString("MalzemeBirim"));
+                malzeme.setMalzemeBirimFiyat(resultSet.getFloat("BirimFiyat"));
+
+                malzemeler.add(malzeme);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return malzemeler;
     }
 }

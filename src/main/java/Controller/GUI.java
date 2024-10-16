@@ -74,9 +74,9 @@ public class GUI implements Initializable
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
-                // ItemController ile veriyi GUI'ye bastır
+                //ItemController ile veriyi GUI'ye bastır
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setData(tarifAdlari.get(i));
+                itemController.setTarifData(tarifAdlari.get(i));
 
                 if (col == 3) {
                     col = 0;
