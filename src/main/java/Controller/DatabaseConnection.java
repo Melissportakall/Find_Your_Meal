@@ -21,9 +21,8 @@ public class DatabaseConnection {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Tarif tablosundaki tüm tarif adlarını al
     public static List<Tarif> getTarifler() {
-        String query = "SELECT * FROM tarifler"; // Tüm tarif adlarını seçen sorgu
+        String query = "SELECT * FROM tarifler";
         return getTariflerFromDB(query);
     }
 
@@ -32,7 +31,7 @@ public class DatabaseConnection {
         return getMalzemelerFromDB(query);
     }
 
-    // Tarifleri veritabanından al ve liste olarak döndür
+    //TARİFLERİ VERİTABANINDAN AL VE LİSTE OLARAK DÖNDÜR
     private static List<Tarif> getTariflerFromDB(String query) {
         List<Tarif> tarifler = new ArrayList<>();
         Connection connection = null;
@@ -70,9 +69,10 @@ public class DatabaseConnection {
             }
         }
 
-        return tarifler; // Tarif listesini döndür
+        return tarifler;
     }
 
+    //MALZEMELERİ VERİTABANINDAN ALIP LİSTE OLARAK DÖNDÜR
     private static List<Malzeme> getMalzemelerFromDB(String query) {
         List<Malzeme> malzemeler = new ArrayList<>();
         Connection connection = null;

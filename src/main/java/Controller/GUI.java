@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Malzeme;
 import Model.Tarif;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,10 +25,14 @@ import java.util.ResourceBundle;
 public class GUI implements Initializable
 {
     @FXML
-    private Button malzeme_ekle_button;
+    private Button malzemeEkleButton;
 
     @FXML
-    private GridPane malzeme_grid;
+    private GridPane malzemeEkleGrid;
+
+    @FXML
+    private ScrollPane malzemeEkleScroll;
+
     @FXML
     private VBox chosenRecipeCard;
 
@@ -45,8 +50,14 @@ public class GUI implements Initializable
 
     private List<Tarif> tarifler;
 
+    private List<Malzeme> malzemeler;
+
     private List<Tarif> getTarifler() throws SQLException {
         return DatabaseConnection.getTarifler(); // Tüm tarifleri al
+    }
+
+    private List<Malzeme> getMalzemeler() throws SQLException {
+        return DatabaseConnection.getMalzemeler();
     }
 
     @Override
@@ -57,6 +68,10 @@ public class GUI implements Initializable
             List<String> tarifAdlari = new ArrayList<>();
             tarifler = getTarifler();
             Tarif tarif;
+
+            List<String> malzemeAdlari = new ArrayList<>();
+            malzemeler = getMalzemeler();
+            Malzeme malzeme;
 
             for(int i = 0; i < tarifler.size(); i++)
             {
@@ -85,6 +100,28 @@ public class GUI implements Initializable
 
                 grid.add(anchorPane, col++, row);
                 GridPane.setMargin(anchorPane, new Insets(10));
+            }
+
+            for (int i = 0; i < malzemeler.size(); i++) {
+                malzeme = malzemeler.get(i);
+                System.out.println(malzeme.getMalzemeAdi());
+                malzemeAdlari.add(malzeme.getMalzemeAdi());
+            }
+
+            int malzemeCol = 0;
+            int malzemeRow = 1;
+
+            for (int i = 0; i < malzemeAdlari.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
+
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                ItemController itemController = fxmlLoader.getController();
+                itemController.setMalzemeData(malzemeAdlari.get(i));
+
+                malzemeEkleGrid.add(anchorPane, malzemeCol, malzemeRow++);
+                GridPane.setMargin(anchorPane, new Insets(0,0,1,0));
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();

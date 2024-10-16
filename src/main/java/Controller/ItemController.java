@@ -9,12 +9,17 @@ public class ItemController {
     private Button nameLabel; // Tarifi gösteren Label
 
     @FXML
-    private Label malzemeLabel;
+    private Label malzemeAdiLabel;
 
     @FXML
     private Button malzemeSilButton;
 
     public void setTarifData(String name) {
         nameLabel.setText(name);
+    }
+
+    public void setMalzemeData(String name/*, int id*/) {
+        malzemeAdiLabel.setText(name);
+        //malzemeSilButton.setId(Integer.toString(id));
     }
 }
