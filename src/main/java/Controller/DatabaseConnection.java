@@ -171,5 +171,29 @@ public class DatabaseConnection {
         }
     }
 
+    public static void deleteMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim) {
+        String sql = "DELETE FROM malzemeler WHERE MalzemeAdi = ? ";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, MalzemeAdi);
+
+
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Malzeme başarıyla silindi!");
+            } else {
+                System.out.println("Malzeme silme başarısız oldu! Hiçbir kayıt bulunamadı.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

@@ -25,6 +25,9 @@ public class GUI implements Initializable {
     private Button malzemeEkleButton;
 
     @FXML
+    private Button malzemeSilButton;
+
+    @FXML
     private GridPane malzemeEkleGrid;
 
     @FXML
@@ -74,7 +77,7 @@ public class GUI implements Initializable {
 
             for (int i = 0; i < tarifler.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/mealson/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -95,7 +98,7 @@ public class GUI implements Initializable {
 
             for (int i = 0; i < malzemeler.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/mealson/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -208,14 +211,80 @@ public class GUI implements Initializable {
                 float toplamMiktar = Float.parseFloat(malzemeMiktarField.getText());
                 float birimFiyat = Float.parseFloat(malzemeFiyatField.getText());
 
+                // Kontrol için toplamMiktar ve birimFiyat stringlerini parse edelim
+                boolean isValid = true;
+
                 DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
+                showAlert("Malzeme başarıyla eklendi.");
             }
+
 
             return null;
         });
 
         dialog.showAndWait();
 
+        updateMalzemeGridPane();
+    }
+    @FXML
+    private void showRemoveMalzemeDialog() {
+        Dialog<Malzeme> dialog = new Dialog<>();
+        dialog.setTitle("Malzeme Sil");
+        dialog.setHeaderText("Silmek İstediğiniz Malzemenin Bilgilerini Girin");
+
+        ButtonType malzemeSilButton = new ButtonType("Sil", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(malzemeSilButton, ButtonType.CANCEL);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField malzemeAdiField = new TextField();
+        malzemeAdiField.setPromptText("Malzeme Adı");
+        TextField malzemeBirimField = new TextField();
+        malzemeBirimField.setPromptText("Malzeme Birimi");
+        TextField malzemeMiktarField = new TextField();
+        malzemeMiktarField.setPromptText("Malzeme Miktarı");
+
+
+        gridPane.add(new Label("Malzeme Adı:"), 0, 0);
+        gridPane.add(malzemeAdiField, 1, 0);
+        gridPane.add(new Label("Malzeme Birimi:"), 0, 1);
+        gridPane.add(malzemeBirimField, 1, 1);
+        gridPane.add(new Label("Malzeme Miktarı:"), 0, 2);
+        gridPane.add(malzemeMiktarField, 1, 2);
+
+
+        dialog.getDialogPane().setContent(gridPane);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == malzemeSilButton) {
+                String malzemeAdi = malzemeAdiField.getText();
+                String malzemeBirim = malzemeBirimField.getText();
+                String miktarText = malzemeMiktarField.getText();
+
+
+                if (malzemeAdi.isEmpty() || malzemeBirim.isEmpty() || miktarText.isEmpty()) {
+                    //showAlert("Hata", "Lütfen tüm alanları doldurun.");
+                    System.out.println("hataa bos bırakma");
+                    return null;
+                }
+
+                try {
+                    float toplamMiktar = Float.parseFloat(miktarText);
+
+                    DatabaseConnection.deleteMalzeme(malzemeAdi, toplamMiktar, malzemeBirim);
+                    System.out.println("sildin");
+                    showAlert("Malzeme başarıyla silindi.");
+                } catch (NumberFormatException e) {
+                    System.out.println("hataa geldin");
+                }
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
         updateMalzemeGridPane();
     }
 
@@ -227,7 +296,7 @@ public class GUI implements Initializable {
         for (Malzeme malzeme : malzemeList) {
             FXMLLoader loader = null;
             try {
-                loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
+                loader = new FXMLLoader(new File("/Users/melisportakal/Desktop/mealson/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
