@@ -57,7 +57,7 @@ public class GUI implements Initializable {
     private List<Malzeme> malzemeler;
 
     private List<Tarif> getTarifler() throws SQLException {
-        return DatabaseConnection.getTarifler(); // Tüm tarifleri al
+        return DatabaseConnection.getTarifler();
     }
 
     private List<Malzeme> getMalzemeler() throws SQLException {
@@ -79,11 +79,8 @@ public class GUI implements Initializable {
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
-                // ItemController ile veriyi GUI'ye bastır
                 ItemController itemController = fxmlLoader.getController();
                 itemController.setTarifData(tarifler.get(i));
-
-
 
                 if (col == 3) {
                     col = 0;
@@ -113,36 +110,11 @@ public class GUI implements Initializable {
             e.printStackTrace();
         }
 
-        // TextField için aksiyon tanımlaması
-
-        /*searchfield.setOnAction(event -> {
-            String arananTarif = searchfield.getText();
-            Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
-
-
-
-            if (bulunanTarif != null) {
-                System.out.println(bulunanTarif.getTarifAdi());
-                System.out.println("buldun");
-                //showRecipeDetails(bulunanTarif);
-            } else {
-                //showAlert("Tarif bulunamadı!");
-                System.out.println("bulamadın");
-            }
-        });*/
-
-        // "Malzeme Ekle" butonuna tıklanınca formu aç
-        malzemeEkleButton.setOnAction(event -> showAddMalzemeDialog());
-
-        //Arama butonuna tıklanınca
         searchbutton.setOnAction(event -> {
-            // Arama alanındaki tarifi al
             String arananTarif = searchfield.getText().trim();
 
-            // Veri tabanından tarifi bul
             Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
 
-            // Eğer tarif bulunduysa detayları göster, aksi takdirde uyarı mesajı ver
             if (bulunanTarif != null) {
                 System.out.println(arananTarif);
                 System.out.println("Tarif bulundu!");
@@ -154,15 +126,12 @@ public class GUI implements Initializable {
         });
     }
 
-    // Tarif detaylarını göstermek için kullanılan fonksiyon
     public static void showRecipeDetails(Tarif tarif) {
-        // Tarif detaylarını konsola yazdır
         String detaylar = String.format(
                 "Tarif Adı: %s\nKategori: %s\nHazırlama Süresi: %d dakika\nTalimatlar: %s",
                 tarif.getTarifAdi(), tarif.getKategori(), tarif.getHazirlamaSuresi(), tarif.getTalimatlar()
         );
 
-        // Burada konsolda yazdırmak yerine bir Alert penceresi ile gösterebilirsiniz
         showAlert(detaylar);
     }
 
@@ -174,18 +143,15 @@ public class GUI implements Initializable {
         alert.showAndWait();
     }
 
-    // Malzeme ekleme formunu açan fonksiyon
-    // Malzeme ekleme formunu açan fonksiyon
+    @FXML
     private void showAddMalzemeDialog() {
         Dialog<Malzeme> dialog = new Dialog<>();
         dialog.setTitle("Malzeme Ekle");
         dialog.setHeaderText("Yeni Malzeme Bilgilerini Girin");
 
-        // Dialog için butonlar
         ButtonType ekleButtonType = new ButtonType("Ekle", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(ekleButtonType, ButtonType.CANCEL);
 
-        // Dialog içeriği
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
@@ -219,9 +185,8 @@ public class GUI implements Initializable {
                 float birimFiyat = Float.parseFloat(malzemeFiyatField.getText());
 
                 DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
-
-                //return new Malzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
             }
+
             return null;
         });
 
