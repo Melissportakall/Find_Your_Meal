@@ -147,7 +147,7 @@ public class DatabaseConnection {
 
 
     //MALZEME EKLE
-    public static void addMalzeme(String MalzemeAdi, int ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
+    public static void addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
         String sql = "INSERT INTO malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = getConnection();

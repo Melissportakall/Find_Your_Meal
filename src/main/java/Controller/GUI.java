@@ -183,7 +183,7 @@ public class GUI implements Initializable {
             if (dialogButton == ekleButtonType) {
                 String malzemeAdi = malzemeAdiField.getText();
                 String malzemeBirim = malzemeBirimField.getText();
-                float toplamMiktar = Integer.parseInt(malzemeMiktarField.getText());
+                float toplamMiktar = Float.parseFloat(malzemeMiktarField.getText());
                 float birimFiyat = Float.parseFloat(malzemeFiyatField.getText());
 
                 DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
