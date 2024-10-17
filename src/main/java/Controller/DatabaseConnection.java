@@ -3,11 +3,7 @@ package Controller;
 import Model.Malzeme;
 import Model.Tarif;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,5 +145,32 @@ public class DatabaseConnection {
 
         return tarif;
     }
+
+
+    //MALZEME EKLE
+    public static void addMalzeme(String MalzemeAdi, int ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
+        String sql = "INSERT INTO malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, MalzemeAdi);
+            pstmt.setInt(2, ToplamMiktar);
+            pstmt.setString(3, MalzemeBirim);
+            pstmt.setFloat(4, BirimFiyat);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Malzeme başarıyla eklendi!");
+            } else {
+                System.out.println("Malzeme ekleme başarısız oldu!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
