@@ -145,7 +145,6 @@ public class DatabaseConnection {
         return tarif;
     }
 
-
     //MALZEME EKLE
     public static void addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
         String sql = "INSERT INTO malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";

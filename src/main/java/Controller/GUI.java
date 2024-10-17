@@ -34,6 +34,9 @@ public class GUI implements Initializable {
     private ScrollPane malzemeEkleScroll;
 
     @FXML
+    private Button backwardButton;
+
+    @FXML
     private VBox chosenRecipeCard;
 
     @FXML
@@ -77,7 +80,7 @@ public class GUI implements Initializable {
 
             for (int i = 0; i < tarifler.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/mealson/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -98,7 +101,7 @@ public class GUI implements Initializable {
 
             for (int i = 0; i < malzemeler.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/mealson/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -288,7 +291,7 @@ public class GUI implements Initializable {
         updateMalzemeGridPane();
     }
 
-    public  void updateMalzemeGridPane() {
+    public void updateMalzemeGridPane() {
         malzemeEkleGrid.getChildren().clear();
 
         List<Malzeme> malzemeList = DatabaseConnection.getMalzemeler();
@@ -296,7 +299,7 @@ public class GUI implements Initializable {
         for (Malzeme malzeme : malzemeList) {
             FXMLLoader loader = null;
             try {
-                loader = new FXMLLoader(new File("/Users/melisportakal/Desktop/mealson/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
+                loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -311,7 +314,37 @@ public class GUI implements Initializable {
         }
     }
 
+    @FXML
+    public void mainMenu() throws SQLException, IOException {
+        grid.getChildren().clear();
 
+        List<Tarif> tarifler = getTarifler();
+
+        int col = 0;
+        int row = 1;
+
+        for (int i = 0; i < tarifler.size(); i++) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            try {
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            ItemController itemController = fxmlLoader.getController();
+            itemController.setTarifData(tarifler.get(i));
+
+            if (col == 3) {
+                col = 0;
+                row++;
+            }
+
+            grid.add(anchorPane, col++, row);
+            GridPane.setMargin(anchorPane, new Insets(10));
+        }
+    }
 }
 
 

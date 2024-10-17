@@ -118,7 +118,7 @@
                   <Separator prefHeight="0.0" prefWidth="510.0" />
                   <HBox prefHeight="38.0" prefWidth="539.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="28.0" text="Geri Dön" />
+                        <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" text="Geri Dön" />
                         <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Ekle" />
                         <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Düzenle" />
                         <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Sil" />
