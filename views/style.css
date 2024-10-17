@@ -11,7 +11,8 @@
 }
 
 .button:focused {
-    -fx-border-color: transparent, black;
+    -fx-border-color: transparent;
+    -fx-faint-focus-color: transparent;
     -fx-border-width: 1, 1;
     -fx-border-style: solid, segments(1, 2);
     -fx-border-radius: 0, 0;

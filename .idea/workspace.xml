@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ecce793d-29b7-4077-ab25-78b35a116ada" name="Changes" comment="DB ile çalıştırma">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/malzeme_item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/malzeme_item.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Controller/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/deneme.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/malzeme_item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/malzeme_item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +130,7 @@
       <workItem from="1728915866546" duration="2753000" />
       <workItem from="1728918788970" duration="6347000" />
       <workItem from="1729087169322" duration="3688000" />
+      <workItem from="1729165009255" duration="2560000" />
     </task>
     <task id="LOCAL-00001" summary="Menü düzenlemeleri">
       <option name="closed" value="true" />
