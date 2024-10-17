@@ -25,7 +25,7 @@
    <children>
       <BorderPane prefHeight="700.0" prefWidth="750.0">
          <left>
-            <HBox prefHeight="700.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox prefHeight="700.0" prefWidth="218.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox cacheShape="false" centerShape="false" prefHeight="700.0" prefWidth="126.0" scaleShape="false" spacing="10.0" HBox.hgrow="ALWAYS">
                      <padding>
@@ -104,9 +104,9 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ScrollPane fx:id="scroll" prefHeight="596.0" prefWidth="533.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
+                        <ScrollPane fx:id="scroll" prefHeight="623.0" prefWidth="526.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
                            <content>
-                              <GridPane fx:id="grid" prefHeight="596.0" prefWidth="531.0">
+                              <GridPane fx:id="grid" prefHeight="596.0" prefWidth="524.0">
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
                                  </rowConstraints>

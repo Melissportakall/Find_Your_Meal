@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -14,6 +15,7 @@ import org.controlsfx.control.HyperlinkLabel;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -181,7 +183,7 @@ public class GUI implements Initializable {
             if (dialogButton == ekleButtonType) {
                 String malzemeAdi = malzemeAdiField.getText();
                 String malzemeBirim = malzemeBirimField.getText();
-                int toplamMiktar = Integer.parseInt(malzemeMiktarField.getText());
+                float toplamMiktar = Integer.parseInt(malzemeMiktarField.getText());
                 float birimFiyat = Float.parseFloat(malzemeFiyatField.getText());
 
                 DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
@@ -191,7 +193,33 @@ public class GUI implements Initializable {
         });
 
         dialog.showAndWait();
+
+        updateMalzemeGridPane();
     }
+
+    public  void updateMalzemeGridPane() {
+        malzemeEkleGrid.getChildren().clear();
+
+        List<Malzeme> malzemeList = DatabaseConnection.getMalzemeler();
+
+        for (Malzeme malzeme : malzemeList) {
+            FXMLLoader loader = null;
+            try {
+                loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                Node malzemeNode = loader.load();
+                ItemController controller = loader.getController();
+                controller.setMalzemeData(malzeme);
+                malzemeEkleGrid.add(malzemeNode, 0, malzemeEkleGrid.getRowCount());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
 

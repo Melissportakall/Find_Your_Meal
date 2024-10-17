@@ -154,7 +154,7 @@ public class DatabaseConnection {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, MalzemeAdi);
-            pstmt.setInt(2, ToplamMiktar);
+            pstmt.setFloat(2, ToplamMiktar);
             pstmt.setString(3, MalzemeBirim);
             pstmt.setFloat(4, BirimFiyat);
 
