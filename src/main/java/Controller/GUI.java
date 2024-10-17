@@ -18,10 +18,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GUI implements Initializable {
     @FXML
@@ -111,21 +108,46 @@ public class GUI implements Initializable {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+    }
 
-        searchbutton.setOnAction(event -> {
-            String arananTarif = searchfield.getText().trim();
+    @FXML
+    public void searchButtonOnAction() {
+        String arananTarif = searchfield.getText().trim();
 
-            Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
+        Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
 
-            if (bulunanTarif != null) {
-                System.out.println(arananTarif);
-                System.out.println("Tarif bulundu!");
-                showRecipeDetails(bulunanTarif);
-            } else {
-                System.out.println("Tarif bulunamadı!");
-                showAlert("Tarif bulunamadı!");
+        if (bulunanTarif != null) {
+            System.out.println(arananTarif);
+            System.out.println("Tarif bulundu!");
+
+            grid.getChildren().clear();
+
+            List<Tarif> tarifList = DatabaseConnection.getTarifler();
+
+            for (Tarif tarif : tarifList) {
+                FXMLLoader loader = null;
+                try {
+                    loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if(Objects.equals(tarif.getTarifAdi(), bulunanTarif.getTarifAdi()))
+                {
+                    try {
+                        Node tarifNode = loader.load();
+                        ItemController controller = loader.getController();
+                        controller.setTarifData(tarif);
+                        grid.add(tarifNode, 0, grid.getRowCount());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        });
+        } else {
+            System.out.println("Tarif bulunamadı!");
+            showAlert("Tarif bulunamadı!");
+        }
     }
 
     public static void showRecipeDetails(Tarif tarif) {
