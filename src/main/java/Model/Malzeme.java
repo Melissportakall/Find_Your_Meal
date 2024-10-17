@@ -6,7 +6,7 @@ public class Malzeme
 
     private String malzemeAdi;
 
-    private String toplamMiktar;
+    private float toplamMiktar;
 
     private String malzemeBirim;
 
@@ -29,11 +29,11 @@ public class Malzeme
         this.malzemeAdi = malzemeAdi;
     }
 
-    public String getToplamMiktar() {
+    public float getToplamMiktar() {
         return toplamMiktar;
     }
 
-    public void setToplamMiktar(String toplamMiktar) {
+    public void setToplamMiktar(float toplamMiktar) {
         this.toplamMiktar = toplamMiktar;
     }
 

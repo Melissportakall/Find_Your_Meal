@@ -68,17 +68,21 @@ public class GUI implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             List<String> tarifAdlari = new ArrayList<>();
+            List<Integer> tarifHazirlamaSuresi = new ArrayList<>();
             tarifler = getTarifler();
             Tarif tarif;
 
             List<String> malzemeAdlari = new ArrayList<>();
+            List<Float> malzemeMiktar = new ArrayList<>();
             malzemeler = getMalzemeler();
             Malzeme malzeme;
 
             for (int i = 0; i < tarifler.size(); i++) {
                 tarif = tarifler.get(i);
                 System.out.println(tarif.getTarifAdi());
+                System.out.println(tarif.getHazirlamaSuresi());
                 tarifAdlari.add(tarif.getTarifAdi());
+                tarifHazirlamaSuresi.add(tarif.getHazirlamaSuresi());
             }
 
             int col = 0;
@@ -92,7 +96,9 @@ public class GUI implements Initializable {
 
                 // ItemController ile veriyi GUI'ye bastır
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setTarifData(tarifAdlari.get(i));
+                itemController.setTarifData(tarifAdlari.get(i), tarifHazirlamaSuresi.get(i));
+
+
 
                 if (col == 3) {
                     col = 0;
@@ -106,7 +112,9 @@ public class GUI implements Initializable {
             for (int i = 0; i < malzemeler.size(); i++) {
                 malzeme = malzemeler.get(i);
                 System.out.println(malzeme.getMalzemeAdi());
+                System.out.println(malzeme.getToplamMiktar());
                 malzemeAdlari.add(malzeme.getMalzemeAdi());
+                malzemeMiktar.add(malzeme.getToplamMiktar());
             }
 
             int malzemeCol = 0;
@@ -119,7 +127,7 @@ public class GUI implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setMalzemeData(malzemeAdlari.get(i));
+                itemController.setMalzemeData(malzemeAdlari.get(i), malzemeMiktar.get(i));
 
                 malzemeEkleGrid.add(anchorPane, malzemeCol, malzemeRow++);
                 GridPane.setMargin(anchorPane, new Insets(0, 0, 1, 0));

@@ -24,9 +24,15 @@ public class ItemController {
         nameLabel.setText(name);
     }
 
-    public void setMalzemeData(String name/*, int id*/) {
-        malzemeAdiLabel.setText(name);
-        //malzemeSilButton.setId(Integer.toString(id));
+    // Tarif adı ve hazırlama süresi verisini ayarlamak için metot
+    public void setTarifData(String tarifAdi, int hazirlamaSuresi) {
+        // Hazırlama süresini dakika cinsinden ekleyin
+        nameLabel.setText(tarifAdi + " - " + hazirlamaSuresi + " dakika");
     }
 
+    // Malzeme adı ve miktarını ayarlamak için metot
+    public void setMalzemeData(String malzemeAdi, float malzemeMiktari) {
+
+        malzemeAdiLabel.setText(malzemeAdi + "-" + String.valueOf(malzemeMiktari));
+    }
 }

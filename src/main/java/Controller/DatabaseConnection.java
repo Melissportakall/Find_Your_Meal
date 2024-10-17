@@ -90,11 +90,12 @@ public class DatabaseConnection {
 
                 malzeme.setMazemeID(resultSet.getInt("MalzemeID"));
                 malzeme.setMalzemeAdi(resultSet.getString("MalzemeAdi"));
-                malzeme.setToplamMiktar(resultSet.getString("ToplamMiktar"));
+                malzeme.setToplamMiktar(resultSet.getFloat("ToplamMiktar"));
                 malzeme.setMalzemeBirim(resultSet.getString("MalzemeBirim"));
                 malzeme.setMalzemeBirimFiyat(resultSet.getFloat("BirimFiyat"));
 
                 malzemeler.add(malzeme);
+                System.out.println(malzeme.getToplamMiktar());
             }
 
         } catch (SQLException e) {
