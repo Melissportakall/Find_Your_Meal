@@ -1,8 +1,10 @@
 package Controller;
 
+import Model.Tarif;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
 
 public class ItemController {
     @FXML
@@ -14,6 +16,10 @@ public class ItemController {
     @FXML
     private Button malzemeSilButton;
 
+
+
+    private Tarif tarif;
+
     public void setTarifData(String name) {
         nameLabel.setText(name);
     }
@@ -22,4 +28,5 @@ public class ItemController {
         malzemeAdiLabel.setText(name);
         //malzemeSilButton.setId(Integer.toString(id));
     }
+
 }

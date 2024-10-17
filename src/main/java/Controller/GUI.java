@@ -6,12 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.HyperlinkLabel;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GUI implements Initializable
-{
+public class GUI implements Initializable {
     @FXML
     private Button malzemeEkleButton;
 
@@ -48,6 +46,12 @@ public class GUI implements Initializable
     @FXML
     private GridPane grid;
 
+    @FXML
+    private TextField searchfield;
+
+    @FXML
+    private Button searchbutton;
+
     private List<Tarif> tarifler;
 
     private List<Malzeme> malzemeler;
@@ -61,10 +65,8 @@ public class GUI implements Initializable
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-        try
-        {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
             List<String> tarifAdlari = new ArrayList<>();
             tarifler = getTarifler();
             Tarif tarif;
@@ -73,8 +75,7 @@ public class GUI implements Initializable
             malzemeler = getMalzemeler();
             Malzeme malzeme;
 
-            for(int i = 0; i < tarifler.size(); i++)
-            {
+            for (int i = 0; i < tarifler.size(); i++) {
                 tarif = tarifler.get(i);
                 System.out.println(tarif.getTarifAdi());
                 tarifAdlari.add(tarif.getTarifAdi());
@@ -85,11 +86,11 @@ public class GUI implements Initializable
 
             for (int i = 0; i < tarifAdlari.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("/Users/melisportakal/desktop/yazlabyeni/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
-                //ItemController ile veriyi GUI'ye bastır
+                // ItemController ile veriyi GUI'ye bastır
                 ItemController itemController = fxmlLoader.getController();
                 itemController.setTarifData(tarifAdlari.get(i));
 
@@ -113,7 +114,7 @@ public class GUI implements Initializable
 
             for (int i = 0; i < malzemeAdlari.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("/Users/melisportakal/desktop/yazlabyeni/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -121,10 +122,77 @@ public class GUI implements Initializable
                 itemController.setMalzemeData(malzemeAdlari.get(i));
 
                 malzemeEkleGrid.add(anchorPane, malzemeCol, malzemeRow++);
-                GridPane.setMargin(anchorPane, new Insets(0,0,1,0));
+                GridPane.setMargin(anchorPane, new Insets(0, 0, 1, 0));
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+
+        // TextField için aksiyon tanımlaması
+
+        /*searchfield.setOnAction(event -> {
+            String arananTarif = searchfield.getText();
+            Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
+
+
+
+            if (bulunanTarif != null) {
+                System.out.println(bulunanTarif.getTarifAdi());
+                System.out.println("buldun");
+                //showRecipeDetails(bulunanTarif);
+            } else {
+                //showAlert("Tarif bulunamadı!");
+                System.out.println("bulamadın");
+            }
+        });*/
+
+        //Arama butonuna tıklanınca
+        searchbutton.setOnAction(event -> {
+            // Arama alanındaki tarifi al
+            String arananTarif = searchfield.getText().trim();
+
+            // Veri tabanından tarifi bul
+            Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
+
+            // Eğer tarif bulunduysa detayları göster, aksi takdirde uyarı mesajı ver
+            if (bulunanTarif != null) {
+                System.out.println(arananTarif);
+                System.out.println("Tarif bulundu!");
+                showRecipeDetails(bulunanTarif);
+            } else {
+                System.out.println("Tarif bulunamadı!");
+                showAlert("Tarif bulunamadı!");
+            }
+        });
+
+
+
+
+
+
     }
+
+    // Tarif detaylarını göstermek için kullanılan fonksiyon
+    public static void showRecipeDetails(Tarif tarif) {
+        // Tarif detaylarını konsola yazdır
+        String detaylar = String.format(
+                "Tarif Adı: %s\nKategori: %s\nHazırlama Süresi: %d dakika\nTalimatlar: %s",
+                tarif.getTarifAdi(), tarif.getKategori(), tarif.getHazirlamaSuresi(), tarif.getTalimatlar()
+        );
+
+        // Burada konsolda yazdırmak yerine bir Alert penceresi ile gösterebilirsiniz
+        showAlert(detaylar);
+    }
+
+    private static void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Tarif Detayları");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+
+
 }

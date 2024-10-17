@@ -62,7 +62,7 @@
                <children>
                   <HBox prefHeight="57.0" prefWidth="539.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="searchfield" prefHeight="33.0" prefWidth="311.0" promptText="Tarif Giriniz..." styleClass="search-box" stylesheets="@../../../../../views/style.css" HBox.hgrow="NEVER">
+                        <TextField fx:id="searchfield" prefHeight="33.0" prefWidth="311.0" promptText="" styleClass="search-box" stylesheets="@../../../../../views/style.css" HBox.hgrow="NEVER">
                            <font>
                               <Font name="American Typewriter" size="12.0" />
                            </font>

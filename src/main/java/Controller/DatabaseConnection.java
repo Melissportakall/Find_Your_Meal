@@ -111,4 +111,42 @@ public class DatabaseConnection {
 
         return malzemeler;
     }
+    //TARİF ARAMAK İÇİN
+    public static Tarif getTarifByName(String tarifAdi) {
+        String query = "SELECT * FROM tarifler WHERE TarifAdi = '" + tarifAdi + "'";
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        Tarif tarif = null;
+
+        try {
+            connection = getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                tarif = new Tarif();
+
+                tarif.setTarifID(resultSet.getInt("TarifID"));
+                tarif.setTarifAdi(resultSet.getString("TarifAdi"));
+                tarif.setKategori(resultSet.getString("Kategori"));
+                tarif.setHazirlamaSuresi(resultSet.getInt("HazirlamaSuresi"));
+                tarif.setTalimatlar(resultSet.getString("Talimatlar"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tarif;
+    }
+
 }
