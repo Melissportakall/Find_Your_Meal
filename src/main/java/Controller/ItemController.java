@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Malzeme;
 import Model.Tarif;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,31 +9,43 @@ import javafx.scene.control.Label;
 
 public class ItemController {
     @FXML
-    private Button nameLabel; // Tarifi gösteren Label
+    private Button tarifLabel;
+
+    @FXML
+    private Button tarifKategori;
+
+    @FXML
+    private Button tarifSure;
 
     @FXML
     private Label malzemeAdiLabel;
 
     @FXML
+    private Label malzemeMiktarLabel;
+
+    @FXML
     private Button malzemeSilButton;
 
-
+    @FXML
+    private Button malzemeEkleButton;
 
     private Tarif tarif;
 
-    public void setTarifData(String name) {
-        nameLabel.setText(name);
+    public void setTarifData(Tarif tarif) {
+        tarifLabel.setText(tarif.getTarifAdi());
+        tarifKategori.setText(tarif.getKategori());
+        tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
+
+        this.tarif = tarif;
     }
 
-    // Tarif adı ve hazırlama süresi verisini ayarlamak için metot
-    public void setTarifData(String tarifAdi, int hazirlamaSuresi) {
-        // Hazırlama süresini dakika cinsinden ekleyin
-        nameLabel.setText(tarifAdi + " - " + hazirlamaSuresi + " dakika");
+    public void setMalzemeData(Malzeme malzeme) {
+        malzemeAdiLabel.setText(malzeme.getMalzemeAdi());
+        malzemeMiktarLabel.setText(malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim());
     }
 
-    // Malzeme adı ve miktarını ayarlamak için metot
-    public void setMalzemeData(String malzemeAdi, float malzemeMiktari) {
-
-        malzemeAdiLabel.setText(malzemeAdi + "-" + String.valueOf(malzemeMiktari));
+    public void tarifOnAction()
+    {
+        GUI.showRecipeDetails(tarif);
     }
 }

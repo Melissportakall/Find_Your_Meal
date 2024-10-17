@@ -38,7 +38,7 @@
                            </font>
                         </Label>
                         <Separator prefWidth="200.0" />
-                        <ScrollPane fx:id="malzemeEkleScroll" minWidth="0.0" prefHeight="582.0" prefWidth="200.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
+                        <ScrollPane fx:id="malzemeEkleScroll" minWidth="0.0" prefHeight="553.0" prefWidth="200.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
                            <content>
                               <GridPane fx:id="malzemeEkleGrid" prefHeight="1.0" prefWidth="195.0">
                                 <columnConstraints>
@@ -47,7 +47,12 @@
                               </GridPane>
                            </content></ScrollPane>
                         <Separator prefHeight="0.0" prefWidth="200.0" />
-                        <Button fx:id="malzemeEkleButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="200.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Ekle" />
+                        <HBox prefHeight="35.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="malzemeEkleButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Ekle" />
+                              <Button fx:id="malzemeSilButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="102.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Sil" />
+                           </children>
+                        </HBox>
                         <HBox prefHeight="0.0" prefWidth="200.0" />
                      </children>
                   </VBox>
@@ -101,7 +106,7 @@
                      <children>
                         <ScrollPane fx:id="scroll" prefHeight="596.0" prefWidth="533.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
                            <content>
-                              <GridPane fx:id="grid" prefHeight="596.0" prefWidth="529.0">
+                              <GridPane fx:id="grid" prefHeight="596.0" prefWidth="531.0">
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
                                  </rowConstraints>
