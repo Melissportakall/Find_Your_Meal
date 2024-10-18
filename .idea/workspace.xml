@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecce793d-29b7-4077-ab25-78b35a116ada" name="Changes" comment="DB ile çalıştırma">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="ecce793d-29b7-4077-ab25-78b35a116ada" name="Changes" comment="Tarifleri yeni ekranda açma ve ana menüye dönme">
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/ItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/malzeme_item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/malzeme_item.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/deneme.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/malzeme_item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/malzeme_item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/tarif_scene.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/tarif_scene.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +128,7 @@
       <workItem from="1729168235938" duration="6799000" />
       <workItem from="1729191540380" duration="8591000" />
       <workItem from="1729245412296" duration="162000" />
-      <workItem from="1729247440085" duration="5203000" />
+      <workItem from="1729247440085" duration="5696000" />
     </task>
     <task id="LOCAL-00001" summary="Menü düzenlemeleri">
       <option name="closed" value="true" />
@@ -154,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728923575017</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Tarifleri yeni ekranda açma ve ana menüye dönme">
+      <option name="closed" value="true" />
+      <created>1729253754153</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729253754153</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,6 +163,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Menü düzenlemeleri" />
     <MESSAGE value="DB ile çalıştırma" />
-    <option name="LAST_COMMIT_MESSAGE" value="DB ile çalıştırma" />
+    <MESSAGE value="Tarifleri yeni ekranda açma ve ana menüye dönme" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tarifleri yeni ekranda açma ve ana menüye dönme" />
   </component>
 </project>

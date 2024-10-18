@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI">
    <children>
-      <VBox prefHeight="700.0" prefWidth="750.0">
+      <VBox prefHeight="626.0" prefWidth="750.0">
          <children>
             <Label fx:id="seciliTarifAdi" prefHeight="86.0" prefWidth="750.0" text="Tarif Adı">
                <font>
@@ -40,15 +40,28 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="mainMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#goToMainMenu" text="Ana Menü" textAlignment="CENTER">
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Separator>
+            <Label fx:id="seciliTarifTalimat" alignment="TOP_LEFT" prefHeight="301.0" prefWidth="697.0" text="Talimatlar" textOverrun="WORD_ELLIPSIS" wrapText="true">
+               <padding>
+                  <Insets left="40.0" />
+               </padding>
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
                <VBox.margin>
-                  <Insets left="640.0" top="395.0" />
+                  <Insets top="30.0" />
                </VBox.margin>
-            </Button>
+            </Label>
          </children>
       </VBox>
+      <Button fx:id="mainMenuButton" alignment="CENTER" layoutX="647.0" layoutY="655.0" mnemonicParsing="false" onAction="#goToMainMenu" text="Ana Menü" textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

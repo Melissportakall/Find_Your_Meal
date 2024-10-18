@@ -68,6 +68,9 @@ public class GUI implements Initializable {
     @FXML
     private Label seciliTarifSure;
 
+    @FXML
+    private Label seciliTarifTalimat;
+
 
     private List<Tarif> tarifler;
 
@@ -192,6 +195,7 @@ public class GUI implements Initializable {
     public void setTarifDetails(Tarif tarif) {
         seciliTarifAdi.setText(tarif.getTarifAdi());
         seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
+        seciliTarifTalimat.setText(tarif.getTalimatlar());
     }
 
     @FXML
