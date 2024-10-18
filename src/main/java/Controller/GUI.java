@@ -137,6 +137,7 @@ public class GUI implements Initializable {
         }
     }
 
+//===============TARİF ARAYAN METOT================
     @FXML
     public void searchButtonOnAction() {
         String arananTarif = searchfield.getText().trim();
@@ -176,7 +177,7 @@ public class GUI implements Initializable {
             showAlert("Tarif bulunamadı!");
         }
     }
-
+//===================TIKLANDIĞINDA TARİFE GİDEN METOT=================
     public void showRecipeDetails(Tarif tarif, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml").toURI().toURL());
@@ -197,7 +198,9 @@ public class GUI implements Initializable {
         seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
         seciliTarifTalimat.setText(tarif.getTalimatlar());
     }
+//=====================================================================
 
+//================TIKLANDIĞINDA ANA MENÜYE DÖNEN METOT=================
     @FXML
     public void goToMainMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -216,6 +219,7 @@ public class GUI implements Initializable {
         stage.show();
     }
 
+//==================BİLDİRİ GÖSTEREN METOT==================
     private static void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Bildiri");
@@ -224,6 +228,7 @@ public class GUI implements Initializable {
         alert.showAndWait();
     }
 
+//==================MALZEME EKLEYEN METOT===================
     @FXML
     private void showAddMalzemeDialog() {
         Dialog<Malzeme> dialog = new Dialog<>();
@@ -265,7 +270,6 @@ public class GUI implements Initializable {
                 float toplamMiktar = Float.parseFloat(malzemeMiktarField.getText());
                 float birimFiyat = Float.parseFloat(malzemeFiyatField.getText());
 
-                // Kontrol için toplamMiktar ve birimFiyat stringlerini parse edelim
                 boolean isValid = true;
 
                 DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
@@ -280,6 +284,8 @@ public class GUI implements Initializable {
 
         updateMalzemeGridPane();
     }
+
+//================MALZEME SİLEN METOT=====================
     @FXML
     private void showRemoveMalzemeDialog() {
         Dialog<Malzeme> dialog = new Dialog<>();
@@ -342,6 +348,7 @@ public class GUI implements Initializable {
         updateMalzemeGridPane();
     }
 
+//================MALZEME EKLEYİP SİLDİKTEN SONRA PANELİ GÜNCELLEYEN METOT====================
     public void updateMalzemeGridPane() {
         malzemeEkleGrid.getChildren().clear();
 
@@ -365,6 +372,7 @@ public class GUI implements Initializable {
         }
     }
 
+//===================ANA MENÜYE GERİ GÖTÜREN METOT=====================
     @FXML
     public void mainMenu() throws SQLException, IOException {
         grid.getChildren().clear();
