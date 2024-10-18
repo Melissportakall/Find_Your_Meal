@@ -129,12 +129,12 @@
                         <Separator prefHeight="0.0" prefWidth="510.0" />
                         <HBox prefHeight="38.0" prefWidth="539.0">
                            <children>
-                              <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" text="Geri Dön">
+                              <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" text="Ana Menü">
                                  <HBox.margin>
                                     <Insets left="3.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Ekle" />
+                              <Button mnemonicParsing="false" onAction="#showAddTarifDialog" prefHeight="28.0" text="Tarif Ekle" />
                               <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Düzenle" />
                               <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Sil" />
                            </children>

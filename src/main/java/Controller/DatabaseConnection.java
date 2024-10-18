@@ -38,8 +38,7 @@ public class DatabaseConnection {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 Tarif tarif = new Tarif();
 
                 tarif.setTarifID(resultSet.getInt("TarifID"));
@@ -79,8 +78,7 @@ public class DatabaseConnection {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 Malzeme malzeme = new Malzeme();
 
                 malzeme.setMazemeID(resultSet.getInt("MalzemeID"));
@@ -107,6 +105,7 @@ public class DatabaseConnection {
 
         return malzemeler;
     }
+
     //TARİF ARAMAK İÇİN
     public static Tarif getTarifByName(String tarifAdi) {
         String query = "SELECT * FROM tarifler WHERE TarifAdi = '" + tarifAdi + "'";
@@ -179,7 +178,6 @@ public class DatabaseConnection {
             pstmt.setString(1, MalzemeAdi);
 
 
-
             int rowsAffected = pstmt.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -193,6 +191,60 @@ public class DatabaseConnection {
         }
     }
 
+    //SEÇİLEN MALZEMEYE GÖRE TARİF ARAMA
+    public static void MalzemeyeGoreTarif(String MalzemeAdi) {
+      /*
+        String sql = "SELECT " +
+                "    t.TarifID, " +
+                "    t.TarifAdi, " +
+                "    t.Kategori, " +
+                "    t.HazirlamaSuresi, " +
+                "    t.Talimatlar " +
+                "FROM " +
+                "    Malzemeler m " +
+                "JOIN " +
+                "    MalzemeTarif mt ON m.MalzemeID = mt.MalzemeID " +
+                "JOIN " +
+                "    Tarifler t ON mt.TarifID = t.TarifID " +
+                "WHERE " +
+                "    m.MalzemeAdi = ?"; // Parametre yer tutucusu
 
 
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, MalzemeAdi);
+        }
+    }
+    */
+
+
+
+
+    }
+
+    public static void addTarif(String tarifAdi, String kategori, int hazirlamaSuresi, String talimatlar) {
+        String sql = "INSERT INTO tarifler (TarifAdi, Kategori, HazirlamaSuresi, Talimatlar) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tarifAdi);
+            pstmt.setInt(2, kategori);
+            pstmt.setString(3,hazirlamaSuresi);
+            pstmt.setString(4, talimatlar);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Tarif başarıyla eklendi!");
+            } else {
+                System.out.println("Tarif ekleme başarısız oldu!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
