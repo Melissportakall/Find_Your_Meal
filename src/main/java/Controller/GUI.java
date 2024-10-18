@@ -2,15 +2,20 @@ package Controller;
 
 import Model.Malzeme;
 import Model.Tarif;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.controlsfx.control.HyperlinkLabel;
 
 import java.io.File;
@@ -57,6 +62,13 @@ public class GUI implements Initializable {
     @FXML
     private Button searchbutton;
 
+    @FXML
+    private Label seciliTarifAdi;
+
+    @FXML
+    private Label seciliTarifSure;
+
+
     private List<Tarif> tarifler;
 
     private List<Malzeme> malzemeler;
@@ -72,44 +84,50 @@ public class GUI implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+
             tarifler = getTarifler();
             malzemeler = getMalzemeler();
 
             int col = 0;
             int row = 1;
 
-            for (int i = 0; i < tarifler.size(); i++) {
+            for (Tarif tarif : tarifler) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setTarifData(tarifler.get(i));
+                itemController.setTarifData(tarif);
 
                 if (col == 3) {
                     col = 0;
                     row++;
                 }
-
-                grid.add(anchorPane, col++, row);
-                GridPane.setMargin(anchorPane, new Insets(10));
+                if (grid != null)
+                {
+                    grid.add(anchorPane, col++, row);
+                    GridPane.setMargin(anchorPane, new Insets(10));
+                }
             }
 
             int malzemeCol = 0;
             int malzemeRow = 1;
 
-            for (int i = 0; i < malzemeler.size(); i++) {
+            for (Malzeme malzeme : malzemeler) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setMalzemeData(malzemeler.get(i));
+                itemController.setMalzemeData(malzeme);
 
-                malzemeEkleGrid.add(anchorPane, malzemeCol, malzemeRow++);
-                GridPane.setMargin(anchorPane, new Insets(0, 0, 1, 0));
+                if (malzemeEkleGrid != null)
+                {
+                    malzemeEkleGrid.add(anchorPane, malzemeCol, malzemeRow++);
+                    GridPane.setMargin(anchorPane, new Insets(0, 0, 1, 0));
+                }
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();
@@ -156,18 +174,47 @@ public class GUI implements Initializable {
         }
     }
 
-    public static void showRecipeDetails(Tarif tarif) {
-        String detaylar = String.format(
-                "Tarif Adı: %s\nKategori: %s\nHazırlama Süresi: %d dakika\nTalimatlar: %s",
-                tarif.getTarifAdi(), tarif.getKategori(), tarif.getHazirlamaSuresi(), tarif.getTalimatlar()
-        );
+    public void showRecipeDetails(Tarif tarif, ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml").toURI().toURL());
 
-        showAlert(detaylar);
+        Parent tarifView = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(tarifView);
+        stage.setScene(scene);
+        stage.show();
+
+        GUI controller = loader.getController();
+        controller.setTarifDetails(tarif);
+    }
+
+    public void setTarifDetails(Tarif tarif) {
+        seciliTarifAdi.setText(tarif.getTarifAdi());
+        seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
+    }
+
+    @FXML
+    public void goToMainMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\deneme.fxml").toURI().toURL());
+
+        Parent mainMenuView = loader.load();
+
+        Scene scene = new Scene(mainMenuView);
+
+        String css = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\views\\style.css").toURI().toURL().toExternalForm();
+        scene.getStylesheets().add(css);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     private static void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Tarif Detayları");
+        alert.setTitle("Bildiri");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

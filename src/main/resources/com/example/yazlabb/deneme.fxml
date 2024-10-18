@@ -17,119 +17,136 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI">
    <children>
-      <BorderPane prefHeight="700.0" prefWidth="750.0">
-         <left>
-            <HBox prefHeight="700.0" prefWidth="218.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox cacheShape="false" centerShape="false" prefHeight="700.0" prefWidth="126.0" scaleShape="false" spacing="10.0" HBox.hgrow="ALWAYS">
+      <StackPane fx:id="rootPane" prefHeight="700.0" prefWidth="750.0">
+         <children>
+            <BorderPane prefHeight="700.0" prefWidth="750.0">
+               <left>
+                  <HBox prefHeight="700.0" prefWidth="218.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox cacheShape="false" centerShape="false" prefHeight="700.0" prefWidth="126.0" scaleShape="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="56.0" prefWidth="223.0" text="Malzemeler" textOverrun="CLIP">
+                                 <font>
+                                    <Font name="System Bold" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Separator prefWidth="200.0" />
+                              <ScrollPane fx:id="malzemeEkleScroll" minWidth="0.0" prefHeight="550.0" prefWidth="218.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
+                                 <content>
+                                    <GridPane fx:id="malzemeEkleGrid" prefHeight="1.0" prefWidth="195.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
+                              <Separator prefHeight="0.0" prefWidth="218.0" />
+                              <HBox prefHeight="28.0" prefWidth="218.0">
+                                 <children>
+                                    <Button fx:id="malzemeEkleButton" mnemonicParsing="false" onAction="#showAddMalzemeDialog" prefHeight="32.0" prefWidth="104.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Ekle">
+                                       <HBox.margin>
+                                          <Insets left="7.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="malzemeSilButton" mnemonicParsing="false" onAction="#showRemoveMalzemeDialog" prefHeight="32.0" prefWidth="102.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Sil" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="0.0" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </left>
+               <right>
+                  <VBox cacheShape="false" centerShape="false" prefHeight="700.0" prefWidth="539.0" scaleShape="false" spacing="10.0" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets top="10.0" />
                      </padding>
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="200.0" text="Malzemeler" textOverrun="CLIP">
-                           <font>
-                              <Font name="System Bold" size="25.0" />
-                           </font>
-                        </Label>
-                        <Separator prefWidth="200.0" />
-                        <ScrollPane fx:id="malzemeEkleScroll" minWidth="0.0" prefHeight="550.0" prefWidth="218.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
-                           <content>
-                              <GridPane fx:id="malzemeEkleGrid" prefHeight="1.0" prefWidth="195.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                              </GridPane>
-                           </content></ScrollPane>
-                        <Separator prefHeight="0.0" prefWidth="218.0" />
-                        <HBox prefHeight="28.0" prefWidth="218.0">
+                        <HBox prefHeight="57.0" prefWidth="539.0" spacing="20.0">
                            <children>
-                              <Button fx:id="malzemeEkleButton" mnemonicParsing="false" onAction="#showAddMalzemeDialog" prefHeight="32.0" prefWidth="104.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Ekle" />
-                              <Button fx:id="malzemeSilButton" mnemonicParsing="false" onAction="#showRemoveMalzemeDialog" prefHeight="32.0" prefWidth="102.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Malzeme Sil" />
+                              <TextField fx:id="searchfield" prefHeight="33.0" prefWidth="311.0" promptText="Tarif Ara" styleClass="search-box" stylesheets="@../../../../../views/style.css" HBox.hgrow="NEVER">
+                                 <font>
+                                    <Font name="American Typewriter" size="12.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <rotationAxis>
+                                    <Point3D x="5.0" y="9.0" z="1.0" />
+                                 </rotationAxis>
+                              </TextField>
+                              <Button fx:id="searchbutton" mnemonicParsing="false" onAction="#searchButtonOnAction" prefHeight="33.0" prefWidth="73.0" styleClass="search-button" stylesheets="@../../../../../views/style.css" text="Ara" />
+                              <ComboBox fx:id="Sort" prefHeight="32.0" prefWidth="89.0" promptText="Sıralama">
+                                 <effect>
+                                    <DropShadow>
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:id="maliyet_coktan_aza" fx:value="Çoktan aza maliyet" />
+                                       <String fx:id="maliyet_azdan_coka" fx:value="Azdan çoka maliyet" />
+                                       <String fx:id="sure_coktan_aza" fx:value="Çoktan aza süre" />
+                                       <String fx:id="sure_azdan_coka" fx:value="Azdan çoka süre" />
+                                       <String fx:id="malzeme_oran" fx:value="Malzeme oranına göre" />
+                                    </FXCollections>
+                                 </items>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ComboBox>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ScrollPane fx:id="scroll" prefHeight="562.0" prefWidth="526.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
+                                 <content>
+                                    <GridPane fx:id="grid" prefHeight="558.0" prefWidth="519.0">
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </HBox>
-                        <HBox prefHeight="0.0" prefWidth="200.0" />
+                        <Separator prefHeight="0.0" prefWidth="510.0" />
+                        <HBox prefHeight="38.0" prefWidth="539.0">
+                           <children>
+                              <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" text="Geri Dön">
+                                 <HBox.margin>
+                                    <Insets left="3.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Ekle" />
+                              <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Düzenle" />
+                              <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Sil" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
-               </children>
-            </HBox>
-         </left>
-         <right>
-            <VBox cacheShape="false" centerShape="false" prefHeight="700.0" prefWidth="539.0" scaleShape="false" spacing="10.0" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-               <children>
-                  <HBox prefHeight="57.0" prefWidth="539.0" spacing="20.0">
-                     <children>
-                        <TextField fx:id="searchfield" prefHeight="33.0" prefWidth="311.0" promptText="Tarif Ara" styleClass="search-box" stylesheets="@../../../../../views/style.css" HBox.hgrow="NEVER">
-                           <font>
-                              <Font name="American Typewriter" size="12.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <rotationAxis>
-                              <Point3D x="5.0" y="9.0" z="1.0" />
-                           </rotationAxis>
-                        </TextField>
-                        <Button fx:id="searchbutton" mnemonicParsing="false" onAction="#searchButtonOnAction" prefHeight="33.0" prefWidth="73.0" styleClass="search-button" stylesheets="@../../../../../views/style.css" text="Ara" />
-                        <ComboBox fx:id="Sort" prefHeight="32.0" prefWidth="89.0" promptText="Sıralama">
-                           <effect>
-                              <DropShadow>
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                           <items>
-                              <FXCollections fx:factory="observableArrayList">
-                                 <String fx:id="maliyet_coktan_aza" fx:value="Çoktan aza maliyet" />
-                                 <String fx:id="maliyet_azdan_coka" fx:value="Azdan çoka maliyet" />
-                                 <String fx:id="sure_coktan_aza" fx:value="Çoktan aza süre" />
-                                 <String fx:id="sure_azdan_coka" fx:value="Azdan çoka süre" />
-                                 <String fx:id="malzeme_oran" fx:value="Malzeme oranına göre" />
-                              </FXCollections>
-                           </items>
-                        </ComboBox>
-                     </children>
-                     <padding>
-                        <Insets top="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <ScrollPane fx:id="scroll" prefHeight="562.0" prefWidth="526.0" styleClass="transparent" stylesheets="@../../../../../views/style.css">
-                           <content>
-                              <GridPane fx:id="grid" prefHeight="558.0" prefWidth="519.0">
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                                 </rowConstraints>
-                              </GridPane>
-                           </content>
-                        </ScrollPane>
-                     </children>
-                  </HBox>
-                  <Separator prefHeight="0.0" prefWidth="510.0" />
-                  <HBox prefHeight="38.0" prefWidth="539.0">
-                     <children>
-                        <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" text="Geri Dön" />
-                        <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Ekle" />
-                        <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Düzenle" />
-                        <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Sil" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </right>
-         <center>
-            <Separator orientation="VERTICAL" styleClass="separator-padding" stylesheets="@../../../../../views/style.css" BorderPane.alignment="CENTER" />
-         </center>
-      </BorderPane>
+               </right>
+               <center>
+                  <Separator orientation="VERTICAL" styleClass="separator-padding" stylesheets="@../../../../../views/style.css" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>

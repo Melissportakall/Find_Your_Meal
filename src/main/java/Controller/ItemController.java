@@ -2,9 +2,18 @@ package Controller;
 
 import Model.Malzeme;
 import Model.Tarif;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class ItemController {
@@ -44,8 +53,13 @@ public class ItemController {
         malzemeMiktarLabel.setText(malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim());
     }
 
-    public void tarifOnAction()
-    {
-        GUI.showRecipeDetails(tarif);
+    @FXML
+    public void tarifOnAction(ActionEvent event) throws IOException {
+        try {
+            GUI gui = new GUI();
+            gui.showRecipeDetails(tarif, event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
