@@ -13,10 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.controlsfx.control.HyperlinkLabel;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +22,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static Controller.DatabaseConnection.addMalzemeToTarif;
 
 public class GUI implements Initializable {
     @FXML
@@ -285,8 +286,7 @@ public class GUI implements Initializable {
         updateMalzemeGridPane();
     }
 
-
-    //TARİF EKLEME EKRANI
+    //TARİF EKLEMEYİ GĞNCEKKEDİM
     @FXML
     private void showAddTarifDialog() {
         Dialog<Tarif> dialog = new Dialog<>();
@@ -294,7 +294,8 @@ public class GUI implements Initializable {
         dialog.setHeaderText("Yeni Tarif Bilgilerini Girin");
 
         ButtonType ekleButtonType = new ButtonType("Ekle", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(ekleButtonType, ButtonType.CANCEL);
+        ButtonType malzemeEkleButtonType = new ButtonType("Malzeme Ekle", ButtonBar.ButtonData.LEFT);
+        dialog.getDialogPane().getButtonTypes().addAll(ekleButtonType, malzemeEkleButtonType, ButtonType.CANCEL);
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -322,28 +323,102 @@ public class GUI implements Initializable {
 
         dialog.getDialogPane().setContent(gridPane);
 
+        // Malzemeleri tutacak bir liste oluştur
+        List<Malzeme> malzemeListesi = new ArrayList<>();
+
+        // Malzeme ekleme butonunun işlevi
+        dialog.getDialogPane().lookupButton(malzemeEkleButtonType).addEventFilter(ActionEvent.ACTION, event -> {
+            // Malzeme ekleme diyalogu aç
+            Dialog<Malzeme> malzemeDialog = new Dialog<>();
+            malzemeDialog.setTitle("Malzeme Ekle");
+            malzemeDialog.setHeaderText("Malzeme Bilgilerini Girin");
+
+            ButtonType malzemeEkleButton = new ButtonType("Ekle", ButtonBar.ButtonData.OK_DONE);
+            malzemeDialog.getDialogPane().getButtonTypes().addAll(malzemeEkleButton, ButtonType.CANCEL);
+
+            GridPane malzemeGridPane = new GridPane();
+            malzemeGridPane.setHgap(10);
+            malzemeGridPane.setVgap(10);
+            malzemeGridPane.setPadding(new Insets(20, 150, 10, 10));
+
+            TextField malzemeAdiField = new TextField();
+            malzemeAdiField.setPromptText("Malzeme Adı");
+            TextField toplamMiktarField = new TextField();
+            toplamMiktarField.setPromptText("Miktar");
+            TextField malzemeBirimField = new TextField();
+            malzemeBirimField.setPromptText("Birim");
+            TextField malzemeBirimFiyatField = new TextField();
+            malzemeBirimFiyatField.setPromptText("Birim Fiyatı");
+
+            malzemeGridPane.add(new Label("Malzeme Adı:"), 0, 0);
+            malzemeGridPane.add(malzemeAdiField, 1, 0);
+            malzemeGridPane.add(new Label("Miktar:"), 0, 1);
+            malzemeGridPane.add(toplamMiktarField, 1, 1);
+            malzemeGridPane.add(new Label("Birim:"), 0, 2);
+            malzemeGridPane.add(malzemeBirimField, 1, 2);
+            malzemeGridPane.add(new Label("Birim Fiyatı:"), 0, 3);
+            malzemeGridPane.add(malzemeBirimFiyatField, 1, 3);
+
+            malzemeDialog.getDialogPane().setContent(malzemeGridPane);
+
+            malzemeDialog.setResultConverter(malzemeDialogButton -> {
+                if (malzemeDialogButton == malzemeEkleButton) {
+                    String malzemeAdi = malzemeAdiField.getText();
+                    float toplamMiktar = Float.parseFloat(toplamMiktarField.getText());
+                    String malzemeBirim = malzemeBirimField.getText();
+                    float malzemeBirimFiyat = Float.parseFloat(malzemeBirimFiyatField.getText());
+
+                    // Malzemeyi veritabanına ekle ve geri dönen ID'yi al
+                    int malzemeID = DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, malzemeBirimFiyat);
+                    if (malzemeID != -1) { // Hata yoksa
+                        // Malzemeyi listeye ekle
+
+                        Malzeme yeniMalzeme = new Malzeme(malzemeID, malzemeAdi, toplamMiktar, malzemeBirim, malzemeBirimFiyat);
+                        malzemeListesi.add(yeniMalzeme);
+                        showAlert("Malzeme başarıyla eklendi.");
+                    } else {
+                        showAlert("Malzeme eklenirken hata oluştu.");
+                    }
+
+                    // Kullanıcıya bilgi ver
+                    showAlert("Malzeme başarıyla eklendi.");
+                }
+                return null;
+            });
+
+            malzemeDialog.showAndWait();
+            event.consume(); // Butonun varsayılan davranışını durdur
+        });
+
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ekleButtonType) {
-                String TarifAdi = tarifAdiField.getText();
-                int HazirlamaSuresi = Integer.parseInt(hazirlanisSuresiField.getText());
-                String Kategori = kategoriField.getText();
-                String Talimatlar = talimatlarField.getText();
+                String tarifAdi = tarifAdiField.getText();
+                int hazirlanisSuresi = Integer.parseInt(hazirlanisSuresiField.getText());
+                String kategori = kategoriField.getText();
+                String talimatlar = talimatlarField.getText();
 
-                boolean isValid = true;
-
-                // Burada veritabanına tarif ekleme işlemi yapılabilir
-                DatabaseConnection.addTarif(TarifAdi, Kategori, HazirlamaSuresi, Talimatlar);
-                System.out.println("tarif eklendi mi");
-                showAlert("Tarif başarıyla eklendi.");
+                // Tarif ekleme
+                int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
+                if (tarifID != -1) { // Tarif ekleme başarılıysa
+                    // Malzemeleri ekle
+                    for (Malzeme malzeme : malzemeListesi) {
+                        int malzemeID = malzeme.getMazemeID();
+                        float malzemetoplammiktar =malzeme.getToplamMiktar();
+                        addMalzemeToTarif(tarifID, malzemeID,malzemetoplammiktar);
+                    }
+                    showAlert("Tarif ve malzemeler başarıyla eklendi.");
+                } else {
+                    showAlert("Tarif eklenirken hata oluştu.");
+                }
             }
-
             return null;
         });
 
         dialog.showAndWait();
-
-        //updateTarifGridPane(); ->>> BURANIN YAZILMASI LAZIM
+        // updateTarifGridPane(); ->>> BURANIN YAZILMASI LAZIM
     }
+
+
 
 
 

@@ -27,7 +27,7 @@ public class DatabaseConnection {
     }
 
     //TARİFLERİ VERİTABANINDAN AL VE LİSTE OLARAK DÖNDÜR
-    private static List<Tarif> getTariflerFromDB(String query) {
+    /*private static List<Tarif> getTariflerFromDB(String query) {
         List<Tarif> tarifler = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
@@ -39,7 +39,8 @@ public class DatabaseConnection {
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                Tarif tarif = new Tarif();
+
+                Tarif tarif = new Tarif(tarifID, tarifAdi, kategori, hazirlamaSuresi, talimatlar);
 
                 tarif.setTarifID(resultSet.getInt("TarifID"));
                 tarif.setTarifAdi(resultSet.getString("TarifAdi"));
@@ -64,9 +65,52 @@ public class DatabaseConnection {
         }
 
         return tarifler;
+    }*/
+
+    private static List<Tarif> getTariflerFromDB(String query) {
+        List<Tarif> tarifler = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                // ResultSet'ten değerleri al
+                int tarifID = resultSet.getInt("TarifID");
+                String tarifAdi = resultSet.getString("TarifAdi");
+                String kategori = resultSet.getString("Kategori");
+                int hazirlamaSuresi = resultSet.getInt("HazirlamaSuresi");
+                String talimatlar = resultSet.getString("Talimatlar");
+
+                // Yeni Tarif nesnesini oluştur
+                Tarif tarif = new Tarif(tarifID, tarifAdi, kategori, hazirlamaSuresi, talimatlar);
+
+                // Listeye ekle
+                tarifler.add(tarif);
+                System.out.println(tarifler.size());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return tarifler;
     }
 
-    //MALZEMELERİ VERİTABANINDAN ALIP LİSTE OLARAK DÖNDÜR
+
+    // MALZEMELERİ VERİTABANINDAN ALIP LİSTE OLARAK DÖNDÜR
     private static List<Malzeme> getMalzemelerFromDB(String query) {
         List<Malzeme> malzemeler = new ArrayList<>();
         Connection connection = null;
@@ -79,13 +123,15 @@ public class DatabaseConnection {
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                Malzeme malzeme = new Malzeme();
+                // Tüm gerekli verileri al
+                int malzemeID = resultSet.getInt("MalzemeID");
+                String malzemeAdi = resultSet.getString("MalzemeAdi");
+                float toplamMiktar = resultSet.getFloat("ToplamMiktar");
+                String malzemeBirim = resultSet.getString("MalzemeBirim");
+                float malzemeBirimFiyat = resultSet.getFloat("BirimFiyat");
 
-                malzeme.setMazemeID(resultSet.getInt("MalzemeID"));
-                malzeme.setMalzemeAdi(resultSet.getString("MalzemeAdi"));
-                malzeme.setToplamMiktar(resultSet.getFloat("ToplamMiktar"));
-                malzeme.setMalzemeBirim(resultSet.getString("MalzemeBirim"));
-                malzeme.setMalzemeBirimFiyat(resultSet.getFloat("BirimFiyat"));
+                // Malzeme nesnesini oluştur
+                Malzeme malzeme = new Malzeme(malzemeID, malzemeAdi, toplamMiktar, malzemeBirim, malzemeBirimFiyat);
 
                 malzemeler.add(malzeme);
                 System.out.println(malzeme.getToplamMiktar());
@@ -106,6 +152,7 @@ public class DatabaseConnection {
         return malzemeler;
     }
 
+
     //TARİF ARAMAK İÇİN
     public static Tarif getTarifByName(String tarifAdi) {
         String query = "SELECT * FROM tarifler WHERE TarifAdi = '" + tarifAdi + "'";
@@ -113,6 +160,10 @@ public class DatabaseConnection {
         Statement statement = null;
         ResultSet resultSet = null;
         Tarif tarif = null;
+        int tarifID = tarif.getTarifID();
+        String kategori = tarif.getKategori();
+        int hazirlamaSuresi = tarif.getHazirlamaSuresi();
+        String talimatlar = tarif.getTalimatlar();
 
         try {
             connection = getConnection();
@@ -120,7 +171,8 @@ public class DatabaseConnection {
             resultSet = statement.executeQuery(query);
 
             if (resultSet.next()) {
-                tarif = new Tarif();
+
+                tarif = new Tarif(tarifID, tarifAdi, kategori, hazirlamaSuresi, talimatlar);
 
                 tarif.setTarifID(resultSet.getInt("TarifID"));
                 tarif.setTarifAdi(resultSet.getString("TarifAdi"));
@@ -145,7 +197,7 @@ public class DatabaseConnection {
     }
 
     //MALZEME EKLE
-    public static void addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
+    public static int addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
         String sql = "INSERT INTO malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
@@ -164,9 +216,19 @@ public class DatabaseConnection {
                 System.out.println("Malzeme ekleme başarısız oldu!");
             }
 
+            // Otomatik üretilen anahtarları al
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1); // Burada malzemeID döndürülür
+            } else {
+                throw new SQLException("Malzeme eklenirken bir hata oluştu, anahtar döndürülmedi.");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return 0;
     }
 
     public static void deleteMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim) {
@@ -219,25 +281,30 @@ public class DatabaseConnection {
     */
 
 
-
-
     }
 
-    public static void addTarif(String tarifAdi, String kategori, int hazirlamaSuresi, String talimatlar) {
+    public static int addTarif(String tarifAdi, String kategori, int hazirlamaSuresi, String talimatlar) {
         String sql = "INSERT INTO tarifler (TarifAdi, Kategori, HazirlamaSuresi, Talimatlar) VALUES (?, ?, ?, ?)";
+        int tarifID = -1; // Başarısız durum için varsayılan değer
 
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, tarifAdi);
             pstmt.setString(2, kategori);
-            pstmt.setInt(3,hazirlamaSuresi);
+            pstmt.setInt(3, hazirlamaSuresi);
             pstmt.setString(4, talimatlar);
 
             int rowsAffected = pstmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Tarif başarıyla eklendi!");
+                // Eklenen tarifin ID'sini al
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        tarifID = generatedKeys.getInt(1); // İlk sütun ID
+                    }
+                }
+                System.out.println("Tarif başarıyla eklendi! ID: " + tarifID);
             } else {
                 System.out.println("Tarif ekleme başarısız oldu!");
             }
@@ -246,6 +313,7 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
 
+        return tarifID; // Eklenen tarifin ID'sini döndür
     }
 
 
@@ -267,6 +335,50 @@ public class DatabaseConnection {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void addMalzemeToTarif(int tarifID, int malzemeID, float malzemeMiktar) {
+        if (malzemeID <= 0) {
+            System.out.println("Geçersiz MalzemeID: " + malzemeID);
+            return;
+        }
+
+        String sql = "INSERT INTO MalzemeTarif (TarifID, MalzemeID, MalzemeMiktar) VALUES (?, ?, ?)";
+        int id = -1;
+
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                System.out.println("Veritabanı bağlantısı sağlanamadı!");
+                return;
+            }
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                pstmt.setInt(1, tarifID);
+                pstmt.setInt(2, malzemeID);
+                pstmt.setFloat(3, malzemeMiktar);
+
+                System.out.println("TarifID: " + tarifID + ", MalzemeID: " + malzemeID + ", MalzemeMiktar: " + malzemeMiktar);
+
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            id = generatedKeys.getInt(1);
+                        }
+                    }
+                    System.out.println("Malzeme tarifine başarıyla eklendi! ID: " + id);
+                } else {
+                    System.out.println("Malzeme ekleme başarısız oldu! Etkilenen satır sayısı: " + rowsAffected);
+                }
+
+            } catch (SQLException e) {
+                System.err.println("SQL hatası: " + e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Bağlantı hatası: " + e.getMessage());
         }
     }
 }

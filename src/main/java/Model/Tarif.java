@@ -7,6 +7,13 @@ public class Tarif {
     private int hazirlamaSuresi;
     private String talimatlar;
 
+    public Tarif(int tarifID,String tarifAdi,String kategori,int hazirlamaSuresi,String talimatlar){
+        this.tarifID=tarifID;
+        this.tarifAdi = tarifAdi;
+        this.kategori = kategori;
+        this.hazirlamaSuresi=hazirlamaSuresi;
+        this.talimatlar=talimatlar;
+    }
     // Getter ve Setter metotları
     public int getTarifID() {
         return tarifID;
