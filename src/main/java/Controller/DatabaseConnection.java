@@ -27,46 +27,6 @@ public class DatabaseConnection {
     }
 
     //TARİFLERİ VERİTABANINDAN AL VE LİSTE OLARAK DÖNDÜR
-    /*private static List<Tarif> getTariflerFromDB(String query) {
-        List<Tarif> tarifler = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-
-                Tarif tarif = new Tarif(tarifID, tarifAdi, kategori, hazirlamaSuresi, talimatlar);
-
-                tarif.setTarifID(resultSet.getInt("TarifID"));
-                tarif.setTarifAdi(resultSet.getString("TarifAdi"));
-                tarif.setKategori(resultSet.getString("Kategori"));
-                tarif.setHazirlamaSuresi(resultSet.getInt("HazirlamaSuresi"));
-                tarif.setTalimatlar(resultSet.getString("Talimatlar"));
-
-                tarifler.add(tarif);
-                System.out.println(tarifler.size());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return tarifler;
-    }*/
-
     private static List<Tarif> getTariflerFromDB(String query) {
         List<Tarif> tarifler = new ArrayList<>();
         Connection connection = null;
@@ -79,17 +39,15 @@ public class DatabaseConnection {
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                // ResultSet'ten değerleri al
-                int tarifID = resultSet.getInt("TarifID");
-                String tarifAdi = resultSet.getString("TarifAdi");
-                String kategori = resultSet.getString("Kategori");
-                int hazirlamaSuresi = resultSet.getInt("HazirlamaSuresi");
-                String talimatlar = resultSet.getString("Talimatlar");
 
-                // Yeni Tarif nesnesini oluştur
-                Tarif tarif = new Tarif(tarifID, tarifAdi, kategori, hazirlamaSuresi, talimatlar);
+                Tarif tarif = new Tarif();
 
-                // Listeye ekle
+                tarif.setTarifID(resultSet.getInt("TarifID"));
+                tarif.setTarifAdi(resultSet.getString("TarifAdi"));
+                tarif.setKategori(resultSet.getString("Kategori"));
+                tarif.setHazirlamaSuresi(resultSet.getInt("HazirlamaSuresi"));
+                tarif.setTalimatlar(resultSet.getString("Talimatlar"));
+
                 tarifler.add(tarif);
                 System.out.println(tarifler.size());
             }
@@ -123,15 +81,14 @@ public class DatabaseConnection {
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                // Tüm gerekli verileri al
-                int malzemeID = resultSet.getInt("MalzemeID");
-                String malzemeAdi = resultSet.getString("MalzemeAdi");
-                float toplamMiktar = resultSet.getFloat("ToplamMiktar");
-                String malzemeBirim = resultSet.getString("MalzemeBirim");
-                float malzemeBirimFiyat = resultSet.getFloat("BirimFiyat");
+                Malzeme malzeme = new Malzeme();
 
-                // Malzeme nesnesini oluştur
-                Malzeme malzeme = new Malzeme(malzemeID, malzemeAdi, toplamMiktar, malzemeBirim, malzemeBirimFiyat);
+                // Tüm gerekli verileri al
+                malzeme.setMazemeID(resultSet.getInt("MalzemeID"));
+                malzeme.setMalzemeAdi(resultSet.getString("MalzemeAdi"));
+                malzeme.setToplamMiktar(resultSet.getFloat("ToplamMiktar"));
+                malzeme.setMalzemeBirim(resultSet.getString("MalzemeBirim"));
+                malzeme.setMalzemeBirimFiyat(resultSet.getFloat("BirimFiyat"));
 
                 malzemeler.add(malzeme);
                 System.out.println(malzeme.getToplamMiktar());
@@ -159,11 +116,8 @@ public class DatabaseConnection {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        Tarif tarif = null;
-        int tarifID = tarif.getTarifID();
-        String kategori = tarif.getKategori();
-        int hazirlamaSuresi = tarif.getHazirlamaSuresi();
-        String talimatlar = tarif.getTalimatlar();
+
+        Tarif tarif = new Tarif();
 
         try {
             connection = getConnection();
@@ -172,7 +126,7 @@ public class DatabaseConnection {
 
             if (resultSet.next()) {
 
-                tarif = new Tarif(tarifID, tarifAdi, kategori, hazirlamaSuresi, talimatlar);
+                tarif = new Tarif();
 
                 tarif.setTarifID(resultSet.getInt("TarifID"));
                 tarif.setTarifAdi(resultSet.getString("TarifAdi"));
