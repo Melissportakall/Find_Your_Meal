@@ -346,6 +346,60 @@ public class GUI implements Initializable {
     }
 
 
+
+
+    //================TARİF SİLEN METOT=====================
+    @FXML
+    private void showRemoveTarifDialog() {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Tarif Sil");
+        dialog.setHeaderText("Silmek İstediğiniz Tarifin Bilgilerini Girin");
+
+        ButtonType tarifSilButton = new ButtonType("Sil", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(tarifSilButton, ButtonType.CANCEL);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField tarifAdiField = new TextField();
+        tarifAdiField.setPromptText("Tarif Adı");
+
+        gridPane.add(new Label("Tarif Adı:"), 0, 0);
+        gridPane.add(tarifAdiField, 1, 0);
+
+        dialog.getDialogPane().setContent(gridPane);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == tarifSilButton) {
+                String tarifAdi = tarifAdiField.getText();
+
+                if (tarifAdi.isEmpty()) {
+                    //showAlert("Hata", "Lütfen tarif adını girin.");
+                    System.out.println("Hata: Tarif adı boş bırakılmamalı.");
+                    return null;
+                }
+
+                try {
+                    DatabaseConnection.deleteTarif(tarifAdi);
+                    System.out.println("Tarif silindi.");
+                    showAlert("Tarif başarıyla silindi.");
+                } catch (Exception e) {
+                    System.out.println("Hata: Tarif silinirken bir sorun oluştu.");
+                }
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
+        //updateTarifGridPane(); ->>>>BURAYA BU METOTUN YAZILMASI LAZIM
+    }
+
+
+
+
+
     //================MALZEME SİLEN METOT=====================
     @FXML
     private void showRemoveMalzemeDialog() {

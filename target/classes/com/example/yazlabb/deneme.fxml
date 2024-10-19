@@ -136,7 +136,7 @@
                               </Button>
                               <Button mnemonicParsing="false" onAction="#showAddTarifDialog" prefHeight="28.0" text="Tarif Ekle" />
                               <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Düzenle" />
-                              <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Sil" />
+                              <Button mnemonicParsing="false" onAction="#showRemoveTarifDialog" prefHeight="28.0" text="Tarif Sil" />
                            </children>
                         </HBox>
                      </children>

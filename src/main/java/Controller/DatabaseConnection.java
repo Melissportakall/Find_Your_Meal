@@ -230,8 +230,8 @@ public class DatabaseConnection {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, tarifAdi);
-            pstmt.setInt(2, kategori);
-            pstmt.setString(3,hazirlamaSuresi);
+            pstmt.setString(2, kategori);
+            pstmt.setInt(3,hazirlamaSuresi);
             pstmt.setString(4, talimatlar);
 
             int rowsAffected = pstmt.executeUpdate();
@@ -246,5 +246,27 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
 
+    }
+
+
+    public static void deleteTarif(String tarifAdi) {
+        String sql = "DELETE FROM tarifler WHERE TarifAdi = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tarifAdi);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Tarif başarıyla silindi!");
+            } else {
+                System.out.println("Tarif ekleme başarısız oldu!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
