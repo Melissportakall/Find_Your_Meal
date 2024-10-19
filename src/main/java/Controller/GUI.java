@@ -55,7 +55,7 @@ public class GUI implements Initializable {
     private ScrollPane scroll;
 
     @FXML
-    private GridPane grid;
+    public GridPane grid;
 
     @FXML
     private TextField searchfield;
@@ -295,7 +295,7 @@ public class GUI implements Initializable {
 
     //TARİF EKLEMEYİ GĞNCEKKEDİM
     @FXML
-    private void showAddTarifDialog() {
+    private void showAddTarifDialog() throws SQLException, IOException {
         Dialog<Tarif> dialog = new Dialog<>();
         dialog.setTitle("Tarif Ekle");
         dialog.setHeaderText("Yeni Tarif Bilgilerini Girin");
@@ -423,7 +423,7 @@ public class GUI implements Initializable {
         });
 
         dialog.showAndWait();
-        // updateTarifGridPane(); ->>> BURANIN YAZILMASI LAZIM
+        mainMenu(); //ana menüyü güncelle
     }
 
 
@@ -604,6 +604,61 @@ public class GUI implements Initializable {
             GridPane.setMargin(anchorPane, new Insets(10));
         }
     }
+
+//===============MALZEMEYE GÖRE FİLTRELEME BUTONU====================
+    public static void updateFilteredTarifler(int malzemeID) {
+
+        if (malzemeID != -1) {
+            try {
+                List<Tarif> tarifListesi = DatabaseConnection.MalzemeyeGoreTarif(malzemeID);
+
+                //mainMenu(tarifListesi);  BURASI SIKINTILI
+                for (Tarif tarif : tarifListesi) {
+                    System.out.println(tarif.getTarifAdi());
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Geçersiz malzemeID!");
+        }
+    }
+
+    @FXML
+    public void mainMenu(List<Tarif> tarifler) throws SQLException, IOException {
+        grid.getChildren().clear();
+
+        System.out.println("oldu1");
+
+        int col = 0;
+        int row = 1;
+
+        for (int i = 0; i < tarifler.size(); i++) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            try {
+                //fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/geritusu/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            ItemController itemController = fxmlLoader.getController();
+            itemController.setTarifData(tarifler.get(i));
+
+            if (col == 3) {
+                col = 0;
+                row++;
+            }
+
+            grid.add(anchorPane, col++, row);
+            GridPane.setMargin(anchorPane, new Insets(10));
+
+            System.out.println("oldu2");
+        }
+    }
+//==========================YUKARISI SIKINTILI====================================
 }
 
 

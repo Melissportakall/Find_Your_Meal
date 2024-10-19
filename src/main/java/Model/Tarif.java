@@ -6,7 +6,7 @@ public class Tarif {
     private String kategori;
     private int hazirlamaSuresi;
     private String talimatlar;
-/*
+
     public Tarif(int tarifID,String tarifAdi,String kategori,int hazirlamaSuresi,String talimatlar){
         this.tarifID=tarifID;
         this.tarifAdi = tarifAdi;
@@ -14,7 +14,9 @@ public class Tarif {
         this.hazirlamaSuresi=hazirlamaSuresi;
         this.talimatlar=talimatlar;
     }
-    */
+
+    public Tarif()
+    { }
 
 
     // Getter ve Setter metotları

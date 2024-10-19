@@ -9,7 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -33,6 +35,12 @@ public class ItemController {
     private Label malzemeMiktarLabel;
 
     @FXML
+    private AnchorPane malzemeID;
+
+    @FXML
+    private CheckBox malzemeCheckBox;
+
+    @FXML
     private Button malzemeSilButton;
 
     @FXML
@@ -51,15 +59,26 @@ public class ItemController {
     public void setMalzemeData(Malzeme malzeme) {
         malzemeAdiLabel.setText(malzeme.getMalzemeAdi());
         malzemeMiktarLabel.setText(malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim());
+        malzemeID.setId(Integer.toString(malzeme.getMazemeID()));
     }
 
     @FXML
-    public void tarifOnAction(ActionEvent event) throws IOException {
+    public void tarifOnAction(ActionEvent event){
         try {
             GUI gui = new GUI();
             gui.showRecipeDetails(tarif, event);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void CheckBoxAction() {
+        if (malzemeCheckBox.isSelected()) {
+            System.out.println("CheckBox işaretlendi, malzemeID: " + malzemeID.getId());
+            GUI.updateFilteredTarifler(Integer.parseInt(malzemeID.getId()));
+        } else {
+            System.out.println("CheckBox işareti kaldırıldı, malzemeID: " + malzemeID.getId());
         }
     }
 }

@@ -208,8 +208,7 @@ public class DatabaseConnection {
     }
 
     //SEÇİLEN MALZEMEYE GÖRE TARİF ARAMA
-    public static void MalzemeyeGoreTarif(String MalzemeAdi) {
-      /*
+    public static List<Tarif> MalzemeyeGoreTarif(int malzemeID) throws SQLException {
         String sql = "SELECT " +
                 "    t.TarifID, " +
                 "    t.TarifAdi, " +
@@ -223,18 +222,34 @@ public class DatabaseConnection {
                 "JOIN " +
                 "    Tarifler t ON mt.TarifID = t.TarifID " +
                 "WHERE " +
-                "    m.MalzemeAdi = ?"; // Parametre yer tutucusu
+                "    m.MalzemeID = ?";
 
+        List<Tarif> tarifListesi = new ArrayList<>();
 
-        try (Connection conn = getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, MalzemeAdi);
+            pstmt.setInt(1, malzemeID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Tarif tarif = new Tarif();
+
+                    tarif.setTarifID(rs.getInt("TarifID"));
+                    tarif.setTarifAdi(rs.getString("TarifAdi"));
+                    tarif.setKategori(rs.getString("Kategori"));
+                    tarif.setHazirlamaSuresi(rs.getInt("HazirlamaSuresi"));
+                    tarif.setTalimatlar(rs.getString("Talimatlar"));
+
+                    tarifListesi.add(tarif);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
-    }
-    */
 
-
+        return tarifListesi;
     }
 
     public static int addTarif(String tarifAdi, String kategori, int hazirlamaSuresi, String talimatlar) {
