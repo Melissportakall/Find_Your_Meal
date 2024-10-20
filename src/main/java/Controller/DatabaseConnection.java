@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Malzeme;
 import Model.Tarif;
+import Model.TarifinMalzemeleri;
+import Model.TarifMalzeme;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -150,12 +152,13 @@ public class DatabaseConnection {
         return tarif;
     }
 
-    //MALZEME EKLE
+    // MALZEME EKLE
     public static int addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
         String sql = "INSERT INTO malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             // Otomatik üretilen anahtarları almak için Statement.RETURN_GENERATED_KEYS kullanıyoruz
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, MalzemeAdi);
             pstmt.setFloat(2, ToplamMiktar);
@@ -166,16 +169,18 @@ public class DatabaseConnection {
 
             if (rowsAffected > 0) {
                 System.out.println("Malzeme başarıyla eklendi!");
+
+                // Otomatik üretilen anahtarları al
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Burada malzemeID döndürülür
+                    } else {
+                        throw new SQLException("Malzeme eklenirken bir hata oluştu, anahtar döndürülmedi.");
+                    }
+                }
+
             } else {
                 System.out.println("Malzeme ekleme başarısız oldu!");
-            }
-
-            // Otomatik üretilen anahtarları al
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                return generatedKeys.getInt(1); // Burada malzemeID döndürülür
-            } else {
-                throw new SQLException("Malzeme eklenirken bir hata oluştu, anahtar döndürülmedi.");
             }
 
         } catch (SQLException e) {
@@ -184,6 +189,7 @@ public class DatabaseConnection {
 
         return 0;
     }
+
 
     public static void deleteMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim) {
         String sql = "DELETE FROM malzemeler WHERE MalzemeAdi = ? ";
@@ -313,7 +319,7 @@ public class DatabaseConnection {
             return;
         }
 
-        String sql = "INSERT INTO MalzemeTarif (TarifID, MalzemeID, MalzemeMiktar) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO MalzemeTarif (TarifID, MalzemeidT, MalzemeMiktar) VALUES (?, ?, ?)";
         int id = -1;
 
         try (Connection conn = getConnection()) {
@@ -349,5 +355,40 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             System.err.println("Bağlantı hatası: " + e.getMessage());
         }
+    }
+
+    public static int TarifinMalzemesiniEkle(String MalzemeAdiT,float MalzemeMiktarT,String MalzemeBirimT,int MalzemeBirimFiyatT) {
+        String sql = "INSERT INTO TarifinMalzemeleri (MalzemeAdiT, MalzemeMiktarT, MalzemeBirimT,MalzemeBirimFiyatT) VALUES (?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             // Otomatik üretilen anahtarları almak için Statement.RETURN_GENERATED_KEYS kullanıyoruz
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setString(1, MalzemeAdiT);
+            pstmt.setFloat(2, MalzemeMiktarT);
+            pstmt.setString(3, MalzemeBirimT);
+            pstmt.setFloat(4, MalzemeBirimFiyatT);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Malzeme başarıyla eklendi! TarifinMalzemelerine");
+
+                // Otomatik üretilen anahtarları al
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Burada malzemeID döndürülür
+                    } else {
+                        throw new SQLException("Malzeme eklenirken bir hata oluştu, anahtar döndürülmedi.");
+                    }
+                }
+
+            } else {
+                System.out.println("Malzeme ekleme başarısız oldu!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -59,7 +59,7 @@ public class ItemController {
     public void setMalzemeData(Malzeme malzeme) {
         malzemeAdiLabel.setText(malzeme.getMalzemeAdi());
         malzemeMiktarLabel.setText(malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim());
-        malzemeID.setId(Integer.toString(malzeme.getMazemeID()));
+        malzemeID.setId(String.valueOf(malzeme.getMazemeID()));
     }
 
     @FXML
