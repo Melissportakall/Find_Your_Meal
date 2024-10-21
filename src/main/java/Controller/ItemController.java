@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ItemController {
@@ -48,6 +51,8 @@ public class ItemController {
 
     private Tarif tarif;
 
+    public static final List<Tarif> filtreliTariflerID = new ArrayList<>();
+
     public void setTarifData(Tarif tarif) {
         tarifLabel.setText(tarif.getTarifAdi());
         tarifKategori.setText(tarif.getKategori());
@@ -73,12 +78,35 @@ public class ItemController {
     }
 
     @FXML
-    public void CheckBoxAction() {
+    public void CheckBoxAction() throws SQLException {
         if (malzemeCheckBox.isSelected()) {
             System.out.println("CheckBox işaretlendi, malzemeID: " + malzemeID.getId());
-            GUI.updateFilteredTarifler(Integer.parseInt(malzemeID.getId()));
+
+            List<Tarif> tarifler = DatabaseConnection.MalzemeyeGoreTarif(Integer.parseInt(malzemeID.getId()));
+
+            for (Tarif tarif : tarifler) {
+                if (!filtreliTariflerID.contains(tarif)) {
+                    filtreliTariflerID.add(tarif);
+                    System.out.println(tarif.getTarifAdi() + " listeye eklendi.");
+                }
+            }
+
         } else {
             System.out.println("CheckBox işareti kaldırıldı, malzemeID: " + malzemeID.getId());
+
+            List<Tarif> tarifler = DatabaseConnection.MalzemeyeGoreTarif(Integer.parseInt(malzemeID.getId()));
+
+            for (Tarif tarif : tarifler) {
+                if (filtreliTariflerID.contains(tarif)) {
+                    filtreliTariflerID.remove(tarif);
+                    System.out.println(tarif.getTarifAdi() + " listeden çıkarıldı.");
+                }
+            }
+        }
+
+        System.out.println("Güncel filtrelenen tarifler: ");
+        for (Tarif tarif : filtreliTariflerID) {
+            System.out.println(tarif.getTarifAdi());
         }
     }
 }

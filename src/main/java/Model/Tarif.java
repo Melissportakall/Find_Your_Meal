@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Tarif {
     private int tarifID;
     private String tarifAdi;
@@ -7,17 +9,15 @@ public class Tarif {
     private int hazirlamaSuresi;
     private String talimatlar;
 
-    public Tarif(int tarifID,String tarifAdi,String kategori,int hazirlamaSuresi,String talimatlar){
-        this.tarifID=tarifID;
+    public Tarif(int tarifID, String tarifAdi, String kategori, int hazirlamaSuresi, String talimatlar) {
+        this.tarifID = tarifID;
         this.tarifAdi = tarifAdi;
         this.kategori = kategori;
-        this.hazirlamaSuresi=hazirlamaSuresi;
-        this.talimatlar=talimatlar;
+        this.hazirlamaSuresi = hazirlamaSuresi;
+        this.talimatlar = talimatlar;
     }
 
-    public Tarif()
-    { }
-
+    public Tarif() { }
 
     // Getter ve Setter metotları
     public int getTarifID() {
@@ -59,4 +59,19 @@ public class Tarif {
     public void setTalimatlar(String talimatlar) {
         this.talimatlar = talimatlar;
     }
+
+    // equals() ve hashCode() metotları
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tarif tarif = (Tarif) o;
+        return tarifID == tarif.tarifID; // Eşitlik kontrolü tarifID üzerinden yapılıyor
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tarifID); // hashCode hesaplaması da tarifID üzerinden yapılıyor
+    }
 }
+

@@ -99,8 +99,8 @@ public class GUI implements Initializable {
 
             for (Tarif tarif : tarifler) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
-                //fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                //fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -123,8 +123,8 @@ public class GUI implements Initializable {
 
             for (Malzeme malzeme : malzemeler) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
-                //fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
+                //fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -145,37 +145,53 @@ public class GUI implements Initializable {
 //===============TARİF ARAYAN METOT================
     @FXML
     public void searchButtonOnAction() {
-        String arananTarif = searchfield.getText().trim();
+        String arananTarif = searchfield.getText().trim().toLowerCase();
+        List<Tarif> aramaListesi;
 
-        Tarif bulunanTarif = DatabaseConnection.getTarifByName(arananTarif);
+        if (!ItemController.filtreliTariflerID.isEmpty()) {
+            aramaListesi = ItemController.filtreliTariflerID;
+            System.out.println("Filtreli tarif listesinde arama yapılıyor...");
+        } else {
+            aramaListesi = DatabaseConnection.getTarifler();
+            System.out.println("Tüm tarifler üzerinde arama yapılıyor...");
+        }
 
-        if (bulunanTarif != null) {
+        List<Tarif> bulunanTarifler = new ArrayList<>();
+
+        for (Tarif tarif : aramaListesi) {
+            if (tarif.getTarifAdi().trim().toLowerCase().contains(arananTarif)) {
+                bulunanTarifler.add(tarif);
+            }
+        }
+
+        if (!bulunanTarifler.isEmpty()) {
             System.out.println(arananTarif);
             System.out.println("Tarif bulundu!");
 
             grid.getChildren().clear();
 
-            List<Tarif> tarifList = DatabaseConnection.getTarifler();
+            int col = 0;
+            int row = 1;
 
-            for (Tarif tarif : tarifList) {
-                FXMLLoader loader = null;
+            for (Tarif bulunanTarif : bulunanTarifler) {
+                FXMLLoader loader;
                 try {
-                    loader = new FXMLLoader(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
-                    //loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
+                    //loader.setLocation(new File("/Users/melisportakal/Desktop/geritusu/src/main/resources/com/example/yazlabb/tarif_scene.fxml").toURI().toURL());
+                    loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                    AnchorPane tarifNode = loader.load();
+                    ItemController controller = loader.getController();
 
-                if(Objects.equals(tarif.getTarifAdi(), bulunanTarif.getTarifAdi()))
-                {
-                    try {
-                        Node tarifNode = loader.load();
-                        ItemController controller = loader.getController();
-                        controller.setTarifData(tarif);
-                        grid.add(tarifNode, 0, grid.getRowCount());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    controller.setTarifData(bulunanTarif);
+
+                    if (col == 3) {
+                        col = 0;
+                        row++;
                     }
+
+                    grid.add(tarifNode, col++, row);
+                    GridPane.setMargin(tarifNode, new Insets(10));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         } else {
@@ -186,8 +202,8 @@ public class GUI implements Initializable {
 //===================TIKLANDIĞINDA TARİFE GİDEN METOT=================
     public void showRecipeDetails(Tarif tarif, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/tarif_scene.fxml").toURI().toURL());
-        //loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml").toURI().toURL());
+        //loader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/tarif_scene.fxml").toURI().toURL());
+        loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml").toURI().toURL());
 
         Parent tarifView = loader.load();
 
@@ -211,15 +227,15 @@ public class GUI implements Initializable {
     @FXML
     public void goToMainMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/deneme.fxml").toURI().toURL());
-        //loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\deneme.fxml").toURI().toURL());
+        //loader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/deneme.fxml").toURI().toURL());
+        loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\deneme.fxml").toURI().toURL());
 
         Parent mainMenuView = loader.load();
 
         Scene scene = new Scene(mainMenuView);
 
-        String css = new File("/Users/melisportakal/Desktop/filtreleme/views/style.css").toURI().toURL().toExternalForm();
-        //String css = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\views\\style.css").toURI().toURL().toExternalForm();
+        //String css = new File("/Users/melisportakal/Desktop/filtreleme/views/style.css").toURI().toURL().toExternalForm();
+        String css = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\views\\style.css").toURI().toURL().toExternalForm();
 
         scene.getStylesheets().add(css);
 
@@ -586,8 +602,8 @@ public class GUI implements Initializable {
         for (int i = 0; i < tarifler.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
-                //fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                //fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -606,61 +622,4 @@ public class GUI implements Initializable {
             GridPane.setMargin(anchorPane, new Insets(10));
         }
     }
-
-//===============MALZEMEYE GÖRE FİLTRELEME BUTONU====================
-    public static void updateFilteredTarifler(int malzemeID) {
-
-        if (malzemeID != -1) {
-            try {
-                List<Tarif> tarifListesi = DatabaseConnection.MalzemeyeGoreTarif(malzemeID);
-
-                //mainMenu(tarifListesi);  BURASI SIKINTILI
-                for (Tarif tarif : tarifListesi) {
-                    System.out.println(tarif.getTarifAdi());
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Geçersiz malzemeID!");
-        }
-    }
-
-    @FXML
-    public void mainMenu(List<Tarif> tarifler) throws SQLException, IOException {
-        grid.getChildren().clear();
-
-        System.out.println("oldu1");
-
-        int col = 0;
-        int row = 1;
-
-        for (int i = 0; i < tarifler.size(); i++) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            try {
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/filtreleme/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
-                //fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\findoyurmeal\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-
-            AnchorPane anchorPane = fxmlLoader.load();
-
-            ItemController itemController = fxmlLoader.getController();
-            itemController.setTarifData(tarifler.get(i));
-
-            if (col == 3) {
-                col = 0;
-                row++;
-            }
-
-            grid.add(anchorPane, col++, row);
-            GridPane.setMargin(anchorPane, new Insets(10));
-
-            System.out.println("oldu2");
-        }
-    }
-//==========================YUKARISI SIKINTILI====================================
 }
-
-
