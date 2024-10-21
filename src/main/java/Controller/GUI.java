@@ -300,6 +300,7 @@ public class GUI implements Initializable {
 
                 DatabaseConnection.addMalzeme(malzemeAdi, toplamMiktar, malzemeBirim, birimFiyat);
                 showAlert("Malzeme başarıyla eklendi.");
+                updateMalzemeGridPane();
             }
 
 
@@ -308,7 +309,7 @@ public class GUI implements Initializable {
 
         dialog.showAndWait();
 
-        updateMalzemeGridPane();
+        //updateMalzemeGridPane();
     }
 
     //TARİF EKLEMEYİ GĞNCEKKEDİM
@@ -450,7 +451,7 @@ public class GUI implements Initializable {
 
     //================TARİF SİLEN METOT=====================
     @FXML
-    private void showRemoveTarifDialog() {
+    private void showRemoveTarifDialog() throws SQLException, IOException {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Tarif Sil");
         dialog.setHeaderText("Silmek İstediğiniz Tarifin Bilgilerini Girin");
@@ -493,7 +494,7 @@ public class GUI implements Initializable {
         });
 
         dialog.showAndWait();
-        //updateTarifGridPane(); ->>>>BURAYA BU METOTUN YAZILMASI LAZIM
+        mainMenu();
     }
 
 
@@ -555,12 +556,14 @@ public class GUI implements Initializable {
                 } catch (NumberFormatException e) {
                     System.out.println("hataa geldin");
                 }
+
+                updateMalzemeGridPane();
             }
             return null;
         });
 
         dialog.showAndWait();
-        updateMalzemeGridPane();
+        //updateMalzemeGridPane();
     }
 
 //================MALZEME EKLEYİP SİLDİKTEN SONRA PANELİ GÜNCELLEYEN METOT====================

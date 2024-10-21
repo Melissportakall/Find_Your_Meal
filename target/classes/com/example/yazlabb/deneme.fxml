@@ -129,14 +129,23 @@
                         <Separator prefHeight="0.0" prefWidth="510.0" />
                         <HBox prefHeight="38.0" prefWidth="539.0">
                            <children>
-                              <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" text="Ana Menü">
+                              <Button fx:id="backwardButton" mnemonicParsing="false" onAction="#mainMenu" prefHeight="28.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Ana Menü">
                                  <HBox.margin>
-                                    <Insets left="3.0" />
+                                    <Insets left="50.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#showAddTarifDialog" prefHeight="28.0" text="Tarif Ekle" />
-                              <Button mnemonicParsing="false" prefHeight="28.0" text="Tarif Düzenle" />
-                              <Button mnemonicParsing="false" onAction="#showRemoveTarifDialog" prefHeight="28.0" text="Tarif Sil" />
+                              <Button mnemonicParsing="false" onAction="#showAddTarifDialog" prefHeight="28.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Tarif Ekle">
+                                 <HBox.margin>
+                                    <Insets left="50.0" />
+                                 </HBox.margin></Button>
+                              <Button mnemonicParsing="false" prefHeight="28.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Tarif Düzenle">
+                                 <HBox.margin>
+                                    <Insets left="50.0" />
+                                 </HBox.margin></Button>
+                              <Button mnemonicParsing="false" onAction="#showRemoveTarifDialog" prefHeight="28.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Tarif Sil">
+                                 <HBox.margin>
+                                    <Insets left="50.0" />
+                                 </HBox.margin></Button>
                            </children>
                         </HBox>
                      </children>
