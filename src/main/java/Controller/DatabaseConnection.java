@@ -90,7 +90,7 @@ public class DatabaseConnection {
                 malzeme.setMalzemeAdi(resultSet.getString("MalzemeAdi"));
                 malzeme.setToplamMiktar(resultSet.getFloat("ToplamMiktar"));
                 malzeme.setMalzemeBirim(resultSet.getString("MalzemeBirim"));
-                malzeme.setMalzemeBirimFiyat(resultSet.getFloat("BirimFiyat"));
+                malzeme.setMalzemeBirimFiyat(resultSet.getInt("BirimFiyat"));
 
                 malzemeler.add(malzeme);
                 System.out.println(malzeme.getToplamMiktar());
@@ -153,8 +153,8 @@ public class DatabaseConnection {
     }
 
     // MALZEME EKLE
-    public static int addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, float BirimFiyat) {
-        String sql = "INSERT INTO malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
+    public static int addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, int BirimFiyat) {
+        String sql = "INSERT INTO Malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              // Otomatik üretilen anahtarları almak için Statement.RETURN_GENERATED_KEYS kullanıyoruz
@@ -293,19 +293,32 @@ public class DatabaseConnection {
 
 
     public static void deleteTarif(String tarifAdi) {
-        String sql = "DELETE FROM tarifler WHERE TarifAdi = ?";
+        String sql1 = "DELETE FROM tarifler WHERE TarifAdi = ?";
+        String sql2 = "DELETE FROM MalzemeTarif WHERE TarifAdi = ?";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = getConnection()) {
+            // İlk tabloyu silme işlemi
+            try (PreparedStatement pstmt1 = conn.prepareStatement(sql1)) {
+                pstmt1.setString(1, tarifAdi);
+                int rowsAffected1 = pstmt1.executeUpdate();
 
-            pstmt.setString(1, tarifAdi);
+                if (rowsAffected1 > 0) {
+                    System.out.println("Tarifler tablosundan tarif başarıyla silindi!");
+                } else {
+                    System.out.println("Tarifler tablosundan tarif silme başarısız oldu!");
+                }
+            }
 
-            int rowsAffected = pstmt.executeUpdate();
+            // İkinci tabloyu silme işlemi
+            try (PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+                pstmt2.setString(1, tarifAdi);
+                int rowsAffected2 = pstmt2.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Tarif başarıyla silindi!");
-            } else {
-                System.out.println("Tarif ekleme başarısız oldu!");
+                if (rowsAffected2 > 0) {
+                    System.out.println("Diger_tablo tablosundan tarif başarıyla silindi!");
+                } else {
+                    System.out.println("Diger_tablo tablosundan tarif silme başarısız oldu!");
+                }
             }
 
         } catch (SQLException e) {
@@ -313,13 +326,14 @@ public class DatabaseConnection {
         }
     }
 
+
     public static void addMalzemeToTarif(int tarifID, int malzemeID, float malzemeMiktar) {
         if (malzemeID <= 0) {
             System.out.println("Geçersiz MalzemeID: " + malzemeID);
             return;
         }
 
-        String sql = "INSERT INTO MalzemeTarif (TarifID, MalzemeidT, MalzemeMiktar) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO MalzemeTarif (TarifID, MalzemeID, MalzemeMiktar) VALUES (?, ?, ?)";
         int id = -1;
 
         try (Connection conn = getConnection()) {
@@ -392,3 +406,4 @@ public class DatabaseConnection {
         return 0;
     }
 }
+

@@ -10,7 +10,7 @@ public class Malzeme
 
     private String malzemeBirim;
 
-    private float malzemeBirimFiyat;
+    private int malzemeBirimFiyat;
 
     // Constructor yazdım buraya
     /*public Malzeme(int mazemeID, String malzemeAdi, float toplamMiktar, String malzemeBirim, float malzemeBirimFiyat) {
@@ -53,11 +53,11 @@ public class Malzeme
         this.malzemeBirim = malzemeBirim;
     }
 
-    public float getMalzemeBirimFiyat() {
+    public int getMalzemeBirimFiyat() {
         return malzemeBirimFiyat;
     }
 
-    public void setMalzemeBirimFiyat(float malzemeBirimFiyat) {
+    public void setMalzemeBirimFiyat(int malzemeBirimFiyat) {
         this.malzemeBirimFiyat = malzemeBirimFiyat;
     }
 
