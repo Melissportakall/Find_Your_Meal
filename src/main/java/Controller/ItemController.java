@@ -11,11 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +52,26 @@ public class ItemController {
     @FXML
     private Button malzemeEkleButton;
 
+    private Image img;
+
     private Tarif tarif;
 
     public static final List<Tarif> filtreliTariflerID = new ArrayList<>();
 
-    public void setTarifData(Tarif tarif) {
+    public void setTarifData(Tarif tarif) throws MalformedURLException {
         tarifLabel.setText(tarif.getTarifAdi());
         tarifKategori.setText(tarif.getKategori());
         tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
+
+        img = new Image(String.valueOf(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() +".jpg").toURI().toURL()));
+        ImageView imgView = new ImageView(img);
+        imgView.setFitHeight(100);
+        imgView.setFitWidth(100);
+        imgView.setPreserveRatio(true);
+
+        System.out.println(tarifLabel.getHeight() + " " + tarifLabel.getWidth());
+
+        tarifLabel.setGraphic(imgView);
 
         this.tarif = tarif;
     }

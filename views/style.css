@@ -24,6 +24,23 @@
     -fx-text-fill: black;
 }
 
+.button-with-image {
+    -fx-background-color: transparent; /* Butonun arka planı transparan */
+    -fx-border-color: transparent; /* Butonun kenarlığını kaldır */
+    -fx-padding: 0; /* İç boşlukları kaldır */
+}
+
+.button-with-image .text {
+    -fx-background-color: black; /* Yazı arka planı siyah */
+    -fx-text-fill: white; /* Yazı rengi beyaz */
+    -fx-padding: 5px; /* Yazı etrafında boşluk */
+    -fx-border-color: white; /* Beyaz kenarlık */
+    -fx-border-width: 2px; /* Kenarlık genişliği */
+    -fx-border-radius: 5px; /* Kenarları yuvarlat */
+    -fx-background-radius: 5px; /* Arka planı yuvarlat */
+    -fx-text-alignment: center; /* Metni ortala */
+}
+
 .separator-padding {
     -fx-padding: 20px 0px; /* Üstten ve alttan 20px boşluk, sağ ve soldan 0px */
 }
@@ -48,7 +65,7 @@
     -fx-border-radius: 15px;
     -fx-background-radius: 15px;
     -fx-prompt-text-fill: gray;
-    -fx-pref-width: 320px; /* Arama kutusunun sabit genişliği */
+    -fx-pref-width: 300px;
 }
 
 .search-button {

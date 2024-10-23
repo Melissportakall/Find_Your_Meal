@@ -14,7 +14,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("deneme.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 750, 700);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Yemekteyiz");
         stage.setScene(scene);
         stage.show();

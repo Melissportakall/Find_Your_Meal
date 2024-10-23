@@ -6,9 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="ecce793d-29b7-4077-ab25-78b35a116ada" name="Changes" comment="Tarifleri yeni ekranda açma ve ana menüye dönme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/ItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/yazlabb/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/yazlabb/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/item.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Controller/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/deneme.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/yazlabb/item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/yazlabb/item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +144,8 @@
       <workItem from="1729359979157" duration="9244000" />
       <workItem from="1729510781584" duration="986000" />
       <workItem from="1729678887951" duration="1956000" />
-      <workItem from="1729681066003" duration="545000" />
+      <workItem from="1729681066003" duration="3499000" />
+      <workItem from="1729717813917" duration="1365000" />
     </task>
     <task id="LOCAL-00001" summary="Menü düzenlemeleri">
       <option name="closed" value="true" />

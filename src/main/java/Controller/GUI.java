@@ -13,10 +13,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -34,7 +32,19 @@ public class GUI implements Initializable {
     private Button malzemeEkleButton;
 
     @FXML
+    private AnchorPane rootpane;
+
+    @FXML
     private Button malzemeSilButton;
+
+    @FXML
+    private BorderPane borderpane;
+
+    @FXML
+    private HBox hbox;
+
+    @FXML
+    private VBox vbox;
 
     @FXML
     private GridPane malzemeEkleGrid;
@@ -145,13 +155,7 @@ public class GUI implements Initializable {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
+        
     }
 
 //===============TARİF ARAYAN METOT================
