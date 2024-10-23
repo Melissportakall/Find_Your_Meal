@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -73,6 +74,10 @@ public class GUI implements Initializable {
 
     @FXML
     private Label seciliTarifTalimat;
+
+    @FXML
+    private ComboBox<String> ComboBox;
+
 
 
     private List<Tarif> tarifler;
@@ -140,6 +145,13 @@ public class GUI implements Initializable {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+
+
+
+
+
+
+
     }
 
 //===============TARİF ARAYAN METOT================
@@ -395,9 +407,9 @@ public class GUI implements Initializable {
                     yeniMalzeme.setToplamMiktar(Float.parseFloat(toplamMiktarField.getText()));
                     yeniMalzeme.setMalzemeBirim(malzemeBirimField.getText());
                     yeniMalzeme.setMalzemeBirimFiyat(Integer.parseInt(malzemeBirimFiyatField.getText()));
-
+                    //int sayi = 0;
                     // Malzemeyi veritabanına ekle ve geri dönen ID'yi al
-                    int mazemeIDT = DatabaseConnection.addMalzeme(yeniMalzeme.getMalzemeAdi(), yeniMalzeme.getToplamMiktar(), yeniMalzeme.getMalzemeBirim(), yeniMalzeme.getMalzemeBirimFiyat());
+                    int mazemeIDT = DatabaseConnection.addMalzeme(yeniMalzeme.getMalzemeAdi(), 0, yeniMalzeme.getMalzemeBirim(), yeniMalzeme.getMalzemeBirimFiyat());
                     if (mazemeIDT != -1) { // Hata yoksa
                         // Malzemeyi listeye ekle
                     yeniMalzeme.setMazemeID(mazemeIDT);
@@ -436,7 +448,7 @@ public class GUI implements Initializable {
 
                     showAlert("Tarif ve malzemeler başarıyla eklendi.");
                 } else {
-                    showAlert("Tarif eklenirken hata oluştu.");
+                    showAlert("Bu tarif zaten mevcut.");
                 }
             }
             return null;
@@ -626,5 +638,48 @@ public class GUI implements Initializable {
             grid.add(anchorPane, col++, row);
             GridPane.setMargin(anchorPane, new Insets(10));
         }
+    }
+
+    @FXML
+    public void ComboboxSort() throws SQLException {
+        List<Tarif> tarifler = getTarifler();
+
+        //COMBOBOX ÇALIŞMIYOR
+        ComboBox.getItems().addAll("Çoktan aza maliyet", "Azdan çoka maliyet", "Çoktan aza süre", "Azdan çoka süre", "Malzeme oranına göre");
+
+        ComboBox.setOnAction(event -> {
+            String selectedOption = ComboBox.getSelectionModel().getSelectedItem();
+            System.out.println(selectedOption);  //BUNU BİLE YAZDIRAMIYORUZ
+            if("Çoktan aza maliyet".equals(selectedOption)) {
+                System.out.println("a");
+            } else if ("Azdan çoka maliyet".equals(selectedOption)) {
+                System.out.println("b");
+            } else if ("Çoktan aza süre".equals(selectedOption)) {
+                System.out.println("c");
+                tarifler.sort(Comparator.comparingInt(Tarif::getHazirlamaSuresi).reversed());
+                System.out.println("Tarifler süreye göre çoktan aza sıralandı.");
+                //BURAYA TARİFLERİ TEKRAR EKRANA BASTIRAN KODU YAZICAZ
+            } else if ("Azdan çoka süre".equals(selectedOption)) {
+                System.out.println("d");
+                tarifler.sort(Comparator.comparingInt(Tarif::getHazirlamaSuresi));
+                System.out.println("Tarifler süreye göre azdan çoka sıralandı.");
+            }
+            else if("Malzeme oranına göre".equals(selectedOption)) {
+                System.out.println("e");
+
+            }
+            else if (selectedOption == null) {
+                System.out.println("Hiçbir seçenek seçilmedi.");
+
+            }
+        });
+
+        for(int i= 0; i < tarifler.size() ;i++)
+        {
+            System.out.println("Tarif Adi :" + tarifler.get(i).getTarifAdi() + "hazirlama süresi : " + tarifler.get(i).getHazirlamaSuresi());
+
+        };
+
+
     }
 }
