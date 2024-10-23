@@ -315,13 +315,10 @@ public class GUI implements Initializable {
                 updateMalzemeGridPane();
             }
 
-
             return null;
         });
 
         dialog.showAndWait();
-
-        //updateMalzemeGridPane();
     }
 
     //TARİF EKLEMEYİ GĞNCEKKEDİM
@@ -361,12 +358,9 @@ public class GUI implements Initializable {
 
         dialog.getDialogPane().setContent(gridPane);
 
-        // Malzemeleri tutacak bir liste oluştur
         List<Malzeme> malzemeListesi = new ArrayList<>();
 
-        // Malzeme ekleme butonunun işlevi
         dialog.getDialogPane().lookupButton(malzemeEkleButtonType).addEventFilter(ActionEvent.ACTION, event -> {
-            // Malzeme ekleme diyalogu aç
             Dialog<Malzeme> malzemeDialog = new Dialog<>();
             malzemeDialog.setTitle("Malzeme Ekle");
             malzemeDialog.setHeaderText("Malzeme Bilgilerini Girin");
@@ -408,10 +402,8 @@ public class GUI implements Initializable {
                     yeniMalzeme.setMalzemeBirim(malzemeBirimField.getText());
                     yeniMalzeme.setMalzemeBirimFiyat(Integer.parseInt(malzemeBirimFiyatField.getText()));
                     //int sayi = 0;
-                    // Malzemeyi veritabanına ekle ve geri dönen ID'yi al
                     int mazemeIDT = DatabaseConnection.addMalzeme(yeniMalzeme.getMalzemeAdi(), 0, yeniMalzeme.getMalzemeBirim(), yeniMalzeme.getMalzemeBirimFiyat());
-                    if (mazemeIDT != -1) { // Hata yoksa
-                        // Malzemeyi listeye ekle
+                    if (mazemeIDT != -1) {
                     yeniMalzeme.setMazemeID(mazemeIDT);
                         malzemeListesi.add(yeniMalzeme);
                         showAlert("Malzeme başarıyla eklendi.");
@@ -425,7 +417,7 @@ public class GUI implements Initializable {
             });
 
             malzemeDialog.showAndWait();
-            event.consume(); // Butonun varsayılan davranışını durdur
+            event.consume();
         });
 
         dialog.setResultConverter(dialogButton -> {
@@ -457,10 +449,6 @@ public class GUI implements Initializable {
         dialog.showAndWait();
         mainMenu();
     }
-
-
-
-
 
     //================TARİF SİLEN METOT=====================
     @FXML
@@ -670,19 +658,28 @@ public class GUI implements Initializable {
         }
     }
 
+//=====================SEÇENEKLE SIRALAMA===========================
     @FXML
     public void ComboBoxSort() throws SQLException, IOException {
-        List<Tarif> tarifler = getTarifler();
+        List<Tarif> tarifler;
 
-        //COMBOBOX ÇALIŞMIYOR
-        //ComboBox.getItems().addAll("Çoktan aza maliyet", "Azdan çoka maliyet", "Çoktan aza süre", "Azdan çoka süre", "Malzeme oranına göre");
+        if (!ItemController.filtreliTariflerID.isEmpty()) {
+            tarifler = ItemController.filtreliTariflerID;
+        } else {
+            tarifler = getTarifler();
+        }
 
         String selectedOption = ComboBox.getSelectionModel().getSelectedItem();
-        System.out.println(selectedOption);  //BUNU BİLE YAZDIRAMIYORUZ
+
+        //ÇOKTAN AZA MALİYET
         if("Çoktan aza maliyet".equals(selectedOption)) {
             System.out.println("a");
+
+        //AZDAN ÇOKA MALİYET
         } else if ("Azdan çoka maliyet".equals(selectedOption)) {
             System.out.println("b");
+
+        //ÇOKTAN AZA SÜRE
         } else if ("Çoktan aza süre".equals(selectedOption)) {
             System.out.println("c");
             tarifler.sort(Comparator.comparingInt(Tarif::getHazirlamaSuresi).reversed());
@@ -691,6 +688,8 @@ public class GUI implements Initializable {
                 System.out.println(tarif.getTarifAdi() + " süresi: " + tarif.getHazirlamaSuresi());
             }
             mainMenu(tarifler);
+
+        //AZDAN ÇOKA SÜRE
         } else if ("Azdan çoka süre".equals(selectedOption)) {
             System.out.println("d");
             tarifler.sort(Comparator.comparingInt(Tarif::getHazirlamaSuresi));
@@ -700,9 +699,13 @@ public class GUI implements Initializable {
             }
             mainMenu(tarifler);
         }
+
+        //MALZEME ORANINA GÖRE
         else if("Malzeme oranına göre".equals(selectedOption)) {
             System.out.println("e");
         }
+
+        //SEÇENEK SEÇİLMEDİ
         else if (selectedOption == null) {
             System.out.println("Hiçbir seçenek seçilmedi.");
         }

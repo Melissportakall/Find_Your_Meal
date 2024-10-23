@@ -153,46 +153,7 @@ public class DatabaseConnection {
         return tarif;
     }
 
-    /*
-    // MALZEME EKLE
-    public static int addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, int BirimFiyat) {
-        String sql = "INSERT INTO Malzemeler (MalzemeAdi, ToplamMiktar, MalzemeBirim, BirimFiyat) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = getConnection();
-             // Otomatik üretilen anahtarları almak için Statement.RETURN_GENERATED_KEYS kullanıyoruz
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            pstmt.setString(1, MalzemeAdi);
-            pstmt.setFloat(2, ToplamMiktar);
-            pstmt.setString(3, MalzemeBirim);
-            pstmt.setFloat(4, BirimFiyat);
-
-            int rowsAffected = pstmt.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println("Malzeme başarıyla eklendi!");
-
-                // Otomatik üretilen anahtarları al
-                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        return generatedKeys.getInt(1); // Burada malzemeID döndürülür
-                    } else {
-                        throw new SQLException("Malzeme eklenirken bir hata oluştu, anahtar döndürülmedi.");
-                    }
-                }
-
-            } else {
-                System.out.println("Malzeme ekleme başarısız oldu!");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
-    */
-
+    //MALZEME EKLE
     public static int addMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim, int BirimFiyat) {
         // Malzemenin var olup olmadığını kontrol eden SQL sorgusu
         String checkSql = "SELECT COUNT(*) FROM Malzemeler WHERE MalzemeAdi = ?";
@@ -248,9 +209,8 @@ public class DatabaseConnection {
         return 0;
     }
 
-    // Uyarı göstermek için kullanılacak basit bir metod
+    //UYARI
     private static void showAlert(String title, String message) {
-        // JavaFX Alert kullanabilirsiniz:
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -258,7 +218,7 @@ public class DatabaseConnection {
         alert.showAndWait();
     }
 
-
+    //MALZEME SİLME
     public static void deleteMalzeme(String MalzemeAdi, float ToplamMiktar, String MalzemeBirim) {
         String sql = "DELETE FROM malzemeler WHERE MalzemeAdi = ? ";
 
@@ -326,30 +286,25 @@ public class DatabaseConnection {
         return tarifListesi;
     }
 
+    //TARİF EKLE
     public static int addTarif(String tarifAdi, String kategori, int hazirlamaSuresi, String talimatlar) {
-        // Tarifin var olup olmadığını kontrol eden SQL sorgusu
         String checkSql = "SELECT COUNT(*) FROM tarifler WHERE TarifAdi = ?";
-        // Tarifi ekleyen SQL sorgusu
         String insertSql = "INSERT INTO tarifler (TarifAdi, Kategori, HazirlamaSuresi, Talimatlar) VALUES (?, ?, ?, ?)";
-        int tarifID = -1; // Başarısız durum için varsayılan değer
+        int tarifID = -1;
 
         try (Connection conn = getConnection();
-             // Önce tarifi kontrol etmek için PreparedStatement
              PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
 
-            // Tarifin adını kontrol et
             checkStmt.setString(1, tarifAdi);
             ResultSet rs = checkStmt.executeQuery();
             rs.next();
-            int count = rs.getInt(1); // Eğer tarif varsa, count > 0 olacaktır.
+            int count = rs.getInt(1);
 
             if (count > 0) {
-                // Eğer tarif veritabanında varsa, ekleme işlemi yapma
                 System.out.println("Tarif zaten mevcut! Ekleme işlemi durduruldu.");
-                return tarifID; // -1 olarak kalır ve tarif eklenmez.
+                return tarifID;
             }
 
-            // Eğer tarif veritabanında yoksa ekleme işlemini yap
             try (PreparedStatement pstmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
                 pstmt.setString(1, tarifAdi);
@@ -360,7 +315,6 @@ public class DatabaseConnection {
                 int rowsAffected = pstmt.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    // Eklenen tarifin ID'sini al
                     try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             tarifID = generatedKeys.getInt(1); // İlk sütun ID
@@ -377,16 +331,15 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
 
-        return tarifID; // Eklenen tarifin ID'sini döndür veya -1
+        return tarifID;
     }
 
-
+    //TARİF SİL
     public static void deleteTarif(String tarifAdi) {
         String sql1 = "DELETE FROM tarifler WHERE TarifAdi = ?";
         String sql2 = "DELETE FROM MalzemeTarif WHERE TarifAdi = ?";
 
         try (Connection conn = getConnection()) {
-            // İlk tabloyu silme işlemi
             try (PreparedStatement pstmt1 = conn.prepareStatement(sql1)) {
                 pstmt1.setString(1, tarifAdi);
                 int rowsAffected1 = pstmt1.executeUpdate();
@@ -398,7 +351,6 @@ public class DatabaseConnection {
                 }
             }
 
-            // İkinci tabloyu silme işlemi
             try (PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
                 pstmt2.setString(1, tarifAdi);
                 int rowsAffected2 = pstmt2.executeUpdate();
@@ -415,7 +367,7 @@ public class DatabaseConnection {
         }
     }
 
-
+    //TARİFTE EKLENEN MALZEMEYİ MALZEMELERE EKLE
     public static void addMalzemeToTarif(int tarifID, int malzemeID, float malzemeMiktar) {
         if (malzemeID <= 0) {
             System.out.println("Geçersiz MalzemeID: " + malzemeID);
@@ -460,10 +412,10 @@ public class DatabaseConnection {
         }
     }
 
+    //ANLAMADIM
     public static int TarifinMalzemesiniEkle(String MalzemeAdiT,float MalzemeMiktarT,String MalzemeBirimT,int MalzemeBirimFiyatT) {
         String sql = "INSERT INTO TarifinMalzemeleri (MalzemeAdiT, MalzemeMiktarT, MalzemeBirimT,MalzemeBirimFiyatT) VALUES (?, ?, ?, ?)";
         try (Connection conn = getConnection();
-             // Otomatik üretilen anahtarları almak için Statement.RETURN_GENERATED_KEYS kullanıyoruz
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, MalzemeAdiT);
@@ -476,10 +428,9 @@ public class DatabaseConnection {
             if (rowsAffected > 0) {
                 System.out.println("Malzeme başarıyla eklendi! TarifinMalzemelerine");
 
-                // Otomatik üretilen anahtarları al
                 try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        return generatedKeys.getInt(1); // Burada malzemeID döndürülür
+                        return generatedKeys.getInt(1);
                     } else {
                         throw new SQLException("Malzeme eklenirken bir hata oluştu, anahtar döndürülmedi.");
                     }
