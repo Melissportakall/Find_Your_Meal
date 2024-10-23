@@ -496,8 +496,7 @@ public class DatabaseConnection {
     }
 
     //TARİFİ MALZEME SAYISINA GÖRE SIRALAMAK İÇİN
-
-    public List<TarifMalzemeSayisi> getTarifMalzemeSayilari() throws SQLException {
+   /* public List<TarifMalzemeSayisi> getTarifMalzemeSayilari() throws SQLException {
         List<TarifMalzemeSayisi> tarifMalzemeSayilari = new ArrayList<>();
         String sql = "SELECT t.TarifID, COUNT(mt.MalzemeID) AS MalzemeSayisi FROM Tarif t LEFT JOIN MalzemeTarif mt ON t.TarifID = mt.TarifID GROUP BY t.TarifID";
 
@@ -513,7 +512,7 @@ public class DatabaseConnection {
         }
 
         return tarifMalzemeSayilari;
-    }
+    }*/
 
 }
 

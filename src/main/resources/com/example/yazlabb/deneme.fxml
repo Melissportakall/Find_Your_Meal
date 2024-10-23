@@ -87,7 +87,7 @@
                                  </rotationAxis>
                               </TextField>
                               <Button fx:id="searchbutton" mnemonicParsing="false" onAction="#searchButtonOnAction" prefHeight="33.0" prefWidth="73.0" styleClass="search-button" stylesheets="@../../../../../views/style.css" text="Ara" />
-                              <ComboBox fx:id="ComboBox" onAction="#ComboboxSort" prefHeight="32.0" prefWidth="89.0" promptText="Sıralama">
+                              <ComboBox fx:id="ComboBox" onAction="#ComboBoxSort" prefHeight="32.0" prefWidth="89.0" promptText="Sıralama">
                                  <effect>
                                     <DropShadow>
                                        <color>
