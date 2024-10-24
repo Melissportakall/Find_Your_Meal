@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -52,6 +53,18 @@ public class ItemController {
     @FXML
     private Button malzemeEkleButton;
 
+    @FXML
+    private CheckBox malzemeListeleCheckBox;
+
+    @FXML
+    private AnchorPane malzemeListeleID;
+
+    @FXML
+    private Label malzemeListeleLabel;
+
+    @FXML
+    private TextField malzemeListeleText;
+
     private Image img;
 
     private Tarif tarif;
@@ -63,8 +76,8 @@ public class ItemController {
         tarifKategori.setText(tarif.getKategori());
         tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
 
-        img = new Image(String.valueOf(new File("/Users/melisportakal/desktop/resimli/img" + tarif.getTarifID() +".jpg").toURI().toURL()));
-        //img = new Image(String.valueOf(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() +".jpg").toURI().toURL()));
+        //img = new Image(String.valueOf(new File("/Users/melisportakal/desktop/resimli/img" + tarif.getTarifID() +".jpg").toURI().toURL()));
+        img = new Image(String.valueOf(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() +".jpg").toURI().toURL()));
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(100);
         imgView.setFitWidth(100);
@@ -81,6 +94,12 @@ public class ItemController {
         malzemeAdiLabel.setText(malzeme.getMalzemeAdi());
         malzemeMiktarLabel.setText(malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim());
         malzemeID.setId(String.valueOf(malzeme.getMazemeID()));
+    }
+
+    public void setMalzemeListeleData(Malzeme malzeme) {
+        malzemeListeleLabel.setText(malzeme.getMalzemeAdi());
+        malzemeListeleID.setId(String.valueOf(malzeme.getMazemeID()));
+        malzemeListeleText.setVisible(false);
     }
 
     @FXML
@@ -123,6 +142,15 @@ public class ItemController {
         System.out.println("Güncel filtrelenen tarifler: ");
         for (Tarif tarif : filtreliTariflerID) {
             System.out.println(tarif.getTarifAdi());
+        }
+    }
+
+    @FXML
+    private void MalzemeListeleCheckBoxAction() {
+        if (malzemeListeleCheckBox.isSelected()) {
+            malzemeListeleText.setVisible(true);
+        } else {
+            malzemeListeleText.setVisible(false);
         }
     }
 }

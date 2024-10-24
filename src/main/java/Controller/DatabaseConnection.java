@@ -552,5 +552,42 @@ public class DatabaseConnection {
 
         return eksikMalzemeler; // Eksik malzemeleri döndür
     }
+
+    public static List<Tarif> KategoriBul(String Kategori)
+    {
+        String sql = "SELECT * From Tarifler  Where LOWER(Kategori) = LOWER(?)";
+        List<Tarif> tarifListesi = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            // Parametreyi ayarla
+            preparedStatement.setString(1, Kategori);
+
+            // Sorguyu çalıştır
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Sonuçları işleyerek listeye ekle
+            while (resultSet.next()) {
+                int tarifID = resultSet.getInt("TarifID"); // Tarif ID'sini al
+                String tarifAdi = resultSet.getString("TarifAdi"); // Tarif adını al
+                String kategoriSonuc = resultSet.getString("Kategori"); // Kategoriyi al
+                int HazirlamaSuresi = resultSet.getInt("HazırlamaSuresi"); // Malzemeleri al
+                String Talimatlar = resultSet.getString("Talimatlar");
+
+
+                // Tarif nesnesi oluştur ve listeye ekle
+                Tarif tarif = new Tarif(tarifID, tarifAdi, kategoriSonuc,HazirlamaSuresi, Talimatlar);
+                tarifListesi.add(tarif);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hata durumunda hata ayıklama mesajı yazdır
+        }
+
+        return tarifListesi;
+
+
+    }
 }
 
