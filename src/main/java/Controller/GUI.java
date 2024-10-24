@@ -360,7 +360,6 @@ public class GUI implements Initializable {
         ButtonType malzemeEkleButtonType = new ButtonType("Malzeme Ekle", ButtonBar.ButtonData.LEFT);
         dialog.getDialogPane().getButtonTypes().addAll(ekleButtonType, malzemeEkleButtonType, ButtonType.CANCEL);
 
-        // Sol taraf form için gridPane
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
@@ -385,7 +384,6 @@ public class GUI implements Initializable {
         gridPane.add(new Label("Talimatlar:"), 0, 3);
         gridPane.add(talimatlarField, 1, 3);
 
-        // Sağ tarafta malzeme listesini göstermek için yeni bir GridPane
         GridPane malzemeListele = new GridPane();
         malzemeListele.setHgap(10);
         malzemeListele.setVgap(10);
@@ -411,23 +409,20 @@ public class GUI implements Initializable {
             }
         }
 
-        // ScrollPane oluşturuyoruz ve malzemeListele GridPane'ini içine ekliyoruz
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(malzemeListele);  // GridPane ScrollPane'in içine koyuluyor
-        scrollPane.setFitToWidth(true);  // Yatayda GridPane'in genişliği ScrollPane'e uyacak
-        scrollPane.setPrefHeight(200);  // ScrollPane yüksekliği sabitleniyor
-        scrollPane.setPrefWidth(250);  // ScrollPane genişliği genişletildi
+        scrollPane.setContent(malzemeListele);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(200);
+        scrollPane.setPrefWidth(250);
 
-        // HBox oluşturuyoruz ve hem sol hem sağ taraftaki layout'ları ekliyoruz
-        HBox hbox = new HBox(10);  // Arada 10px boşluk olsun
-        hbox.getChildren().addAll(gridPane, scrollPane);  // Sol: form, Sağ: malzeme listesi ScrollPane içinde
-        hbox.setPadding(new Insets(10, 10, 10, 10));  // HBox padding
+        HBox hbox = new HBox(10);
+        hbox.getChildren().addAll(gridPane, scrollPane);
+        hbox.setPadding(new Insets(10, 10, 10, 10));
 
         dialog.getDialogPane().setContent(hbox);
 
         List<Malzeme> malzemeListesi = new ArrayList<>();
 
-        // Malzeme ekleme butonu için action handler
         dialog.getDialogPane().lookupButton(malzemeEkleButtonType).addEventFilter(ActionEvent.ACTION, event -> {
             Dialog<Malzeme> malzemeDialog = new Dialog<>();
             malzemeDialog.setTitle("Malzeme Ekle");
