@@ -8,7 +8,9 @@ import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/yazlab";
@@ -465,5 +467,90 @@ public class DatabaseConnection {
         return tarifMalzemeSayilari;
     }*/
 
+
+    public static int toplamMalzemeSayisi(int tarifID) {
+        // tarifID'ye göre malzeme sayısını almak için SQL sorgusu
+        String sql = "SELECT COUNT(malzemeID) AS malzemeSayisi FROM MalzemeTarif WHERE tarifID = ?";
+
+        int malzemeSayisi = 0; // Sonucu tutacak değişken
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            // tarifID parametresini ayarlama
+            preparedStatement.setInt(1, tarifID);
+
+            // Sorguyu çalıştırma ve sonuç alma
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Sonuç setinden malzeme sayısını alma
+            if (resultSet.next()) {
+                malzemeSayisi = resultSet.getInt("malzemeSayisi");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hata ayıklama için hata mesajını yazdır
+        }
+
+        return malzemeSayisi; // Sonucu döndür
+    }
+
+
+
+    public static Map<Integer, String> EksikMalzemeler(int tarifID) {
+        String sql = "SELECT m.malzemeID, m.malzemeAdi " +
+                "FROM MalzemeTarif tm " +
+                "JOIN Malzemeler m ON tm.malzemeID = m.malzemeID " +
+                "WHERE tm.tarifID = ? AND m.ToplamMiktar = 0";
+
+        Map<Integer, String> eksikMalzemeler = new HashMap<>();
+
+        // JDBC bağlantısını oluştur
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            System.out.println(tarifID);
+            // tarifID parametresini ayarlama
+            preparedStatement.setInt(1, tarifID);
+
+            // Sorguyu çalıştırma ve sonuç alma
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Sonuç setinden eksik malzemeleri alma
+            while (resultSet.next()) {
+                int malzemeID = resultSet.getInt("malzemeID"); // Malzeme ID'si
+                if(malzemeID == 0)
+                {
+                    malzemeID = 0;
+                }
+                String malzemeAdi = resultSet.getString("malzemeAdi"); // Malzeme adı
+                if(malzemeAdi == null)
+                {
+                    malzemeAdi = "";
+                }
+                eksikMalzemeler.put(malzemeID, malzemeAdi); // Map'e ekle
+
+            }
+
+            // Sorgu sonuçlarını yazdır
+            if (eksikMalzemeler.isEmpty()) {
+                System.out.println("Hiç eksik malzeme bulunamadı.");
+            } else {
+                System.out.println("Bulunan eksik malzemeler: " + eksikMalzemeler);
+            }
+
+            // Eksik malzemeleri yazdırma
+           /* for (Map.Entry<Integer, String> entry : eksikMalzemeler.entrySet()) {
+                Integer malzemeID = entry.getKey(); // Malzeme ID'si
+                String malzemeAdi = entry.getValue(); // Malzeme adı
+                System.out.println("Malzeme ID: " + malzemeID + ", Malzeme Adı: " + malzemeAdi);
+            }*/
+            //System.out.println("Tarif ID: " + tarifID + ", Eksik Malzeme Sayısı:db " + eksikMalzemeler.size());
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hata ayıklama için hata mesajını yazdır
+        }
+
+        return eksikMalzemeler; // Eksik malzemeleri döndür
+    }
 }
 

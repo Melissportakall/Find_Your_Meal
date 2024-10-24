@@ -63,7 +63,8 @@ public class ItemController {
         tarifKategori.setText(tarif.getKategori());
         tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
 
-        img = new Image(String.valueOf(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() +".jpg").toURI().toURL()));
+        img = new Image(String.valueOf(new File("/Users/melisportakal/desktop/resimli/img" + tarif.getTarifID() +".jpg").toURI().toURL()));
+        //img = new Image(String.valueOf(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() +".jpg").toURI().toURL()));
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(100);
         imgView.setFitWidth(100);
