@@ -364,7 +364,7 @@ public class GUI implements Initializable {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 150, 10, 10));
+        gridPane.setPadding(new Insets(20, 40, 10, 10));
 
         TextField tarifAdiField = new TextField();
         tarifAdiField.setPromptText("Tarif Adı");
@@ -391,8 +391,6 @@ public class GUI implements Initializable {
         malzemeListele.setVgap(10);
         malzemeListele.setPadding(new Insets(20, 20, 20, 20));
 
-        // Malzeme listesini sağ tarafta göstermek için bir Label
-        malzemeListele.add(new Label("Malzeme Listesi:"), 0, 0);
         List<Malzeme> malzemeler = getMalzemeler();
 
         int malzemeCol = 0;
