@@ -216,8 +216,8 @@ public class GUI implements Initializable {
                 //FXMLLoader loader = null;
                 FXMLLoader loader = new FXMLLoader();
                 try {
-                    loader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/tarif_scene.fxml").toURI().toURL());
-                    //loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
+                    //loader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                    loader = new FXMLLoader(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
                     AnchorPane tarifNode = loader.load();
                     ItemController controller = loader.getController();
 
