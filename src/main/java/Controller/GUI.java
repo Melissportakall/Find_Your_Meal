@@ -113,11 +113,14 @@ public class GUI implements Initializable {
             for (Tarif tarif : tarifler) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
 
-                if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL() != null) {
-                    fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
-                } else {
-                    fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml");
+
+                if (!filePath.exists()) {
+                    filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml");
                 }
+
+                fxmlLoader.setLocation(filePath.toURI().toURL());
+
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -141,11 +144,14 @@ public class GUI implements Initializable {
             for (Malzeme malzeme : malzemeler) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
 
-                if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL() != null) {
-                    fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
-                } else {
-                    fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
+                File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml");
+
+                if (!filePath.exists()) {
+                    filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/malzeme_item.fxml");
                 }
+
+                fxmlLoader.setLocation(filePath.toURI().toURL());
+
 
                 AnchorPane anchorPane = fxmlLoader.load();
 
@@ -224,11 +230,14 @@ public class GUI implements Initializable {
                 //FXMLLoader loader = null;
                 FXMLLoader loader = new FXMLLoader();
                 try {
-                    if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL() != null) {
-                        loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
-                    } else {
-                        loader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                    File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml");
+
+                    if (!filePath.exists()) {
+                        filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml");
                     }
+
+                    loader.setLocation(filePath.toURI().toURL());
+
 
                     AnchorPane tarifNode = loader.load();
                     ItemController controller = loader.getController();
@@ -255,11 +264,14 @@ public class GUI implements Initializable {
     public void showRecipeDetails(Tarif tarif, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
-        if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml").toURI().toURL() != null) {
-            loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml").toURI().toURL());
-        } else {
-            loader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/tarif_scene.fxml").toURI().toURL());
+        File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml");
+
+        if (!filePath.exists()) {
+            filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/tarif_scene.fxml");
         }
+
+        loader.setLocation(filePath.toURI().toURL());
+
 
 
         Parent tarifView = loader.load();
@@ -285,11 +297,14 @@ public class GUI implements Initializable {
     public void goToMainMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
-        if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\deneme.fxml").toURI().toURL() != null) {
-            loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\deneme.fxml").toURI().toURL());
-        } else {
-            loader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/deneme.fxml").toURI().toURL());
+        File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\deneme.fxml");
+
+        if (!filePath.exists()) {
+            filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/deneme.fxml");
         }
+
+        loader.setLocation(filePath.toURI().toURL());
+
 
         Parent mainMenuView = loader.load();
 
@@ -297,11 +312,14 @@ public class GUI implements Initializable {
 
         String css;
 
-        if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\views\\style.css").toURI().toURL().toExternalForm() != null) {
-            css = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\views\\style.css").toURI().toURL().toExternalForm();
-        } else {
-            css = new File("/Users/melisportakal/Desktop/resimli/views/style.css").toURI().toURL().toExternalForm();
+        File cssFile = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\views\\style.css");
+
+        if (!cssFile.exists()) {
+            cssFile = new File("/Users/melisportakal/Desktop/resimli/views/style.css");
         }
+
+        css = cssFile.toURI().toURL().toExternalForm();
+
 
         scene.getStylesheets().add(css);
 
@@ -423,11 +441,14 @@ public class GUI implements Initializable {
         for (Malzeme malzeme : malzemeler) {
             FXMLLoader fxmlLoader = new FXMLLoader();
 
-            if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item_tarif_ekleme.fxml").toURI().toURL() != null) {
-                fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item_tarif_ekleme.fxml").toURI().toURL());
-            } else {
-                fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/malzeme_item_tarif_ekleme.fxml").toURI().toURL());
+            File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item_tarif_ekleme.fxml");
+
+            if (!filePath.exists()) {
+                filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/malzeme_item_tarif_ekleme.fxml");
             }
+
+            fxmlLoader.setLocation(filePath.toURI().toURL());
+
 
             AnchorPane anchorPane = fxmlLoader.load();
 
@@ -666,13 +687,16 @@ public class GUI implements Initializable {
         List<Malzeme> malzemeList = DatabaseConnection.getMalzemeler();
 
         for (Malzeme malzeme : malzemeList) {
-            FXMLLoader loader = null;
+            FXMLLoader loader = new FXMLLoader();
             try {
-                if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL() != null) {
-                    loader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml").toURI().toURL());
-                } else {
-                    loader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/malzeme_item.fxml").toURI().toURL());
+                File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml");
+
+                if (!filePath.exists()) {
+                    filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/malzeme_item.fxml");
                 }
+
+                loader.setLocation(filePath.toURI().toURL());
+
 
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
@@ -701,11 +725,14 @@ public class GUI implements Initializable {
         for (int i = 0; i < tarifler.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL() != null) {
-                    fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
-                } else {
-                    fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml");
+
+                if (!filePath.exists()) {
+                    filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml");
                 }
+
+                fxmlLoader.setLocation(filePath.toURI().toURL());
+
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -735,11 +762,14 @@ public class GUI implements Initializable {
         for (int i = 0; i < tarifler.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                if (new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL() != null) {
-                    fxmlLoader.setLocation(new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml").toURI().toURL());
-                } else {
-                    fxmlLoader.setLocation(new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml").toURI().toURL());
+                File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml");
+
+                if (!filePath.exists()) {
+                    filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml");
                 }
+
+                fxmlLoader.setLocation(filePath.toURI().toURL());
+
 
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
