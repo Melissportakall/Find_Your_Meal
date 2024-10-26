@@ -589,5 +589,28 @@ public class DatabaseConnection {
 
 
     }
+
+
+    //TARİF GÜNCELLEMEK İÇİN
+    public static void updateTarif(Tarif tarif) throws SQLException {
+        String sql = "UPDATE tarifler SET Kategori = ?, HazirlamaSuresi = ?, Talimatlar = ? WHERE TarifID = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tarif.getKategori());           // 1. parametre: kategori
+            pstmt.setInt(2, tarif.getHazirlamaSuresi());       // 2. parametre: hazirlama_suresi
+            pstmt.setString(3, tarif.getTalimatlar());         // 3. parametre: talimatlar
+            pstmt.setInt(4, tarif.getTarifID());               // 4. parametre: id
+
+
+            // Güncelleme işlemini gerçekleştir
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Güncelleme başarısız oldu, hiçbir kayıt etkilenmedi.");
+            }
+        }
+    }
 }
 

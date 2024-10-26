@@ -136,7 +136,7 @@
                               <Insets left="50.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="28.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Tarif Düzenle">
+                        <Button mnemonicParsing="false" onAction="#TarifGuncelle" prefHeight="28.0" styleClass="malzeme-ekle-btn" stylesheets="@../../../../../views/style.css" text="Tarif Düzenle">
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
