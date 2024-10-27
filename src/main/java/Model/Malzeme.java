@@ -12,20 +12,11 @@ public class Malzeme
 
     private int malzemeBirimFiyat;
 
-    // Constructor yazdım buraya
-    /*public Malzeme(int mazemeID, String malzemeAdi, float toplamMiktar, String malzemeBirim, float malzemeBirimFiyat) {
-        this.mazemeID = mazemeID;
-        this.malzemeAdi = malzemeAdi;
-        this.toplamMiktar = toplamMiktar;
-        this.malzemeBirim = malzemeBirim;
-        this.malzemeBirimFiyat = malzemeBirimFiyat;
-    }*/
-
     public int getMazemeID() {
         return mazemeID;
     }
 
-    public void setMazemeID(int mazemeID) {
+    public void setMalzemeID(int mazemeID) {
         this.mazemeID = mazemeID;
     }
 

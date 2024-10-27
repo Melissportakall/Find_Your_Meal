@@ -1,19 +1,21 @@
 package Model;
 
+import javafx.scene.control.Label;
+
+import java.util.List;
 import java.util.Map;
 
 
 public class TarifBilgileri {
-    private Map<Integer, String> eksikMalzemeMap;
+    private List<Malzeme> eksikMalzemeler;
     private int tarifId;
     private int malzemeSayisi;
-    private Map<Integer, String> eksikMalzemeler;
 
     // Constructor
-    public TarifBilgileri(int tarifId, int malzemeSayisi, Map<Integer, String> eksikMalzemeler) {
+    public TarifBilgileri(int tarifId, int malzemeSayisi, List<Malzeme> eksikMalzemeler) {
         this.tarifId = tarifId;
         this.malzemeSayisi = malzemeSayisi;
-        this.eksikMalzemeMap = eksikMalzemeler;
+        this.eksikMalzemeler = eksikMalzemeler;
     }
 
     // Getter ve Setter metotları
@@ -33,12 +35,12 @@ public class TarifBilgileri {
         this.malzemeSayisi = malzemeSayisi;
     }
 
-    public Map<Integer, String> getEksikMalzemeler() {
+    public List<Malzeme> getEksikMalzemeler() {
         return eksikMalzemeler;
     }
 
-    public void setEksikMalzemeler(Map<Integer, String> eksikMalzemeler) {
-        this.eksikMalzemeMap = eksikMalzemeler;
+    public void setEksikMalzemeler(List<Malzeme> malzemeler) {
+        this.eksikMalzemeler = malzemeler;
     }
 
 }

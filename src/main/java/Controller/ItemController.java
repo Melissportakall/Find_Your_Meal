@@ -65,11 +65,16 @@ public class ItemController {
     @FXML
     private TextField malzemeListeleText;
 
+    @FXML
+    private Label malzemeListeleBirim;
+
     private Image img;
 
     private Tarif tarif;
 
     public static final List<Tarif> filtreliTariflerID = new ArrayList<>();
+
+    public static final List<Malzeme> seciliMalzemeler = new ArrayList<>();
 
     public void setTarifData(Tarif tarif) throws MalformedURLException {
         tarifLabel.setText(tarif.getTarifAdi());
@@ -101,7 +106,8 @@ public class ItemController {
     public void setMalzemeListeleData(Malzeme malzeme) {
         malzemeListeleLabel.setText(malzeme.getMalzemeAdi());
         malzemeListeleID.setId(String.valueOf(malzeme.getMazemeID()));
-        malzemeListeleText.setVisible(false);
+        malzemeListeleBirim.setText(malzeme.getMalzemeBirim());
+        malzemeListeleBirim.setId(Integer.toString(malzeme.getMazemeID()));
     }
 
     @FXML
@@ -151,8 +157,22 @@ public class ItemController {
     private void MalzemeListeleCheckBoxAction() {
         if (malzemeListeleCheckBox.isSelected()) {
             malzemeListeleText.setVisible(true);
+
+            Malzeme malzeme = new Malzeme();
+            malzeme.setMalzemeID(Integer.parseInt(malzemeListeleID.getId()));
+            malzeme.setMalzemeAdi(malzemeListeleLabel.getText());
+            malzeme.setMalzemeBirim(malzemeListeleBirim.getText());
+            malzeme.setMalzemeBirimFiyat(Integer.parseInt(malzemeListeleBirim.getId()));
+            malzeme.setToplamMiktar(Float.parseFloat(malzemeListeleText.getText()));
+
+            seciliMalzemeler.add(malzeme);
+            System.out.print("Seçilen malzemeler: ");
+            for (Malzeme malzeme1 : seciliMalzemeler) {
+                System.out.println(malzeme1.getMalzemeAdi() + " " + malzeme1.getToplamMiktar() + " " + malzeme1.getMalzemeBirim() + " ");
+            }
         } else {
-            malzemeListeleText.setVisible(false);
+            int malzemeID = Integer.parseInt(malzemeListeleID.getId());
+            seciliMalzemeler.removeIf(malz -> malz.getMazemeID() == malzemeID);
         }
     }
 

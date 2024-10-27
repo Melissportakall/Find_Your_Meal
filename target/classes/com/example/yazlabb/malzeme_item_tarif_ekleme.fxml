@@ -6,13 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="malzemeListeleID" prefHeight="39.0" prefWidth="195.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ItemController">
+<AnchorPane fx:id="malzemeListeleID" prefHeight="39.0" prefWidth="202.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ItemController">
     <children>
-        <Label fx:id="malzemeListeleLabel" layoutX="13.0" layoutY="5.0" prefHeight="31.0" prefWidth="84.0" text="Malzeme Adı" textAlignment="CENTER">
+        <Label fx:id="malzemeListeleLabel" layoutX="10.0" layoutY="5.0" prefHeight="31.0" prefWidth="84.0" text="Malzeme Adı" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="13.0" />
             </font></Label>
-        <CheckBox fx:id="malzemeListeleCheckBox" layoutX="171.0" layoutY="11.0" mnemonicParsing="false" onAction="#MalzemeListeleCheckBoxAction" />
-      <TextField fx:id="malzemeListeleText" layoutX="104.0" layoutY="7.0" prefHeight="25.0" prefWidth="55.0" promptText="Miktar" />
+        <CheckBox fx:id="malzemeListeleCheckBox" layoutX="178.0" layoutY="11.0" mnemonicParsing="false" onAction="#MalzemeListeleCheckBoxAction" />
+      <TextField fx:id="malzemeListeleText" layoutX="96.0" layoutY="8.0" prefHeight="25.0" prefWidth="47.0" promptText="Miktar" />
+      <Label fx:id="malzemeListeleBirim" layoutX="147.0" layoutY="12.0" text="Birim" />
     </children>
 </AnchorPane>
