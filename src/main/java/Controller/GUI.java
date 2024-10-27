@@ -639,6 +639,70 @@ public class GUI implements Initializable {
         mainMenu();
     }
 
+    // Seçilen tarifin detaylarını düzenleyebileceğiniz bir Dialog
+    private void showTarifDuzenleDialog(Tarif tarif) throws SQLException, IOException {
+        Dialog<Void> duzenleDialog = new Dialog<>();
+        duzenleDialog.setTitle("Tarif Düzenleme");
+        duzenleDialog.setHeaderText("Tarifi Düzenle: " + tarif.getTarifAdi());
+
+        // Tarif bilgilerini göstermek için TextField'ler ekleyelim
+        TextField maliyetField = new TextField(String.valueOf(tarif.getKategori()));
+        TextField sureField = new TextField(String.valueOf(tarif.getHazirlamaSuresi()));
+        TextArea talimatlarArea = new TextArea(tarif.getTalimatlar());
+        talimatlarArea.setWrapText(true); // Metni satır içinde kaydır
+        talimatlarArea.setPrefWidth(300); // Genişlik
+        talimatlarArea.setPrefHeight(100); // Yükseklik ayarlayın
+
+        // Düzenleme ekranını GridPane ile oluştur
+        GridPane grid = new GridPane();
+        grid.setHgap(50);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 40, 10));
+
+        grid.add(new Label("Maliyet:"), 0, 0);
+        grid.add(maliyetField, 1, 0);
+        grid.add(new Label("Süre:"), 0, 1);
+        grid.add(sureField, 1, 1);
+        grid.add(new Label("Talimatlar:"), 0, 2);
+        grid.add(talimatlarArea, 1, 2);
+
+        duzenleDialog.getDialogPane().setContent(grid);
+
+        // Güncelle butonu ekle
+        ButtonType kaydetButtonType = new ButtonType("Kaydet", ButtonBar.ButtonData.OK_DONE);
+        duzenleDialog.getDialogPane().getButtonTypes().addAll(kaydetButtonType, ButtonType.CANCEL);
+
+        // Kaydet butonuna basıldığında bilgileri güncelle
+        duzenleDialog.setResultConverter(dialogButton -> {
+            if (dialogButton == kaydetButtonType) {
+
+                // Güncellenen değerleri tarif nesnesine set et
+                tarif.setKategori((maliyetField.getText()));
+                tarif.setHazirlamaSuresi(Integer.parseInt(sureField.getText()));
+                tarif.setTalimatlar((talimatlarArea.getText()));
+
+                // Veritabanında güncelleme yap
+                try {
+                    DatabaseConnection.updateTarif(tarif);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Başarılı");
+                alert.setHeaderText(null);
+                alert.setContentText("Tarif başarıyla güncellendi.");
+                alert.showAndWait();
+
+            }
+            return null;
+        });
+
+        // Düzenleme dialogunu göster
+        duzenleDialog.showAndWait();
+        mainMenu();
+    }
+
     //================MALZEME SİLEN METOT=====================
     @FXML
     private void showRemoveMalzemeDialog() {
@@ -958,4 +1022,5 @@ public class GUI implements Initializable {
             }
         }
     }
+
 }

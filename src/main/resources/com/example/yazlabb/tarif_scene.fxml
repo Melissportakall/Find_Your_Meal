@@ -35,7 +35,7 @@
                   <Insets left="40.0" />
                </padding>
             </Label>
-            <GridPane fx:id="seciliTarifMalzeme">
+            <GridPane fx:id="seciliTarifMalzeme" vgap="5.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -45,6 +45,9 @@
                <padding>
                   <Insets left="40.0" />
                </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </GridPane>
             <Separator prefWidth="200.0">
                <VBox.margin>

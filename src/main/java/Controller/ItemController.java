@@ -78,12 +78,17 @@ public class ItemController {
 
     public void setTarifData(Tarif tarif) throws MalformedURLException {
         tarifLabel.setText(tarif.getTarifAdi());
-        tarifKategori.setText(tarif.getKategori());
+        tarifKategori.setText(tarif.getToplamMaliyet() + " TL");
         tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
 
 
-            img = new Image(String.valueOf(new File("/Users/melisportakal/desktop/iyilestirmelermis/img" + tarif.getTarifID() +".jpg").toURI().toURL()));
+        File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() + ".jpg");
 
+        if (!filePath.exists()) {
+            filePath = new File("/Users/melisportakal/desktop/iyilestirmelermis/img/" + tarif.getTarifID() + ".jpg");
+        }
+
+        img = new Image(filePath.toURI().toURL().toExternalForm());
 
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(100);
