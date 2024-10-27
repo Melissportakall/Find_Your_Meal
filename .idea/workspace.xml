@@ -6,14 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ecce793d-29b7-4077-ab25-78b35a116ada" name="Changes" comment="Tarifleri yeni ekranda açma ve ana menüye dönme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/ItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Tarif.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Tarif.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/DatabaseConnection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Controller/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Controller/ItemController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +141,7 @@
       <workItem from="1729859757989" duration="513000" />
       <workItem from="1729865073129" duration="2178000" />
       <workItem from="1729929836811" duration="7939000" />
-      <workItem from="1730030284091" duration="19835000" />
+      <workItem from="1730030284091" duration="20533000" />
     </task>
     <task id="LOCAL-00001" summary="Menü düzenlemeleri">
       <option name="closed" value="true" />

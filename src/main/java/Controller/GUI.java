@@ -576,12 +576,20 @@ public class GUI implements Initializable {
                 String kategori = kategoriField.getText();
                 String talimatlar = talimatlarField.getText();
 
-                int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
-                if (tarifID != -1) {
-                    addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
-                    showAlert("Tarif ve malzemeler başarıyla eklendi.");
-                } else {
-                    showAlert("Bu tarif zaten mevcut.");
+                try {
+                    if (DatabaseConnection.tarifVarMi(tarifAdi)) {
+                        showAlert("Bu tarif zaten mevcut.");
+                    } else {
+                        int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
+                        if (tarifID != -1) {
+                            addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
+                            showAlert("Tarif ve malzemeler başarıyla eklendi.");
+                        } else {
+                            showAlert("Bu tarif zaten mevcut.");
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
             }
             return null;
