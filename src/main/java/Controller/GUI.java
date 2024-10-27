@@ -885,7 +885,59 @@ public class GUI implements Initializable {
         }
     }
 
-//=====================SEÇENEKLE SIRALAMA===========================
+    @FXML
+    public void mainMenu(List<Tarif> tarifler, Map<Tarif, List<Malzeme>> eksikTarifler) throws IOException {
+        grid.getChildren().clear();
+
+        int col = 0;
+        int row = 1;
+
+        for (int i = 0; i < tarifler.size(); i++) {
+            Tarif currentTarif = tarifler.get(i);
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            try {
+                File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\item.fxml");
+
+                if (!filePath.exists()) {
+                    filePath = new File("/Users/melisportakal/Desktop/resimli/src/main/resources/com/example/yazlabb/item.fxml");
+                }
+
+                fxmlLoader.setLocation(filePath.toURI().toURL());
+
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            ItemController itemController = fxmlLoader.getController();
+            itemController.setTarifData(currentTarif);
+
+            if (eksikTarifler.containsKey(currentTarif)) {
+                itemController.getTarifLabel().setStyle("-fx-text-fill: red;");
+                itemController.getTarifKategori().setStyle("-fx-text-fill: red;");
+                itemController.getTarifSure().setStyle("-fx-text-fill: red;");
+                itemController.getTarifOran().setStyle("-fx-text-fill: red");
+            } else {
+                itemController.getTarifLabel().setStyle("-fx-text-fill: green;");
+                itemController.getTarifKategori().setStyle("-fx-text-fill: green;");
+                itemController.getTarifSure().setStyle("-fx-text-fill: green;");
+                itemController.getTarifOran().setStyle("-fx-text-fill: green");
+            }
+
+            if (col == 3) {
+                col = 0;
+                row++;
+            }
+
+            grid.add(anchorPane, col++, row);
+            GridPane.setMargin(anchorPane, new Insets(10));
+        }
+    }
+
+
+    //=====================SEÇENEKLE SIRALAMA===========================
     @FXML
     public void ComboBoxSort() throws SQLException, IOException {
         List<Tarif> tarifler;
@@ -931,9 +983,10 @@ public class GUI implements Initializable {
         //MALZEME ORANINA GÖRE
         else if ("Malzeme oranına göre".equals(selectedOption)) {
             List<TarifBilgileri> tarifbilgileri = new ArrayList<>();
+            Map<Tarif, List<Malzeme>> eksikTarifler = new HashMap<>();
 
-            for (int i = 0; i < tarifler.size(); i++) {
-                int tarifID = tarifler.get(i).getTarifID();
+            for (Tarif tarif : tarifler) {
+                int tarifID = tarif.getTarifID();
 
                 int malzemeSayisi = DatabaseConnection.toplamMalzemeSayisi(tarifID);
                 List<Malzeme> eksikMalzemeler = DatabaseConnection.EksikMalzemeler(tarifID);
@@ -941,8 +994,8 @@ public class GUI implements Initializable {
                 TarifBilgileri tarifBilgi = new TarifBilgileri(tarifID, malzemeSayisi, eksikMalzemeler);
                 tarifbilgileri.add(tarifBilgi);
 
-                for (Malzeme malzeme : tarifBilgi.getEksikMalzemeler()) {
-                    System.out.println("Eksik malzeme: " + malzeme.getMalzemeAdi());
+                if (!eksikMalzemeler.isEmpty()) {
+                    eksikTarifler.put(tarif, eksikMalzemeler);
                 }
             }
 
@@ -990,7 +1043,7 @@ public class GUI implements Initializable {
                 }*/
             }
 
-            mainMenu(sortedTarifler);
+            mainMenu(sortedTarifler, eksikTarifler);
         }
 
         //SEÇENEK SEÇİLMEDİ
@@ -1030,5 +1083,4 @@ public class GUI implements Initializable {
             }
         }
     }
-
 }

@@ -36,6 +36,9 @@ public class ItemController {
     private Button tarifSure;
 
     @FXML
+    private Button tarifOran;
+
+    @FXML
     private Label malzemeAdiLabel;
 
     @FXML
@@ -79,8 +82,11 @@ public class ItemController {
     public void setTarifData(Tarif tarif) throws MalformedURLException {
         tarifLabel.setText(tarif.getTarifAdi());
         tarifKategori.setText(tarif.getToplamMaliyet() + " TL");
-        tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
 
+        double oran = tarifOranHesapla(tarif);
+        tarifOran.setText(String.format("%.1f%%", oran));
+
+        tarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
 
         File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() + ".jpg");
 
@@ -95,12 +101,11 @@ public class ItemController {
         imgView.setFitWidth(100);
         imgView.setPreserveRatio(true);
 
-        System.out.println(tarifLabel.getHeight() + " " + tarifLabel.getWidth());
-
         tarifLabel.setGraphic(imgView);
 
         this.tarif = tarif;
     }
+
 
     public void setMalzemeData(Malzeme malzeme) {
         malzemeAdiLabel.setText(malzeme.getMalzemeAdi());
@@ -181,5 +186,41 @@ public class ItemController {
         }
     }
 
+    public double tarifOranHesapla(Tarif tarif) {
+        double tarifToplamMaliyet = tarif.getToplamMaliyet();
+        List<Malzeme> mevcutMalzemeler = DatabaseConnection.getMalzemeler();
+        System.out.println("Tarifin Toplam Maliyeti: " + tarifToplamMaliyet);
 
+        double mevcutMaliyet = mevcutMalzemeler.stream()
+                .mapToDouble(malzeme -> {
+                    double birimFiyat = malzeme.getMalzemeBirimFiyat();
+                    double miktar = malzeme.getToplamMiktar();
+                    System.out.println("Malzeme ID: " + malzeme.getMazemeID() + ", Birim Fiyat: " + birimFiyat + ", Miktar: " + miktar);
+                    return birimFiyat * miktar;
+                })
+                .sum();
+
+        System.out.println("Mevcut Maliyet: " + mevcutMaliyet);
+
+        if (mevcutMaliyet == 0) return 0;
+        if (mevcutMaliyet >= tarifToplamMaliyet) return 100;
+
+        return (mevcutMaliyet / tarifToplamMaliyet) * 100;
+    }
+
+    public Button getTarifLabel() {
+        return tarifLabel;
+    }
+
+    public Button getTarifKategori() {
+        return tarifKategori;
+    }
+
+    public Button getTarifSure() {
+        return tarifSure;
+    }
+
+    public Button getTarifOran() {
+        return tarifOran;
+    }
 }

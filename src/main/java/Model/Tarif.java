@@ -104,7 +104,6 @@ public class Tarif {
                 int malzemeID = resultSet.getInt("MalzemeID");
                 float malzemeMiktar = resultSet.getFloat("MalzemeMiktar");
 
-                // Malzeme tablosundan malzeme bilgilerini al
                 Malzeme malzeme = getMalzemeById(malzemeID);
                 if (malzeme != null) {
                     malzeme.setToplamMiktar(malzemeMiktar);

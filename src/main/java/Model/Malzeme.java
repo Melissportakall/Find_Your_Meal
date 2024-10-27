@@ -52,7 +52,5 @@ public class Malzeme
         this.malzemeBirimFiyat = malzemeBirimFiyat;
     }
 
-
-
 }
 
