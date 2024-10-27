@@ -505,16 +505,25 @@ public class GUI implements Initializable {
                 String kategori = kategoriField.getText();
                 String talimatlar = talimatlarField.getText();
 
-                int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
-                if (tarifID != -1) {
-                    for (Malzeme TarifMalzeme : malzemeListesi) {
-                        int malzemeID = TarifMalzeme.getMazemeID();
-                        float malzemetoplammiktar = TarifMalzeme.getToplamMiktar();
-                        addMalzemeToTarif(tarifID, malzemeID, malzemetoplammiktar);
+
+                try {
+                    if (DatabaseConnection.tarifVarMi(tarifAdi)) {
+                        showAlert("Bu tarif zaten mevcut.");
+                    } else {
+                        int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
+                        if (tarifID != -1) {
+                            for (Malzeme TarifMalzeme : malzemeListesi) {
+                                int malzemeID = TarifMalzeme.getMazemeID();
+                                float malzemetoplammiktar = TarifMalzeme.getToplamMiktar();
+                                addMalzemeToTarif(tarifID, malzemeID, malzemetoplammiktar);
+                            }
+                            showAlert("Tarif ve malzemeler başarıyla eklendi.");
+                        } else {
+                            showAlert("Bu tarif zaten mevcut.");
+                        }
                     }
-                    showAlert("Tarif ve malzemeler başarıyla eklendi.");
-                } else {
-                    showAlert("Bu tarif zaten mevcut.");
+                } catch (SQLException e) {
+                    showAlert("Bir hata oluştu: " + e.getMessage());
                 }
             }
             return null;

@@ -612,5 +612,19 @@ public class DatabaseConnection {
             }
         }
     }
+
+    //DUPLİCATE KONTROLÜ KODU
+    public static boolean tarifVarMi(String tarifAdi)throws SQLException{
+        String sql = "SELECT COUNT(*) FROM Tarifler WHERE TarifAdi = ?";
+        try(Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1,tarifAdi);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
 }
 
