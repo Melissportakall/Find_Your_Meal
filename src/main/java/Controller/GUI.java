@@ -112,6 +112,9 @@ public class GUI implements Initializable {
     private StackPane seciliTarifStackPane;
 
     @FXML
+    private ScrollPane seciliTarifScrollPane;
+
+    @FXML
     private VBox seciliTariVBox;
 
     @FXML
@@ -223,23 +226,19 @@ public class GUI implements Initializable {
             aramaListesi = DatabaseConnection.getTarifler();
             System.out.println("Tüm tarifler üzerinde arama yapılıyor...");
 
-            // Kategoride arama kontrolü
             if (KategoriListesi.stream().map(String::toLowerCase).collect(Collectors.toList()).contains(arananTarif)) {
                 System.out.println("Kategori araması yapılıyor: " + arananTarif);
-                aramaListesi = DatabaseConnection.KategoriBul(arananTarif); // Kategoriyi sorgula
+                aramaListesi = DatabaseConnection.KategoriBul(arananTarif);
             }
 
         }
 
         List<Tarif> bulunanTarifler = new ArrayList<>();
 
-        // Eğer kategori bulunmuşsa bu listeyi direk ekle
         if (aramaListesi != null && !aramaListesi.isEmpty()) {
             if (KategoriListesi.stream().map(String::toLowerCase).collect(Collectors.toList()).contains(arananTarif)) {
-                // Kategoriye göre arama yaptıysanız tüm sonuçları direk ekleyin
                 bulunanTarifler.addAll(aramaListesi);
             } else {
-                // Aksi halde tarif adı üzerinden arama yapın
                 for (Tarif tarif : aramaListesi) {
                     if (tarif.getTarifAdi().trim().toLowerCase().contains(arananTarif)) {
                         bulunanTarifler.add(tarif);
@@ -301,8 +300,6 @@ public class GUI implements Initializable {
         }
 
         loader.setLocation(filePath.toURI().toURL());
-
-
 
         Parent tarifView = loader.load();
 
@@ -390,9 +387,9 @@ public class GUI implements Initializable {
         mask.heightProperty().bind(seciliTarifImage.fitHeightProperty());
         mask.setFill(new LinearGradient(
                 0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0.2, Color.TRANSPARENT), // Transparent at the top
-                new Stop(0.4, Color.web("#ffe6b2")), // Approximate midpoint color
-                new Stop(1, Color.web("#f5e0d2")) // Final color at the bottom
+                new Stop(0.2, Color.TRANSPARENT),
+                new Stop(0.4, Color.web("#ffe6b2")),
+                new Stop(1, Color.web("#f5e0d2"))
         ));
 
 
@@ -448,7 +445,7 @@ public class GUI implements Initializable {
         alert.setTitle("Bildiri");
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.getDialogPane().setStyle("-fx-background-color: #f1c15b;"); // Arka plan rengini turuncu yapar
+        alert.getDialogPane().setStyle("-fx-background-color: #f1c15b;");
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
@@ -1099,8 +1096,8 @@ public class GUI implements Initializable {
             // Sıralanmış tarifleri yazdırma
             for (Tarif tarif : sortedTarifler) {
                 System.out.println("Tarif ID: " + tarif.getTarifID() +
-                        ", Tarif Adı: " + tarif.getTarifAdi() + // Tarif adı da yazdırılıyor, varsayılan bir alan ekledim
-                        ", Malzeme Sayısı: " + DatabaseConnection.toplamMalzemeSayisi(tarif.getTarifID())); // Malzeme sayısı tekrar alınıyor
+                        ", Tarif Adı: " + tarif.getTarifAdi() +
+                        ", Malzeme Sayısı: " + DatabaseConnection.toplamMalzemeSayisi(tarif.getTarifID()));
 
 
                 //SORTEDTARİFLER HEM MALZEME SAYISINA GÖRE HEM DE KAÇ MALZEME EKSİK OLDUĞUNA GÖRE SIRALANIYOR
@@ -1227,6 +1224,7 @@ public class GUI implements Initializable {
         Dialog<Void> duzenleDialog = new Dialog<>();
         duzenleDialog.setTitle("Tarif Düzenleme");
         duzenleDialog.setHeaderText("Tarifi Düzenle: " + tarif.getTarifAdi());
+        duzenleDialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
 
         TextField maliyetField = new TextField(String.valueOf(tarif.getKategori()));
         TextField sureField = new TextField(String.valueOf(tarif.getHazirlamaSuresi()));
