@@ -326,11 +326,12 @@ public class GUI implements Initializable {
 
         seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
         seciliTarifTalimat.setText(tarif.getTalimatlar());
-        seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
-        seciliTarifTalimat.setText(tarif.getTalimatlar());
 
         seciliTarifMalzeme.getChildren().clear();
+
         List<Malzeme> malzemeList = DatabaseConnection.TarifinMalzemeleri(tarif.getTarifID());
+
+        float toplamEksikMaliyet = 0;
 
         for (int i = 0; i < malzemeList.size(); i++) {
             Malzeme malzeme = malzemeList.get(i);
@@ -340,7 +341,34 @@ public class GUI implements Initializable {
             seciliTarifMalzeme.add(malzemeLabel, 0, i);
         }
 
-        // Resim dosyasını al ve kontrol et
+        List<Malzeme> eksikMalzemeList = DatabaseConnection.EksikMalzemeler(tarif.getTarifID());
+        if (!eksikMalzemeList.isEmpty()) {
+            Label eksikMalzemeLabel = new Label("Eksik Malzemeler:");
+            eksikMalzemeLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: red;");
+            seciliTarifMalzeme.add(eksikMalzemeLabel, 0, malzemeList.size() + 1);
+
+            for (int i = 0; i < eksikMalzemeList.size(); i++) {
+                Malzeme eksikMalzeme = eksikMalzemeList.get(i);
+
+                // Eksik miktar ve maliyeti hesapla
+                float eksikMiktar = eksikMalzeme.getToplamMiktar();
+                float birimFiyat = eksikMalzeme.getMalzemeBirimFiyat();
+                float maliyet = eksikMiktar * birimFiyat;
+                toplamEksikMaliyet += maliyet;
+
+                String eksikMalzemeBilgisi = eksikMalzeme.getMalzemeAdi() + " - Eksik Miktar: " + eksikMiktar +
+                        " " + eksikMalzeme.getMalzemeBirim() + " - Maliyet: " + maliyet + " TL";
+                Label eksikMalzemeLabelItem = new Label(eksikMalzemeBilgisi);
+                eksikMalzemeLabelItem.setStyle("-fx-font-size: 18px; -fx-text-fill: red;");
+                seciliTarifMalzeme.add(eksikMalzemeLabelItem, 0, malzemeList.size() + 2 + i);
+            }
+
+            Label toplamEksikMaliyetLabel = new Label("Toplam Eksik Maliyet: " + toplamEksikMaliyet + " TL");
+            toplamEksikMaliyetLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #811818;");
+            toplamEksikMaliyetLabel.setUnderline(true);
+            seciliTarifMalzeme.add(toplamEksikMaliyetLabel, 0, malzemeList.size() + 2 + eksikMalzemeList.size());
+        }
+
         File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() + ".jpg");
         if (!filePath.exists()) {
             filePath = new File("/Users/melisportakal/desktop/iyilestirmelermis/img/" + tarif.getTarifID() + ".jpg");
@@ -637,7 +665,6 @@ public class GUI implements Initializable {
             }
         });
 
-        // GridPane'e Resim Yolu'nu ekleyin
         gridPane.add(new Label("Resim Yolu:"), 0, 4);
         gridPane.add(resimPathField, 1, 4);
         gridPane.add(resimSecButton, 2, 4);
@@ -661,7 +688,6 @@ public class GUI implements Initializable {
                             addMalzemeToTarif(tarifID, malzemeID, malzememiktar);
                         }
 
-                        // Resmi kaydetme
                         if (tarifID != -1) {
                             addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
                             saveImage(resimYolu, tarifID);
@@ -805,7 +831,6 @@ public class GUI implements Initializable {
         });
 
         dialog.showAndWait();
-        //updateMalzemeGridPane();
     }
 
 //================MALZEME EKLEYİP SİLDİKTEN SONRA PANELİ GÜNCELLEYEN METOT====================
@@ -1123,16 +1148,13 @@ public class GUI implements Initializable {
 
     @FXML
     public void TarifGuncelle() {
-        // Dialog ayarları
         Dialog<Tarif> dialog = new Dialog<>();
         dialog.setTitle("Tarif Düzenleme");
         dialog.setHeaderText("Düzenlemek İstediğiniz Tarifin Adını Giriniz:");
 
-        // Tarif adını almak için TextField ekleyelim
         TextField tarifAdiField = new TextField();
         tarifAdiField.setPromptText("Tarif Adı");
 
-        // Layout olarak GridPane kullanarak düzen oluştur
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -1141,26 +1163,21 @@ public class GUI implements Initializable {
         grid.add(new Label("Tarif Adı:"), 0, 0);
         grid.add(tarifAdiField, 1, 0);
 
-        // Dialog içerisine grid'i ekle
         dialog.getDialogPane().setContent(grid);
 
-        // Tamam ve İptal butonları ekle
         ButtonType guncelleButtonType = new ButtonType("Güncelle", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(guncelleButtonType, ButtonType.CANCEL);
 
-        // Kullanıcının "Güncelle" butonuna bastığında bilgileri al
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == guncelleButtonType) {
-                return getTarifByName(tarifAdiField.getText()); // Tarif nesnesini döndürüyoruz
+                return getTarifByName(tarifAdiField.getText());
             }
             return null;
         });
 
-        // Dialogu göster ve tarif adını al
         Optional<Tarif> result = dialog.showAndWait();
         result.ifPresent(secilenTarif -> {
 
-            // Tarif düzenleme ekranını başlat
             if (secilenTarif != null) {
                 try {
                     showTarifDuzenleDialog(secilenTarif);
@@ -1170,7 +1187,6 @@ public class GUI implements Initializable {
                     throw new RuntimeException(e);
                 }
             } else {
-                // Tarif bulunamazsa uyarı göster
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Uyarı");
                 alert.setHeaderText(null);
@@ -1181,22 +1197,19 @@ public class GUI implements Initializable {
         });
     }
 
-    // Seçilen tarifin detaylarını düzenleyebileceğiniz bir Dialog
     @FXML
     private void showTarifDuzenleDialog(Tarif tarif) throws SQLException, IOException {
         Dialog<Void> duzenleDialog = new Dialog<>();
         duzenleDialog.setTitle("Tarif Düzenleme");
         duzenleDialog.setHeaderText("Tarifi Düzenle: " + tarif.getTarifAdi());
 
-        // Tarif bilgilerini göstermek için TextField'ler ekleyelim
         TextField maliyetField = new TextField(String.valueOf(tarif.getKategori()));
         TextField sureField = new TextField(String.valueOf(tarif.getHazirlamaSuresi()));
         TextArea talimatlarArea = new TextArea(tarif.getTalimatlar());
-        talimatlarArea.setWrapText(true); // Metni satır içinde kaydır
-        talimatlarArea.setPrefWidth(300); // Genişlik
-        talimatlarArea.setPrefHeight(100); // Yükseklik ayarlayın
+        talimatlarArea.setWrapText(true);
+        talimatlarArea.setPrefWidth(300);
+        talimatlarArea.setPrefHeight(100);
 
-        // Düzenleme ekranını GridPane ile oluştur
         GridPane grid = new GridPane();
         grid.setHgap(50);
         grid.setVgap(10);
@@ -1211,20 +1224,16 @@ public class GUI implements Initializable {
 
         duzenleDialog.getDialogPane().setContent(grid);
 
-        // Güncelle butonu ekle
         ButtonType kaydetButtonType = new ButtonType("Kaydet", ButtonBar.ButtonData.OK_DONE);
         duzenleDialog.getDialogPane().getButtonTypes().addAll(kaydetButtonType, ButtonType.CANCEL);
 
-        // Kaydet butonuna basıldığında bilgileri güncelle
         duzenleDialog.setResultConverter(dialogButton -> {
             if (dialogButton == kaydetButtonType) {
 
-                // Güncellenen değerleri tarif nesnesine set et
                 tarif.setKategori((maliyetField.getText()));
                 tarif.setHazirlamaSuresi(Integer.parseInt(sureField.getText()));
                 tarif.setTalimatlar((talimatlarArea.getText()));
 
-                // Veritabanında güncelleme yap
                 try {
                     DatabaseConnection.updateTarif(tarif);
                 } catch (SQLException e) {
@@ -1241,7 +1250,6 @@ public class GUI implements Initializable {
             return null;
         });
 
-        // Düzenleme dialogunu göster
         duzenleDialog.showAndWait();
         mainMenu();
     }

@@ -166,7 +166,7 @@ public class DatabaseConnection {
 
             if (count > 0) {
                 showAlert("Malzeme zaten mevcut!", "Bu malzeme zaten veritabanında bulunuyor.");
-                return 0; // İşlem iptal
+                return 0;
             }
 
             try (PreparedStatement pstmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
@@ -611,8 +611,6 @@ public class DatabaseConnection {
             pstmt.setString(3, tarif.getTalimatlar());         // 3. parametre: talimatlar
             pstmt.setInt(4, tarif.getTarifID());               // 4. parametre: id
 
-
-            // Güncelleme işlemini gerçekleştir
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
