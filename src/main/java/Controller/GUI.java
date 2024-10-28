@@ -581,15 +581,7 @@ public class GUI implements Initializable {
                     } else {
                         int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
                         if (tarifID != -1) {
-                            for (Malzeme TarifMalzeme : malzemeListesi) {
-                                int malzemeID = TarifMalzeme.getMazemeID();
-                                System.out.println("MalzemeID: " + malzemeID);
-                                float malzemetoplammiktar = TarifMalzeme.getToplamMiktar();
-                                System.out.println("Malzemetoplammiktar:" + malzemetoplammiktar);
-                                addMalzemeToTarif(tarifID, malzemeID, malzemetoplammiktar);
-                                System.out.println("ekleniyo");
-                            }
-                            //addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
+                            addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
                             showAlert("Tarif ve malzemeler başarıyla eklendi.");
                         } else {
                             showAlert("Bu tarif zaten mevcut.");
@@ -651,131 +643,6 @@ public class GUI implements Initializable {
         });
 
         dialog.showAndWait();
-        mainMenu();
-    }
-
-    @FXML
-    public void TarifGuncelle() {
-        // Dialog ayarları
-        Dialog<Tarif> dialog = new Dialog<>();
-        dialog.setTitle("Tarif Düzenleme");
-        dialog.setHeaderText("Düzenlemek İstediğiniz Tarifin Adını Giriniz:");
-
-        // Tarif adını almak için TextField ekleyelim
-        TextField tarifAdiField = new TextField();
-        tarifAdiField.setPromptText("Tarif Adı");
-
-        // Layout olarak GridPane kullanarak düzen oluştur
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-
-        grid.add(new Label("Tarif Adı:"), 0, 0);
-        grid.add(tarifAdiField, 1, 0);
-
-        // Dialog içerisine grid'i ekle
-        dialog.getDialogPane().setContent(grid);
-
-        // Tamam ve İptal butonları ekle
-        ButtonType guncelleButtonType = new ButtonType("Güncelle", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(guncelleButtonType, ButtonType.CANCEL);
-
-        // Kullanıcının "Güncelle" butonuna bastığında bilgileri al
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == guncelleButtonType) {
-                return getTarifByName(tarifAdiField.getText()); // Tarif nesnesini döndürüyoruz
-            }
-            return null;
-        });
-
-        // Dialogu göster ve tarif adını al
-        Optional<Tarif> result = dialog.showAndWait();
-        result.ifPresent(secilenTarif -> {
-
-            // Tarif düzenleme ekranını başlat
-            if (secilenTarif != null) {
-                try {
-                    showTarifDuzenleDialog(secilenTarif);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                // Tarif bulunamazsa uyarı göster
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Uyarı");
-                alert.setHeaderText(null);
-                alert.setContentText("Belirtilen isimde bir tarif bulunamadı.");
-                alert.showAndWait();
-
-            }
-        });
-    }
-
-    // Seçilen tarifin detaylarını düzenleyebileceğiniz bir Dialog
-    @FXML
-    private void showTarifDuzenleDialog(Tarif tarif) throws SQLException, IOException {
-        Dialog<Void> duzenleDialog = new Dialog<>();
-        duzenleDialog.setTitle("Tarif Düzenleme");
-        duzenleDialog.setHeaderText("Tarifi Düzenle: " + tarif.getTarifAdi());
-
-        // Tarif bilgilerini göstermek için TextField'ler ekleyelim
-        TextField maliyetField = new TextField(String.valueOf(tarif.getKategori()));
-        TextField sureField = new TextField(String.valueOf(tarif.getHazirlamaSuresi()));
-        TextArea talimatlarArea = new TextArea(tarif.getTalimatlar());
-        talimatlarArea.setWrapText(true); // Metni satır içinde kaydır
-        talimatlarArea.setPrefWidth(300); // Genişlik
-        talimatlarArea.setPrefHeight(100); // Yükseklik ayarlayın
-
-        // Düzenleme ekranını GridPane ile oluştur
-        GridPane grid = new GridPane();
-        grid.setHgap(50);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 40, 10));
-
-        grid.add(new Label("Maliyet:"), 0, 0);
-        grid.add(maliyetField, 1, 0);
-        grid.add(new Label("Süre:"), 0, 1);
-        grid.add(sureField, 1, 1);
-        grid.add(new Label("Talimatlar:"), 0, 2);
-        grid.add(talimatlarArea, 1, 2);
-
-        duzenleDialog.getDialogPane().setContent(grid);
-
-        // Güncelle butonu ekle
-        ButtonType kaydetButtonType = new ButtonType("Kaydet", ButtonBar.ButtonData.OK_DONE);
-        duzenleDialog.getDialogPane().getButtonTypes().addAll(kaydetButtonType, ButtonType.CANCEL);
-
-        // Kaydet butonuna basıldığında bilgileri güncelle
-        duzenleDialog.setResultConverter(dialogButton -> {
-            if (dialogButton == kaydetButtonType) {
-
-                // Güncellenen değerleri tarif nesnesine set et
-                tarif.setKategori((maliyetField.getText()));
-                tarif.setHazirlamaSuresi(Integer.parseInt(sureField.getText()));
-                tarif.setTalimatlar((talimatlarArea.getText()));
-
-                // Veritabanında güncelleme yap
-                try {
-                    DatabaseConnection.updateTarif(tarif);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Başarılı");
-                alert.setHeaderText(null);
-                alert.setContentText("Tarif başarıyla güncellendi.");
-                alert.showAndWait();
-
-            }
-            return null;
-        });
-
-        // Düzenleme dialogunu göster
-        duzenleDialog.showAndWait();
         mainMenu();
     }
 
@@ -1152,5 +1019,130 @@ public class GUI implements Initializable {
                 GridPane.setMargin(anchorPane, new Insets(0, 0, 1, 0));
             }
         }
+    }
+
+    @FXML
+    public void TarifGuncelle() {
+        // Dialog ayarları
+        Dialog<Tarif> dialog = new Dialog<>();
+        dialog.setTitle("Tarif Düzenleme");
+        dialog.setHeaderText("Düzenlemek İstediğiniz Tarifin Adını Giriniz:");
+
+        // Tarif adını almak için TextField ekleyelim
+        TextField tarifAdiField = new TextField();
+        tarifAdiField.setPromptText("Tarif Adı");
+
+        // Layout olarak GridPane kullanarak düzen oluştur
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        grid.add(new Label("Tarif Adı:"), 0, 0);
+        grid.add(tarifAdiField, 1, 0);
+
+        // Dialog içerisine grid'i ekle
+        dialog.getDialogPane().setContent(grid);
+
+        // Tamam ve İptal butonları ekle
+        ButtonType guncelleButtonType = new ButtonType("Güncelle", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(guncelleButtonType, ButtonType.CANCEL);
+
+        // Kullanıcının "Güncelle" butonuna bastığında bilgileri al
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == guncelleButtonType) {
+                return getTarifByName(tarifAdiField.getText()); // Tarif nesnesini döndürüyoruz
+            }
+            return null;
+        });
+
+        // Dialogu göster ve tarif adını al
+        Optional<Tarif> result = dialog.showAndWait();
+        result.ifPresent(secilenTarif -> {
+
+            // Tarif düzenleme ekranını başlat
+            if (secilenTarif != null) {
+                try {
+                    showTarifDuzenleDialog(secilenTarif);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                // Tarif bulunamazsa uyarı göster
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Uyarı");
+                alert.setHeaderText(null);
+                alert.setContentText("Belirtilen isimde bir tarif bulunamadı.");
+                alert.showAndWait();
+
+            }
+        });
+    }
+
+    // Seçilen tarifin detaylarını düzenleyebileceğiniz bir Dialog
+    @FXML
+    private void showTarifDuzenleDialog(Tarif tarif) throws SQLException, IOException {
+        Dialog<Void> duzenleDialog = new Dialog<>();
+        duzenleDialog.setTitle("Tarif Düzenleme");
+        duzenleDialog.setHeaderText("Tarifi Düzenle: " + tarif.getTarifAdi());
+
+        // Tarif bilgilerini göstermek için TextField'ler ekleyelim
+        TextField maliyetField = new TextField(String.valueOf(tarif.getKategori()));
+        TextField sureField = new TextField(String.valueOf(tarif.getHazirlamaSuresi()));
+        TextArea talimatlarArea = new TextArea(tarif.getTalimatlar());
+        talimatlarArea.setWrapText(true); // Metni satır içinde kaydır
+        talimatlarArea.setPrefWidth(300); // Genişlik
+        talimatlarArea.setPrefHeight(100); // Yükseklik ayarlayın
+
+        // Düzenleme ekranını GridPane ile oluştur
+        GridPane grid = new GridPane();
+        grid.setHgap(50);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 40, 10));
+
+        grid.add(new Label("Maliyet:"), 0, 0);
+        grid.add(maliyetField, 1, 0);
+        grid.add(new Label("Süre:"), 0, 1);
+        grid.add(sureField, 1, 1);
+        grid.add(new Label("Talimatlar:"), 0, 2);
+        grid.add(talimatlarArea, 1, 2);
+
+        duzenleDialog.getDialogPane().setContent(grid);
+
+        // Güncelle butonu ekle
+        ButtonType kaydetButtonType = new ButtonType("Kaydet", ButtonBar.ButtonData.OK_DONE);
+        duzenleDialog.getDialogPane().getButtonTypes().addAll(kaydetButtonType, ButtonType.CANCEL);
+
+        // Kaydet butonuna basıldığında bilgileri güncelle
+        duzenleDialog.setResultConverter(dialogButton -> {
+            if (dialogButton == kaydetButtonType) {
+
+                // Güncellenen değerleri tarif nesnesine set et
+                tarif.setKategori((maliyetField.getText()));
+                tarif.setHazirlamaSuresi(Integer.parseInt(sureField.getText()));
+                tarif.setTalimatlar((talimatlarArea.getText()));
+
+                // Veritabanında güncelleme yap
+                try {
+                    DatabaseConnection.updateTarif(tarif);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Başarılı");
+                alert.setHeaderText(null);
+                alert.setContentText("Tarif başarıyla güncellendi.");
+                alert.showAndWait();
+
+            }
+            return null;
+        });
+
+        // Düzenleme dialogunu göster
+        duzenleDialog.showAndWait();
+        mainMenu();
     }
 }
