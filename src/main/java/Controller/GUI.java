@@ -315,6 +315,7 @@ public class GUI implements Initializable {
         controller.setTarifDetails(tarif);
     }
 
+    //=================TIKLANAN TARİF DETAYLARINI GETİR=================
     public void setTarifDetails(Tarif tarif) {
         seciliTarifAdi.setText(tarif.getTarifAdi());
 
@@ -509,7 +510,7 @@ public class GUI implements Initializable {
         dialog.showAndWait();
     }
 
-    //TARİF EKLEMEYİ GĞNCEKKEDİM
+    //TARİF EKLEYEN METOT
     @FXML
     private void showAddTarifDialog() throws SQLException, IOException {
         Dialog<Tarif> dialog = new Dialog<>();
@@ -1132,7 +1133,7 @@ public class GUI implements Initializable {
     }
 
 
-
+    //MALZEME LİSTELEMEYİ GÜNCELLE
     public void updateMalzemeListele(GridPane malzemeListele) throws SQLException, IOException {
         malzemeListele.getChildren().clear();
 
@@ -1165,6 +1166,7 @@ public class GUI implements Initializable {
         }
     }
 
+    //TARİF DÜZENLE EKRANI
     @FXML
     public void TarifGuncelle() {
         Dialog<Tarif> dialog = new Dialog<>();
@@ -1219,6 +1221,7 @@ public class GUI implements Initializable {
         });
     }
 
+    //TARİF DÜZENLE
     @FXML
     private void showTarifDuzenleDialog(Tarif tarif) throws SQLException, IOException {
         Dialog<Void> duzenleDialog = new Dialog<>();

@@ -79,6 +79,7 @@ public class ItemController {
 
     public static final List<Malzeme> seciliMalzemeler = new ArrayList<>();
 
+    //KARTLARA TARİF BİLGİLERİNİ GİREN METOT
     public void setTarifData(Tarif tarif) throws MalformedURLException {
         tarifLabel.setText(tarif.getTarifAdi());
         tarifKategori.setText(tarif.getToplamMaliyet() + " TL");
@@ -106,13 +107,14 @@ public class ItemController {
         this.tarif = tarif;
     }
 
-
+    //SOLDAKİ MALZEME BİLGİLERİNİ GİREN METOT
     public void setMalzemeData(Malzeme malzeme) {
         malzemeAdiLabel.setText(malzeme.getMalzemeAdi());
         malzemeMiktarLabel.setText(malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim());
         malzemeID.setId(String.valueOf(malzeme.getMazemeID()));
     }
 
+    //TARİF EKLEMEDE MALZEMELERİ LİSTELEYEN METOT
     public void setMalzemeListeleData(Malzeme malzeme) {
         malzemeListeleLabel.setText(malzeme.getMalzemeAdi());
         malzemeListeleID.setId(String.valueOf(malzeme.getMazemeID()));
@@ -120,6 +122,7 @@ public class ItemController {
         malzemeListeleBirim.setId(Integer.toString(malzeme.getMazemeID()));
     }
 
+    //TIKLANAN TARİFE GÖTÜREN METOT
     @FXML
     public void tarifOnAction(ActionEvent event){
         try {
@@ -130,6 +133,7 @@ public class ItemController {
         }
     }
 
+    //İŞARETLENEN TİKLERİ LİSTEYE EKLEYEN METOT
     @FXML
     public void CheckBoxAction() throws SQLException {
         if (malzemeCheckBox.isSelected()) {
@@ -163,6 +167,7 @@ public class ItemController {
         }
     }
 
+    //TARİF EKLEMEDE GİRİLEN MİKTARİ VE MALZEMEYİ TİKLENİNCE LİSTEYE ALAN METOT
     @FXML
     private void MalzemeListeleCheckBoxAction() {
         if (malzemeListeleCheckBox.isSelected()) {
@@ -186,6 +191,7 @@ public class ItemController {
         }
     }
 
+    //TARİF ORANINI HESAPLAYAN METOT
     public double tarifOranHesapla(Tarif tarif) {
         double tarifToplamMaliyet = tarif.getToplamMaliyet();
         double mevcutMaliyet = 0;
@@ -234,7 +240,6 @@ public class ItemController {
         if (mevcutMaliyet >= tarifToplamMaliyet) return 100;
         return (mevcutMaliyet / tarifToplamMaliyet) * 100;
     }
-
 
     public Button getTarifLabel() {
         return tarifLabel;

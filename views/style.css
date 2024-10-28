@@ -125,14 +125,13 @@
 } */
 
 #malzemeID {
-    -fx-background-color: #f6d18b; /* Arka plan rengini turuncu yapar */
+    -fx-background-color: #f6d18b;
 }
 
 #seciliTarifRoot {
-    -fx-background-color: #FFA500; /* Açık turuncu rengi */
+    -fx-background-color: #FFA500;
 }
 
-/* Tüm butonlar için genel stil */
 .button {
     -fx-border-color: transparent;
     -fx-border-width: 1px;
@@ -143,58 +142,45 @@
     -fx-wrap-text: true;
 }
 
-/* Buton odaklandığında */
 .button:focused {
     -fx-border-color: #ff9b49;
     -fx-background-color: #ff9b49;
 }
 
-/* Buton basıldığında */
 .button-pressed {
-    -fx-background-color: #ff9b49; /* Pressed color */
-    -fx-text-fill: black; /* Keep text color consistent */
+    -fx-background-color: #ff9b49;
+    -fx-text-fill: black;
 }
 
-
-/* Uzun metinlerde görünüyor olmasını sağlamak için */
 .button .text {
-    -fx-fill: black; /* Metnin rengini korur */
+    -fx-fill: black;
 }
 
-/* Buton basıldığında tüm butonları etkileyen özel sınıf */
 .button-pressed {
-    -fx-background-color: #ff9b49; /* Basma rengi */
+    -fx-background-color: #ff9b49;
 }
 
-
-
-
-/* Malzeme ekle butonu için özel stil */
 .malzeme-ekle-btn {
     -fx-border-color: transparent;
     -fx-background-radius: 15px;
     -fx-background-color: #ff9b49;
 }
 
-/* Malzeme ekle butonu basıldığında */
 .malzeme-ekle-btn:pressed {
-    -fx-background-color: #ff9b49; /* Yeşil basma rengi */
-    -fx-text-fill: white; /* Metin rengi beyaz kalır */
+    -fx-background-color: #ff9b49;
+    -fx-text-fill: white;
 }
 
-/* Arama butonu için özel stil */
 .search-button {
-    -fx-background-color: #ff9b49; /* Koyu arka plan rengi */
-    -fx-text-fill: white; /* Metin rengi beyaz */
+    -fx-background-color: #ff9b49;
+    -fx-text-fill: white;
 }
 
-/* Arama butonu üzerine gelindiğinde */
 .search-button:hover {
-    -fx-background-color: #495057; /* Hover rengi */
+    -fx-background-color: #495057;
 }
 
-/* Arama butonu basıldığında */
 .search-button:pressed {
-    -fx-background-color: #6c757d; /* Basma rengi */
-    -fx-text-fill: white; /* Metin rengi beyaz kalır */
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
 }

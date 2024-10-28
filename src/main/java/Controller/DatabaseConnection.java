@@ -438,7 +438,7 @@ public class DatabaseConnection {
     }
 
 
-    //ANLAMADIM
+    //TARİF İÇİN GEREKLİ MALZEMELERİ DÖNDÜR
     public static List<Malzeme> TarifinMalzemeleri(int tarifID) {
         List<Malzeme> malzemeler = new ArrayList<>();
         String sql = "SELECT m.MalzemeID, m.MalzemeAdi, mt.MalzemeMiktar, m.MalzemeBirim, m.BirimFiyat " +
@@ -466,29 +466,7 @@ public class DatabaseConnection {
         return malzemeler;
     }
 
-
-
-
-    //TARİFİ MALZEME SAYISINA GÖRE SIRALAMAK İÇİN
-   /* public List<TarifMalzemeSayisi> getTarifMalzemeSayilari() throws SQLException {
-        List<TarifMalzemeSayisi> tarifMalzemeSayilari = new ArrayList<>();
-        String sql = "SELECT t.TarifID, COUNT(mt.MalzemeID) AS MalzemeSayisi FROM Tarif t LEFT JOIN MalzemeTarif mt ON t.TarifID = mt.TarifID GROUP BY t.TarifID";
-
-        try (Connection connection = DriverManager.getConnection("your_database_url", "username", "password");
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            while (resultSet.next()) {
-                int tarifId = resultSet.getInt("TarifID");
-                int malzemeSayisi = resultSet.getInt("MalzemeSayisi");
-                tarifMalzemeSayilari.add(new TarifMalzemeSayisi(tarifId, malzemeSayisi));
-            }
-        }
-
-        return tarifMalzemeSayilari;
-    }*/
-
-
+    //TOPLAM MALZEME SAYISINI DÖNDÜR
     public static int toplamMalzemeSayisi(int tarifID) {
         String sql = "SELECT COUNT(malzemeID) AS malzemeSayisi FROM MalzemeTarif WHERE tarifID = ?";
 
@@ -512,7 +490,7 @@ public class DatabaseConnection {
     }
 
 
-
+    //TARİF İÇİN EKSİK MALZEME VARSA DÖNDÜR
     public static List<Malzeme> EksikMalzemeler(int tarifID) {
         String sql = "SELECT m.malzemeID, m.malzemeAdi, m.malzemeBirim, m.birimFiyat, " +
                 "tm.MalzemeMiktar - COALESCE(m.ToplamMiktar, 0) AS EksikMiktar " +
@@ -555,6 +533,7 @@ public class DatabaseConnection {
         return eksikMalzemeler;
     }
 
+    //KATEGORİYE GÖRE ARAMA
     public static List<Tarif> KategoriBul(String Kategori)
     {
         String sql = "SELECT * From Tarifler  Where LOWER(Kategori) = LOWER(?)";
