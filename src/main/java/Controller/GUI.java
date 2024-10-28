@@ -6,12 +6,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.ComboBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -85,6 +96,18 @@ public class GUI implements Initializable {
 
     @FXML
     private GridPane seciliTarifMalzeme;
+
+    @FXML
+    private ImageView seciliTarifImage;
+
+    @FXML
+    private AnchorPane seciliTarifRoot;
+
+    @FXML
+    private StackPane seciliTarifStackPane;
+
+    @FXML
+    private VBox seciliTariVBox;
 
     @FXML
     private ComboBox<String> ComboBox;
@@ -290,31 +313,64 @@ public class GUI implements Initializable {
     public void setTarifDetails(Tarif tarif) {
         // Tarif detaylarını ayarla
         seciliTarifAdi.setText(tarif.getTarifAdi());
+
+        // Kenar gölgesi ekle
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.BLACK);
+        shadow.setOffsetX(1);
+        shadow.setOffsetY(1);
+        shadow.setRadius(5);
+        seciliTarifAdi.setEffect(shadow);
+
+        seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
+        seciliTarifTalimat.setText(tarif.getTalimatlar());
         seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
         seciliTarifTalimat.setText(tarif.getTalimatlar());
 
         // GridPane'i temizle
         seciliTarifMalzeme.getChildren().clear();
-
-        // Tarifin malzeme listesini al
         List<Malzeme> malzemeList = DatabaseConnection.TarifinMalzemeleri(tarif.getTarifID());
 
-        // Her malzeme için bir satır oluştur ve GridPane'e ekle
+        // Her malzeme için bir Label oluştur ve GridPane'e ekle
         for (int i = 0; i < malzemeList.size(); i++) {
             Malzeme malzeme = malzemeList.get(i);
-
-            // Malzeme adı, miktarı ve birimini içeren bir Label oluştur
             String malzemeBilgisi = malzeme.getMalzemeAdi() + " - " + malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim();
             Label malzemeLabel = new Label(malzemeBilgisi);
-
-            // Yazı boyutunu 18px olarak ayarla
-            malzemeLabel.setStyle("-fx-font-size: 18px;");
-
-            // Label'ı GridPane'e ekle (i. satır, 0. sütun)
+            malzemeLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: black;"); // Yazı rengini siyah yaptık
             seciliTarifMalzeme.add(malzemeLabel, 0, i);
         }
-    }
 
+        // Resim dosyasını al ve kontrol et
+        File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarif.getTarifID() + ".jpg");
+        if (!filePath.exists()) {
+            filePath = new File("/Users/melisportakal/desktop/iyilestirmelermis/img/" + tarif.getTarifID() + ".jpg");
+        }
+
+        Image image = new Image(filePath.toURI().toString());
+        seciliTarifImage.setImage(image);
+        seciliTarifImage.setPreserveRatio(true);
+        seciliTarifImage.fitWidthProperty().bind(seciliTarifImage.getScene().widthProperty());
+
+        seciliTarifImage.setFitHeight(image.getHeight());
+
+        Rectangle mask = new Rectangle();
+        mask.setWidth(seciliTarifImage.getFitWidth());
+        mask.setHeight(seciliTarifImage.getFitHeight());
+        mask.widthProperty().bind(seciliTarifImage.fitWidthProperty());
+        mask.heightProperty().bind(seciliTarifImage.fitHeightProperty());
+        mask.setFill(new LinearGradient(
+                0, 0, 0, 1, true, null,
+                new Stop(0.2, Color.TRANSPARENT),
+                new Stop(0.35, Color.WHITE),
+                new Stop(1, Color.WHITE)
+        ));
+
+        seciliTarifStackPane.getChildren().addAll(mask);
+
+        StackPane.setAlignment(seciliTarifImage, Pos.TOP_LEFT);
+        StackPane.setAlignment(mask, Pos.TOP_LEFT);
+        StackPane.setAlignment(seciliTarifMalzeme, Pos.BOTTOM_LEFT);
+    }
 
 //=====================================================================
 
@@ -470,7 +526,7 @@ public class GUI implements Initializable {
             File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item_tarif_ekleme.fxml");
 
             if (!filePath.exists()) {
-                filePath = new File("/Users/melisportakal/Desktop/sonins/src/main/resources/com/example/yazlabb/malzeme_item_tarif_ekleme.fxml");
+                filePath = new File("/Users/melisportakal/Desktop/olmusheralde/src/main/resources/com/example/yazlabb/malzeme_item_tarif_ekleme.fxml");
             }
 
             fxmlLoader.setLocation(filePath.toURI().toURL());
@@ -579,7 +635,17 @@ public class GUI implements Initializable {
                     if (DatabaseConnection.tarifVarMi(tarifAdi)) {
                         showAlert("Bu tarif zaten mevcut.");
                     } else {
+
                         int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
+                        for(Malzeme malzeme: malzemeListesi)
+                        {
+                            int malzemeID = malzeme.getMazemeID();
+                            float malzememiktar= malzeme.getToplamMiktar();
+                            System.out.println(malzeme.getMalzemeAdi());
+                            System.out.println(malzeme.getToplamMiktar());
+                            addMalzemeToTarif(tarifID, malzemeID, malzememiktar);
+                        }
+
                         if (tarifID != -1) {
                             addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
                             showAlert("Tarif ve malzemeler başarıyla eklendi.");
@@ -598,7 +664,6 @@ public class GUI implements Initializable {
         mainMenu();
         ItemController.seciliMalzemeler.clear();
     }
-
     //================TARİF SİLEN METOT=====================
     @FXML
     private void showRemoveTarifDialog() throws SQLException, IOException {
@@ -888,11 +953,13 @@ public class GUI implements Initializable {
 
         //ÇOKTAN AZA MALİYET
         if("Çoktan aza maliyet".equals(selectedOption)) {
-            System.out.println("a");
+            tarifler.sort((tarif1, tarif2) -> Double.compare(tarif2.getToplamMaliyet(), tarif1.getToplamMaliyet()));
+            mainMenu(tarifler);
 
         //AZDAN ÇOKA MALİYET
         } else if ("Azdan çoka maliyet".equals(selectedOption)) {
-            System.out.println("b");
+            tarifler.sort((tarif1, tarif2) -> Double.compare(tarif1.getToplamMaliyet(), tarif2.getToplamMaliyet()));
+            mainMenu(tarifler);
 
         //ÇOKTAN AZA SÜRE
         } else if ("Çoktan aza süre".equals(selectedOption)) {

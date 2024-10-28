@@ -4,18 +4,25 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI">
+<AnchorPane fx:id="seciliTarifRoot" prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI">
    <children>
-      <VBox prefHeight="626.0" prefWidth="750.0">
+      <StackPane fx:id="seciliTarifStackPane" prefHeight="306.0" prefWidth="750.0">
          <children>
-            <Label fx:id="seciliTarifAdi" prefHeight="86.0" prefWidth="750.0" text="Tarif Adı">
+            <ImageView fx:id="seciliTarifImage" fitHeight="301.0" fitWidth="750.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </StackPane>
+      <VBox fx:id="seciliTariVBox" layoutY="232.0" prefHeight="412.0" prefWidth="750.0">
+         <children>
+            <Label fx:id="seciliTarifAdi" prefHeight="86.0" prefWidth="750.0" text="Tarif Adı" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
@@ -26,7 +33,13 @@
                   <Insets left="40.0" />
                </padding>
             </Label>
-            <Separator prefHeight="17.0" prefWidth="750.0" />
+            <Separator prefHeight="17.0" prefWidth="750.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></Separator>
             <Label fx:id="seciliTarifSure" prefHeight="74.0" prefWidth="209.0" text="Hazırlama Süresi">
                <font>
                   <Font size="18.0" />
@@ -34,7 +47,15 @@
                <padding>
                   <Insets left="40.0" />
                </padding>
+               <VBox.margin>
+                  <Insets bottom="6.0" top="5.0" />
+               </VBox.margin>
             </Label>
+            <Separator prefHeight="17.0" prefWidth="750.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Separator>
             <GridPane fx:id="seciliTarifMalzeme" vgap="5.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -46,7 +67,7 @@
                   <Insets left="40.0" />
                </padding>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="10.0" top="20.0" />
                </VBox.margin>
             </GridPane>
             <Separator prefWidth="200.0">

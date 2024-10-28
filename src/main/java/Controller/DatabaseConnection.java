@@ -71,7 +71,6 @@ public class DatabaseConnection {
     }
 
 
-
     // MALZEMELERİ VERİTABANINDAN ALIP LİSTE OLARAK DÖNDÜR
     private static List<Malzeme> getMalzemelerFromDB(String query) {
         List<Malzeme> malzemeler = new ArrayList<>();
@@ -111,7 +110,6 @@ public class DatabaseConnection {
 
         return malzemeler;
     }
-
 
     //TARİF ARAMAK İÇİN
     public static Tarif getTarifByName(String tarifAdi) {
@@ -443,7 +441,7 @@ public class DatabaseConnection {
     //ANLAMADIM
     public static List<Malzeme> TarifinMalzemeleri(int tarifID) {
         List<Malzeme> malzemeler = new ArrayList<>();
-        String sql = "SELECT m.MalzemeID, m.MalzemeAdi, mt.MalzemeMiktar, m.MalzemeBirim " +
+        String sql = "SELECT m.MalzemeID, m.MalzemeAdi, mt.MalzemeMiktar, m.MalzemeBirim, m.BirimFiyat " +
                 "FROM MalzemeTarif mt " +
                 "JOIN Malzemeler m ON mt.MalzemeID = m.MalzemeID " +
                 "WHERE mt.TarifID = ?";
@@ -458,6 +456,7 @@ public class DatabaseConnection {
                 malzeme.setMalzemeAdi(rs.getString("MalzemeAdi"));
                 malzeme.setToplamMiktar(rs.getFloat("MalzemeMiktar"));
                 malzeme.setMalzemeBirim(rs.getString("MalzemeBirim"));
+                malzeme.setMalzemeBirimFiyat(rs.getInt("BirimFiyat"));
                 malzemeler.add(malzeme);
             }
         } catch (SQLException e) {
@@ -466,6 +465,7 @@ public class DatabaseConnection {
 
         return malzemeler;
     }
+
 
 
 

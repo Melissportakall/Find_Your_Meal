@@ -188,25 +188,53 @@ public class ItemController {
 
     public double tarifOranHesapla(Tarif tarif) {
         double tarifToplamMaliyet = tarif.getToplamMaliyet();
+        double mevcutMaliyet = 0;
+
         List<Malzeme> mevcutMalzemeler = DatabaseConnection.getMalzemeler();
+        List<Malzeme> tarifMalzemeler = DatabaseConnection.TarifinMalzemeleri(tarif.getTarifID());
+
         System.out.println("Tarifin Toplam Maliyeti: " + tarifToplamMaliyet);
 
-        double mevcutMaliyet = mevcutMalzemeler.stream()
-                .mapToDouble(malzeme -> {
-                    double birimFiyat = malzeme.getMalzemeBirimFiyat();
-                    double miktar = malzeme.getToplamMiktar();
-                    System.out.println("Malzeme ID: " + malzeme.getMazemeID() + ", Birim Fiyat: " + birimFiyat + ", Miktar: " + miktar);
-                    return birimFiyat * miktar;
-                })
-                .sum();
+        for (Malzeme tarifMalzeme : tarifMalzemeler) {
+            double gerekenMiktar = tarifMalzeme.getToplamMiktar();
+            double birimFiyat = tarifMalzeme.getMalzemeBirimFiyat();
 
+            boolean malzemeBulundu = false;
+
+            for (Malzeme mevcutMalzeme : mevcutMalzemeler) {
+                if (mevcutMalzeme.getMazemeID() == tarifMalzeme.getMazemeID()) {
+                    malzemeBulundu = true;
+                    double mevcutMiktar = mevcutMalzeme.getToplamMiktar();
+
+                    if (birimFiyat <= 0) {
+                        System.out.println("Hata: " + tarifMalzeme.getMalzemeAdi() + " için birim fiyat sıfır veya negatif.");
+                        continue;
+                    }
+
+                    if (mevcutMiktar >= gerekenMiktar) {
+                        mevcutMaliyet += gerekenMiktar * birimFiyat;
+                        System.out.println(tarifMalzeme.getMalzemeAdi() + ": yeterli miktar, maliyet eklendi.");
+                    } else {
+                        mevcutMaliyet += mevcutMiktar * birimFiyat;
+                        System.out.println(tarifMalzeme.getMalzemeAdi() + ": yetersiz miktar, sadece mevcut miktar eklendi.");
+                    }
+                    break;
+                }
+            }
+
+            if (!malzemeBulundu) {
+                System.out.println("Uyarı: " + tarifMalzeme.getMalzemeAdi() + " mevcut malzemelerde bulunamadı.");
+            }
+        }
+
+        System.out.println("Tarif: " + tarif.getTarifAdi());
+        System.out.println("Tarif Maliyet: " + tarifToplamMaliyet);
         System.out.println("Mevcut Maliyet: " + mevcutMaliyet);
 
-        if (mevcutMaliyet == 0) return 0;
         if (mevcutMaliyet >= tarifToplamMaliyet) return 100;
-
         return (mevcutMaliyet / tarifToplamMaliyet) * 100;
     }
+
 
     public Button getTarifLabel() {
         return tarifLabel;
