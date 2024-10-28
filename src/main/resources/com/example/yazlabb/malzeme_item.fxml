@@ -5,22 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="malzemeID" prefHeight="39.0" prefWidth="195.0"
-            xmlns="http://javafx.com/javafx/23"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controller.ItemController"
-            stylesheets="@../../../../../views/style.css">
+<AnchorPane fx:id="malzemeID" prefHeight="39.0" prefWidth="199.0" styleClass="background" stylesheets="@../../../../../views/style.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ItemController">
    <children>
-      <Label fx:id="malzemeAdiLabel" layoutX="13.0" layoutY="5.0"
-             prefHeight="31.0" prefWidth="84.0" text="Malzeme Adı"
-             textAlignment="CENTER">
+      <Label fx:id="malzemeAdiLabel" layoutX="13.0" layoutY="5.0" prefHeight="31.0" prefWidth="84.0" text="Malzeme Adı" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <CheckBox fx:id="malzemeCheckBox" layoutX="171.0" layoutY="11.0"
-                mnemonicParsing="false" onAction="#CheckBoxAction" />
-      <Label fx:id="malzemeMiktarLabel" layoutX="109.0" layoutY="12.0"
-             text="Miktar" />
+      <CheckBox fx:id="malzemeCheckBox" layoutX="171.0" layoutY="11.0" mnemonicParsing="false" onAction="#CheckBoxAction" />
+      <Label fx:id="malzemeMiktarLabel" layoutX="109.0" layoutY="12.0" text="Miktar" />
    </children>
 </AnchorPane>

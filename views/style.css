@@ -2,12 +2,16 @@
     -fx-background-color: linear-gradient(to right, #ffe6b2, #f5e0d2);
 }
 
+.background {
+    -fx-background-color: #ffe6b2;
+}
+
 .transparent {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffe6b2;
 }
 
 .transparent .scroll-bar:vertical, .transparent .scroll-bar:horizontal {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffe6b2;
     -fx-pref-width: 8;
     -fx-pref-height: 12;
 }
@@ -28,7 +32,7 @@
 }
 
 .transparent .scroll-bar:vertical .track, .transparent .scroll-bar:horizontal .track {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffe6b2;
 }
 
 /*
@@ -52,15 +56,18 @@
 .button:pressed {
     -fx-background-color: lightgray;
     -fx-text-fill: black;
-}
+}*/
 
 .button-with-image {
-    -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-padding: 0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-background-color: #f6d18b;
+    -fx-text-fill: black;
 }
 
-.button-with-image .text {
+/*.button-with-image .text {
     -fx-background-color: black;
     -fx-text-fill: white;
     -fx-padding: 5px;
@@ -69,8 +76,8 @@
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
     -fx-text-alignment: center;
-}
-
+}*/
+/*
 .separator-padding {
     -fx-padding: 20px 0px;
 }
@@ -131,21 +138,34 @@
     -fx-border-width: 1px;
     -fx-border-radius: 15px;
     -fx-background-radius: 15px;
-    -fx-background-color: #f6d18b;
+    -fx-background-color: rgba(246, 209, 139, 0.8);
     -fx-text-fill: black;
+    -fx-wrap-text: true;
 }
 
 /* Buton odaklandığında */
 .button:focused {
-    -fx-border-color: #ff9b49; /* Odak rengi daha koyu mavi */
-    -fx-background-color: #ff9b49; /* Odak arka plan rengi */
+    -fx-border-color: #ff9b49;
+    -fx-background-color: #ff9b49;
 }
 
 /* Buton basıldığında */
-.button:pressed {
-    -fx-background-color: #ff9b49; /* Basma rengi daha koyu mavi */
-    -fx-text-fill: black; /* Metin rengi beyaz kalır */
+.button-pressed {
+    -fx-background-color: #ff9b49; /* Pressed color */
+    -fx-text-fill: black; /* Keep text color consistent */
 }
+
+
+/* Uzun metinlerde görünüyor olmasını sağlamak için */
+.button .text {
+    -fx-fill: black; /* Metnin rengini korur */
+}
+
+/* Buton basıldığında tüm butonları etkileyen özel sınıf */
+.button-pressed {
+    -fx-background-color: #ff9b49; /* Basma rengi */
+}
+
 
 
 

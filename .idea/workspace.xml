@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ecce793d-29b7-4077-ab25-78b35a116ada" name="Changes" comment="Tarifleri yeni ekranda açma ve ana menüye dönme">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/deneme.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/malzeme_item.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/yazlabb/malzeme_item.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +146,8 @@
       <workItem from="1729929836811" duration="7939000" />
       <workItem from="1730030284091" duration="24684000" />
       <workItem from="1730108643912" duration="812000" />
-      <workItem from="1730113630593" duration="17505000" />
+      <workItem from="1730113630593" duration="18592000" />
+      <workItem from="1730141255035" duration="2900000" />
     </task>
     <task id="LOCAL-00001" summary="Menü düzenlemeleri">
       <option name="closed" value="true" />

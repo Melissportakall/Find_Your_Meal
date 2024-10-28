@@ -21,7 +21,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI" stylesheets="@../../../../../views/style.css">
+<AnchorPane fx:id="rootpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="750.0" stylesheets="@../../../../../views/style.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GUI">
    <children>
       <BorderPane fx:id="borderpane" prefHeight="700.0" prefWidth="750.0">
          <left>
@@ -40,7 +40,7 @@
                         <Separator prefWidth="200.0" />
                         <ScrollPane fx:id="malzemeEkleScroll" minWidth="0.0" prefHeight="550.0" prefWidth="218.0" styleClass="transparent">
                            <content>
-                              <GridPane fx:id="malzemeEkleGrid" prefHeight="1.0" prefWidth="195.0">
+                              <GridPane fx:id="malzemeEkleGrid" prefHeight="1.0" prefWidth="202.0" styleClass="background">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -114,7 +114,7 @@
                      <children>
                         <ScrollPane fx:id="scroll" prefHeight="562.0" prefWidth="516.0" styleClass="transparent" HBox.hgrow="ALWAYS">
                            <content>
-                              <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0">
+                              <GridPane fx:id="grid" prefHeight="559.0" prefWidth="520.0" styleClass="background">
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
                                  </rowConstraints>

@@ -294,7 +294,7 @@ public class GUI implements Initializable {
     public void showRecipeDetails(Tarif tarif, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
-        File filePath = new File("/Users/melisportakal/Desktop/eksikmalzemedetay/src/main/resources/com/example/yazlabb/tarif_scene.fxml");
+        File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml");
 
         if (!filePath.exists()) {
             filePath = new File("/Users/melisportakal/Desktop/eksikmalzemedetay/src/main/resources/com/example/yazlabb/tarif_scene.fxml");
@@ -388,19 +388,18 @@ public class GUI implements Initializable {
         mask.widthProperty().bind(seciliTarifImage.fitWidthProperty());
         mask.heightProperty().bind(seciliTarifImage.fitHeightProperty());
         mask.setFill(new LinearGradient(
-                0, 0, 0, 1, true, null,
-                new Stop(0.2, Color.TRANSPARENT),
-                new Stop(0.4, Color.WHITE),
-                new Stop(1, Color.WHITE)
+                0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0.2, Color.TRANSPARENT), // Transparent at the top
+                new Stop(0.4, Color.web("#ffe6b2")), // Approximate midpoint color
+                new Stop(1, Color.web("#f5e0d2")) // Final color at the bottom
         ));
+
 
         seciliTarifStackPane.getChildren().addAll(mask);
 
         StackPane.setAlignment(seciliTarifImage, Pos.TOP_LEFT);
         StackPane.setAlignment(mask, Pos.TOP_LEFT);
         StackPane.setAlignment(seciliTarifMalzeme, Pos.BOTTOM_LEFT);
-
-
     }
 
 //=====================================================================
@@ -425,7 +424,7 @@ public class GUI implements Initializable {
 
         String css;
 
-        File cssFile = new File("/Users/melisportakal/desktop/eksikmalzemedetay/views/style.css");
+        File cssFile = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\views\\style.css");
 
         if (!cssFile.exists()) {
             cssFile = new File("/Users/melisportakal/Desktop/sonins/views/style.css");
