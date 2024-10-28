@@ -23,18 +23,22 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import static Controller.DatabaseConnection.*;
+import static Controller.DatabaseConnection.addMalzemeToTarif;
 
 public class GUI implements Initializable {
     @FXML
@@ -311,10 +315,8 @@ public class GUI implements Initializable {
     }
 
     public void setTarifDetails(Tarif tarif) {
-        // Tarif detaylarını ayarla
         seciliTarifAdi.setText(tarif.getTarifAdi());
 
-        // Kenar gölgesi ekle
         DropShadow shadow = new DropShadow();
         shadow.setColor(Color.BLACK);
         shadow.setOffsetX(1);
@@ -327,16 +329,14 @@ public class GUI implements Initializable {
         seciliTarifSure.setText(tarif.getHazirlamaSuresi() + " dakika");
         seciliTarifTalimat.setText(tarif.getTalimatlar());
 
-        // GridPane'i temizle
         seciliTarifMalzeme.getChildren().clear();
         List<Malzeme> malzemeList = DatabaseConnection.TarifinMalzemeleri(tarif.getTarifID());
 
-        // Her malzeme için bir Label oluştur ve GridPane'e ekle
         for (int i = 0; i < malzemeList.size(); i++) {
             Malzeme malzeme = malzemeList.get(i);
             String malzemeBilgisi = malzeme.getMalzemeAdi() + " - " + malzeme.getToplamMiktar() + " " + malzeme.getMalzemeBirim();
             Label malzemeLabel = new Label(malzemeBilgisi);
-            malzemeLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: black;"); // Yazı rengini siyah yaptık
+            malzemeLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: black;");
             seciliTarifMalzeme.add(malzemeLabel, 0, i);
         }
 
@@ -624,33 +624,50 @@ public class GUI implements Initializable {
             event.consume();
         });
 
+        TextField resimPathField = new TextField();
+        resimPathField.setPromptText("Resim Yolu");
+
+        Button resimSecButton = new Button("Resim Seç");
+        resimSecButton.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif"));
+            File selectedFile = fileChooser.showOpenDialog(dialog.getOwner());
+            if (selectedFile != null) {
+                resimPathField.setText(selectedFile.getAbsolutePath());
+            }
+        });
+
+        // GridPane'e Resim Yolu'nu ekleyin
+        gridPane.add(new Label("Resim Yolu:"), 0, 4);
+        gridPane.add(resimPathField, 1, 4);
+        gridPane.add(resimSecButton, 2, 4);
+
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ekleButtonType) {
                 String tarifAdi = tarifAdiField.getText();
                 int hazirlanisSuresi = Integer.parseInt(hazirlanisSuresiField.getText());
                 String kategori = kategoriField.getText();
                 String talimatlar = talimatlarField.getText();
+                String resimYolu = resimPathField.getText();
 
                 try {
                     if (DatabaseConnection.tarifVarMi(tarifAdi)) {
                         showAlert("Bu tarif zaten mevcut.");
                     } else {
-
                         int tarifID = DatabaseConnection.addTarif(tarifAdi, kategori, hazirlanisSuresi, talimatlar);
-                        for(Malzeme malzeme: malzemeListesi)
-                        {
+                        for (Malzeme malzeme : malzemeListesi) {
                             int malzemeID = malzeme.getMazemeID();
-                            float malzememiktar= malzeme.getToplamMiktar();
-                            System.out.println(malzeme.getMalzemeAdi());
-                            System.out.println(malzeme.getToplamMiktar());
+                            float malzememiktar = malzeme.getToplamMiktar();
                             addMalzemeToTarif(tarifID, malzemeID, malzememiktar);
                         }
 
+                        // Resmi kaydetme
                         if (tarifID != -1) {
                             addMalzemeToTarif2(tarifID, ItemController.seciliMalzemeler);
+                            saveImage(resimYolu, tarifID);
                             showAlert("Tarif ve malzemeler başarıyla eklendi.");
                         } else {
-                            showAlert("Bu tarif zaten mevcut.");
+                            showAlert("Tarif eklenirken hata oluştu.");
                         }
                     }
                 } catch (SQLException e) {
@@ -664,6 +681,22 @@ public class GUI implements Initializable {
         mainMenu();
         ItemController.seciliMalzemeler.clear();
     }
+
+    private void saveImage(String resimYolu, int tarifID) {
+        try {
+            File sourceFile = new File(resimYolu);
+
+            File destinationFile = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\img\\" + tarifID + ".jpg");
+            if (!destinationFile.exists()) {
+                destinationFile = new File("/Users/melisportakal/desktop/iyilestirmelermis/img/" + tarifID + ".jpg");
+            }
+
+            Files.copy(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            showAlert("Resim kaydedilirken hata oluştu: " + e.getMessage());
+        }
+    }
+
     //================TARİF SİLEN METOT=====================
     @FXML
     private void showRemoveTarifDialog() throws SQLException, IOException {
