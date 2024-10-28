@@ -389,7 +389,7 @@ public class GUI implements Initializable {
         mask.setFill(new LinearGradient(
                 0, 0, 0, 1, true, null,
                 new Stop(0.2, Color.TRANSPARENT),
-                new Stop(0.35, Color.WHITE),
+                new Stop(0.4, Color.WHITE),
                 new Stop(1, Color.WHITE)
         ));
 
