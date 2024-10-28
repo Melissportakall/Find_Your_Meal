@@ -1,3 +1,7 @@
+.root {
+    -fx-background-color: linear-gradient(to right, #ffe6b2, #f5e0d2);
+}
+
 .transparent {
     -fx-background-color: transparent;
 }
@@ -27,6 +31,7 @@
     -fx-background-color: transparent;
 }
 
+/*
 .button{
     -fx-border-color: transparent;
     -fx-border-width: 1px;
@@ -110,4 +115,66 @@
 .search-button:pressed {
     -fx-background-color: #6e6e6e;
     -fx-text-fill: white;
+} */
+
+#malzemeID {
+    -fx-background-color: #f6d18b; /* Arka plan rengini turuncu yapar */
+}
+
+#seciliTarifRoot {
+    -fx-background-color: #FFA500; /* Açık turuncu rengi */
+}
+
+/* Tüm butonlar için genel stil */
+.button {
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-background-color: #f6d18b;
+    -fx-text-fill: black;
+}
+
+/* Buton odaklandığında */
+.button:focused {
+    -fx-border-color: #ff9b49; /* Odak rengi daha koyu mavi */
+    -fx-background-color: #ff9b49; /* Odak arka plan rengi */
+}
+
+/* Buton basıldığında */
+.button:pressed {
+    -fx-background-color: #ff9b49; /* Basma rengi daha koyu mavi */
+    -fx-text-fill: black; /* Metin rengi beyaz kalır */
+}
+
+
+
+/* Malzeme ekle butonu için özel stil */
+.malzeme-ekle-btn {
+    -fx-border-color: transparent;
+    -fx-background-radius: 15px;
+    -fx-background-color: #ff9b49;
+}
+
+/* Malzeme ekle butonu basıldığında */
+.malzeme-ekle-btn:pressed {
+    -fx-background-color: #ff9b49; /* Yeşil basma rengi */
+    -fx-text-fill: white; /* Metin rengi beyaz kalır */
+}
+
+/* Arama butonu için özel stil */
+.search-button {
+    -fx-background-color: #ff9b49; /* Koyu arka plan rengi */
+    -fx-text-fill: white; /* Metin rengi beyaz */
+}
+
+/* Arama butonu üzerine gelindiğinde */
+.search-button:hover {
+    -fx-background-color: #495057; /* Hover rengi */
+}
+
+/* Arama butonu basıldığında */
+.search-button:pressed {
+    -fx-background-color: #6c757d; /* Basma rengi */
+    -fx-text-fill: white; /* Metin rengi beyaz kalır */
 }

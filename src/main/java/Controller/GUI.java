@@ -25,6 +25,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.ScrollPane;
 
 import java.io.File;
 import java.io.IOException;
@@ -177,7 +178,7 @@ public class GUI implements Initializable {
                 File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\malzeme_item.fxml");
 
                 if (!filePath.exists()) {
-                    filePath = new File("/Users/melisportakal/Desktop/sonins/src/main/resources/com/example/yazlabb/malzeme_item.fxml");
+                    filePath = new File("/Users/melisportakal/Desktop/eksikmalzemedetay/src/main/resources/com/example/yazlabb/malzeme_item.fxml");
                 }
 
                 fxmlLoader.setLocation(filePath.toURI().toURL());
@@ -293,10 +294,10 @@ public class GUI implements Initializable {
     public void showRecipeDetails(Tarif tarif, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
-        File filePath = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\src\\main\\resources\\com\\example\\yazlabb\\tarif_scene.fxml");
+        File filePath = new File("/Users/melisportakal/Desktop/eksikmalzemedetay/src/main/resources/com/example/yazlabb/tarif_scene.fxml");
 
         if (!filePath.exists()) {
-            filePath = new File("/Users/melisportakal/Desktop/sonins/src/main/resources/com/example/yazlabb/tarif_scene.fxml");
+            filePath = new File("/Users/melisportakal/Desktop/eksikmalzemedetay/src/main/resources/com/example/yazlabb/tarif_scene.fxml");
         }
 
         loader.setLocation(filePath.toURI().toURL());
@@ -398,6 +399,8 @@ public class GUI implements Initializable {
         StackPane.setAlignment(seciliTarifImage, Pos.TOP_LEFT);
         StackPane.setAlignment(mask, Pos.TOP_LEFT);
         StackPane.setAlignment(seciliTarifMalzeme, Pos.BOTTOM_LEFT);
+
+
     }
 
 //=====================================================================
@@ -422,7 +425,7 @@ public class GUI implements Initializable {
 
         String css;
 
-        File cssFile = new File("C:\\Users\\Acer\\OneDrive\\Masaüstü\\YazLab\\YazLab 1\\1\\Find_Your_Meal\\views\\style.css");
+        File cssFile = new File("/Users/melisportakal/desktop/eksikmalzemedetay/views/style.css");
 
         if (!cssFile.exists()) {
             cssFile = new File("/Users/melisportakal/Desktop/sonins/views/style.css");
@@ -445,6 +448,8 @@ public class GUI implements Initializable {
         alert.setTitle("Bildiri");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.getDialogPane().setStyle("-fx-background-color: #f1c15b;"); // Arka plan rengini turuncu yapar
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
 
@@ -457,6 +462,8 @@ public class GUI implements Initializable {
 
         ButtonType ekleButtonType = new ButtonType("Ekle", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(ekleButtonType, ButtonType.CANCEL);
+
+        dialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -513,6 +520,8 @@ public class GUI implements Initializable {
         ButtonType ekleButtonType = new ButtonType("Ekle", ButtonBar.ButtonData.OK_DONE);
         ButtonType malzemeEkleButtonType = new ButtonType("Malzeme Ekle", ButtonBar.ButtonData.LEFT);
         dialog.getDialogPane().getButtonTypes().addAll(ekleButtonType, malzemeEkleButtonType, ButtonType.CANCEL);
+
+        dialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -589,6 +598,9 @@ public class GUI implements Initializable {
             malzemeDialog.setTitle("Malzeme Ekle");
             malzemeDialog.setHeaderText("Malzeme Bilgilerini Girin");
 
+
+
+
             ButtonType malzemeEkleButton = new ButtonType("Ekle", ButtonBar.ButtonData.OK_DONE);
             malzemeDialog.getDialogPane().getButtonTypes().addAll(malzemeEkleButton, ButtonType.CANCEL);
 
@@ -616,6 +628,8 @@ public class GUI implements Initializable {
             malzemeGridPane.add(malzemeBirimFiyatField, 1, 3);
 
             malzemeDialog.getDialogPane().setContent(malzemeGridPane);
+
+            malzemeDialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
 
             malzemeDialog.setResultConverter(malzemeDialogButton -> {
                 if (malzemeDialogButton == malzemeEkleButton) {
@@ -730,6 +744,9 @@ public class GUI implements Initializable {
         dialog.setTitle("Tarif Sil");
         dialog.setHeaderText("Silmek İstediğiniz Tarifin Bilgilerini Girin");
 
+        dialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
+
+
         ButtonType tarifSilButton = new ButtonType("Sil", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(tarifSilButton, ButtonType.CANCEL);
 
@@ -776,6 +793,9 @@ public class GUI implements Initializable {
         Dialog<Malzeme> dialog = new Dialog<>();
         dialog.setTitle("Malzeme Sil");
         dialog.setHeaderText("Silmek İstediğiniz Malzemenin Bilgilerini Girin");
+
+        dialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
+
 
         ButtonType malzemeSilButton = new ButtonType("Sil", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(malzemeSilButton, ButtonType.CANCEL);
@@ -1151,6 +1171,9 @@ public class GUI implements Initializable {
         Dialog<Tarif> dialog = new Dialog<>();
         dialog.setTitle("Tarif Düzenleme");
         dialog.setHeaderText("Düzenlemek İstediğiniz Tarifin Adını Giriniz:");
+
+        dialog.getDialogPane().setStyle("-fx-background-color: FFE6B2FF;");
+
 
         TextField tarifAdiField = new TextField();
         tarifAdiField.setPromptText("Tarif Adı");
